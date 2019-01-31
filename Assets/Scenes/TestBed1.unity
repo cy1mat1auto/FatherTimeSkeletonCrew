@@ -2281,12 +2281,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cutScene: {fileID: 35024910}
   cutSceneDone: 0
-  Duration: 5
+  Duration: 3
   timing: 0
   SceneProgress: 0
   im1: {fileID: 0}
   im2: {fileID: 21300000, guid: 6850977a5c0fae941b891da63fef7281, type: 3}
   im3: {fileID: 0}
+  im4: {fileID: 21300000, guid: 28b01da40a958a84ba79c23e419c0410, type: 3}
+  im5: {fileID: 0}
+  im6: {fileID: 21300000, guid: 28b01da40a958a84ba79c23e419c0410, type: 3}
+  im7: {fileID: 0}
+  im8: {fileID: 0}
+  im9: {fileID: 0}
+  im10: {fileID: 0}
+  SceneLength: 5
+  BufferStack: []
   SceneStack: []
 --- !u!1 &1717408490
 GameObject:
