@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.017366592, g: 0.06641788, b: 0.05004278, a: 1}
+  m_IndirectSpecularColor: {r: 0.020509489, g: 0.06631752, b: 0.05005648, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2642,6 +2642,7 @@ GameObject:
   - component: {fileID: 1648841404}
   - component: {fileID: 1648841403}
   - component: {fileID: 1648841408}
+  - component: {fileID: 1648841409}
   m_Layer: 0
   m_Name: CutSceneTester
   m_TagString: Untagged
@@ -2742,7 +2743,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1648841402}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 26289168bf6d62c4f8e860ea8865bc6d, type: 3}
   m_Name: 
@@ -2765,6 +2766,36 @@ MonoBehaviour:
   SceneLength: 3
   BufferStack: []
   SceneStack: []
+--- !u!114 &1648841409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1648841402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c7fce55f25b470bb7912e19d9e3629, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cutScene: {fileID: 35024910}
+  cutSceneDone: 0
+  DefaultDuration: 5
+  IndividualDuration: 1, ,1
+  im1: {fileID: 21300000, guid: 6850977a5c0fae941b891da63fef7281, type: 3}
+  im2: {fileID: 21300000, guid: 275a76577332e2a4dafc756dc00dc1fa, type: 3}
+  im3: {fileID: 21300000, guid: aa4c958ef3d945c4bb55e589d45601af, type: 3}
+  im4: {fileID: 0}
+  im5: {fileID: 0}
+  im6: {fileID: 0}
+  im7: {fileID: 0}
+  im8: {fileID: 0}
+  im9: {fileID: 0}
+  im10: {fileID: 0}
+  SceneLength: 3
+  BufferStack: []
+  SceneStack: []
+  Duration: 
 --- !u!1 &1717408490
 GameObject:
   m_ObjectHideFlags: 0
