@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.020509489, g: 0.06631752, b: 0.05005648, a: 1}
+  m_IndirectSpecularColor: {r: 0.017366592, g: 0.06641788, b: 0.05004278, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -325,7 +325,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startPoint: {fileID: 239595187}
-  endPoint: {fileID: 231065731}
+  pressed: 0
 --- !u!120 &112936443
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -676,6 +676,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HumanGunship01
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: b0c5119b8fa385c458bb9ace8a9db541, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: b0c5119b8fa385c458bb9ace8a9db541, type: 3}
       propertyPath: m_LocalPosition.x
       value: -36.75314
@@ -774,7 +778,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b98a9c7ab52923444a096e0d8796d624, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Main: {fileID: 0}
+  Main: {fileID: 1475109701}
   Crit1: {fileID: 0}
   MaxHealth: 100
   CurrentHealth: 0
@@ -1158,6 +1162,7 @@ GameObject:
   - component: {fileID: 528089555}
   - component: {fileID: 528089557}
   - component: {fileID: 528089556}
+  - component: {fileID: 528089558}
   m_Layer: 0
   m_Name: PlayerView
   m_TagString: Untagged
@@ -1229,6 +1234,19 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &528089558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 528089554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8aeeef98f5d480f45a656ba4ab64a6cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OneLaser: {fileID: 1187649072}
 --- !u!1 &534669902
 GameObject:
   m_ObjectHideFlags: 0
@@ -2257,7 +2275,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startPoint: {fileID: 107680061}
-  endPoint: {fileID: 231065731}
+  pressed: 0
 --- !u!120 &1187649075
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -2841,6 +2859,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1438954108}
   m_CullTransparentMesh: 0
+--- !u!1 &1475109700
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1475109702}
+  - component: {fileID: 1475109701}
+  m_Layer: 0
+  m_Name: MainHitBox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &1475109701
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1475109700}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 50, y: 5, z: 80}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!4 &1475109702
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1475109700}
+  m_LocalRotation: {x: 0.5, y: -0.5, z: -0.5, w: 0.5}
+  m_LocalPosition: {x: 0.05, y: 0.27, z: -0.32}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_Children: []
+  m_Father: {fileID: 231065731}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1626116406 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: 47506a9c605ca5243bc100acb1f1ea9c,
@@ -2919,11 +2981,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1626116406}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8aeeef98f5d480f45a656ba4ab64a6cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OneLaser: {fileID: 0}
 --- !u!1 &1648841402
 GameObject:
   m_ObjectHideFlags: 0

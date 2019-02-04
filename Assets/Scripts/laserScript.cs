@@ -4,7 +4,7 @@ using System.Collections;
 public class laserScript : MonoBehaviour {
 	public Transform startPoint;
 	LineRenderer laserLine;
-    private bool pressed;
+    public bool pressed;
 
 	// Use this for initialization
 	void Start () {

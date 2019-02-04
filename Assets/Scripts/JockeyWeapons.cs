@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class JockeyWeapons : MonoBehaviour
 {
-
+    public GameObject OneLaser;
 	private RaycastHit vision;
 	private float rayLength;
     public static bool onObject;
@@ -25,6 +25,10 @@ public class JockeyWeapons : MonoBehaviour
         if (onObject)
         {
             laserEnd = vision.collider.transform.position;
+            if (vision.transform.tag == "Enemy" && OneLaser.GetComponent<laserScript>().pressed)
+            {
+                vision.transform.gameObject.GetComponent<EnemyHealth>().CurrentHealth -= 1;
+            }
         }
         else
         {
