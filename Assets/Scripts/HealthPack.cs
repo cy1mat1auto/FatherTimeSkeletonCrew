@@ -9,7 +9,7 @@ public class HealthPack : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && other.GetComponent<PlayerHealth>().CurrentHealth != other.GetComponent<PlayerHealth>().MaxHealth)
         {
             other.GetComponent<PlayerHealth>().CurrentHealth += Healing;
             Destroy(Pickup);

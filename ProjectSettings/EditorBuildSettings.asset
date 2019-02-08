@@ -8,4 +8,7 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/TestBed1.unity
+    guid: e62e640013f714e46a847cd46d0a0542
   m_configObjects: {}
