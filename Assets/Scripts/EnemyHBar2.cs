@@ -29,7 +29,7 @@ public class EnemyHBar2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Enemy.GetComponentInParent<Renderer>().isVisible)
+        if (Mathf.Abs(Vector3.Angle(PlayerView.transform.forward, (transform.position - PlayerView.transform.position))) < 50f)
         {
             OverallBar.SetActive(true);
             CurrentHealth = GetComponent<EnemyHealth>().CurrentHealth;

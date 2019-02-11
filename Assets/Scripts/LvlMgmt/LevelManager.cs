@@ -30,6 +30,7 @@ public class LevelManager : MonoBehaviour
     {
         SceneManager.LoadScene(l1, LoadSceneMode.Single);
         DontDestroyOnLoad(PreservedSettings);
+        Time.timeScale = 1;
     }
 
 }
