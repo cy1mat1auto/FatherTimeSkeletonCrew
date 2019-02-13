@@ -9,6 +9,7 @@ public class JockeyWeapons : MonoBehaviour
 	private float rayLength;
     public static bool onObject;
     public static Vector3 laserEnd;
+    public static Transform missileTarget;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +26,7 @@ public class JockeyWeapons : MonoBehaviour
         if (onObject)
         {
             laserEnd = vision.collider.transform.position;
+            missileTarget = vision.collider.transform;
             if (vision.transform.tag == "Enemy" && OneLaser.GetComponent<laserScript>().pressed)
             {
                 vision.transform.gameObject.GetComponent<EnemyHealth>().CurrentHealth -= 1;
