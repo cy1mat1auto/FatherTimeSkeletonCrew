@@ -28,9 +28,9 @@ public class LevelManager : MonoBehaviour
     // create a void function that calls the scenemanager to load the desired scene associated with each button.
     void LoadLevel1()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene(l1, LoadSceneMode.Single);
         DontDestroyOnLoad(PreservedSettings);
-        Time.timeScale = 1;
     }
 
 }
