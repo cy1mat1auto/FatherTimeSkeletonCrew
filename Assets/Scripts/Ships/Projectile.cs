@@ -2,36 +2,46 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public static class TargetList
+{
+    public static string[] allyTags = {"Player", "Finish"};
+    public static string[] enemyTags = { "Enemy", "Boss" };
+
+    public static string[] GetTargetTags(bool targetEnemies)
+    {
+        if (targetEnemies)
+            return enemyTags;
+        return allyTags;
+    }
+}
+
+
 public class Projectile : MonoBehaviour
 {
     bool targetEnemy = true;
     string[] targetList;
-    float moveSpeed = 1f;
+    float moveSpeed = 300;
     float damage = 1f;
     float lifespan = 10f;
-
+    float damageRadius = 20f;
 
     // PLEASE WORK TO IGNORE LAYER WITH THE WAYPOINTS!!!!
 
     public void TargetEnemy(bool targetEnemy)
     {
         this.targetEnemy = targetEnemy;
-        
-        if(this.targetEnemy)
-        {
-            targetList = new string[2];
-            targetList[0] = "Enemy";
-            targetList[1] = "Boss";
-            // List all the potential targets to look for
-        }
-        else
-        {
-            targetList = new string[2];
-            targetList[0] = "Player";
-            targetList[1] = "Finish";   // Temp
-        }
-    }
 
+        targetList = TargetList.GetTargetTags(targetEnemy);
+    }
+    public string[] GetTargetList()
+    {
+        return targetList;
+    }
+    public float GetMoveSpeed()
+    {
+        return moveSpeed;
+    }
     // Start is called before the first frame update
     void Start()
     {

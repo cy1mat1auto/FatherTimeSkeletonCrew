@@ -7,7 +7,7 @@ public class Ship : MonoBehaviour
 {
     protected TestPathfinding searchTarget;
     protected Turret[] equippedTurrets;
-    protected int numTurrets = 1;
+    protected int numTurrets = 2;
     //protected float range = 10f;    // May or may not need
     protected bool targetInRange = false;
 
@@ -17,7 +17,7 @@ public class Ship : MonoBehaviour
     protected int maxHp = 10;
     protected int currentHp;
     protected float baseSpeed = 1f;
-    protected float attackRadius = 20f;
+    protected float attackRadius = 30f;
 
 
     protected void Init(int numTurrets = 1, int maxHp = 10, float baseSpeed = 1f, float power = 1f, float radius = 10f, int level = 1)
@@ -41,7 +41,8 @@ public class Ship : MonoBehaviour
         for(int i = 0; i < numTurrets; i++)
         {
             equippedTurrets[i] = gameObject.AddComponent<Turret>();
-            equippedTurrets[i].Init(false, 1f, 10f, 100f, 3, 0.3f);
+            equippedTurrets[i].Init(false, 0.8f, 10f, 300f, 3, 0.2f);
+            equippedTurrets[i].SetTurretOffset(new Vector3(30 * (2 * i - 1), 0f, 0f));  // Testing
         }
 
         if(gameObject.GetComponent<SphereCollider>() != null)
@@ -62,23 +63,25 @@ public class Ship : MonoBehaviour
 
         if (targetInRange)
         {
+            bool hitObject = Physics.Raycast(transform.position, -transform.up, out RaycastHit lineOfSight, attackRadius * 100);
+
             for (int i = 0; i < numTurrets; i++)
             {
-                if (equippedTurrets[i] != null)
-                    equippedTurrets[i].Activate();
+                if ((equippedTurrets[i] != null) && (hitObject) && (lineOfSight.transform.tag == "Player"))
+                    equippedTurrets[i].Activate(-gameObject.transform.up);  // Hard-coded offset
             }
         }
     }
 
     protected virtual void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Finish")//Player")
+        if (other.gameObject.tag == "Player")//Player")
             targetInRange = true;
     }
 
     protected virtual void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Finish")
+        if (other.gameObject.tag == "Player")
             targetInRange = false;
     }
 }
