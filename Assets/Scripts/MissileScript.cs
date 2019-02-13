@@ -34,6 +34,7 @@ public class MissileScript : MonoBehaviour
             if (JockeyWeapons.onObject)
             {
                 homing = true;
+                target = JockeyWeapons.missileTarget;
             }
         }
         if (timer <= 0)
@@ -54,7 +55,6 @@ public class MissileScript : MonoBehaviour
             }
             if (homing)
             {
-                target = JockeyWeapons.missileTarget;
                 lookRotation = Quaternion.LookRotation((target.position - transform.position).normalized);
                 transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, turnSpeed);
                 turnSpeed += turnAcceleration;
