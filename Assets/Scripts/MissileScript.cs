@@ -47,7 +47,7 @@ public class MissileScript : MonoBehaviour
         if (fired)
         {
             timer--;
-            transform.GetComponent<Renderer>().enabled = true;
+            transform.GetComponentInChildren<Renderer>().enabled = true;
             transform.Translate(transform.forward * speed, Space.World);
             if (speed < maxSpeed)
             {
@@ -65,7 +65,7 @@ public class MissileScript : MonoBehaviour
             speed = 0;
             turnSpeed = 0;
             homing = false;
-            transform.GetComponent<Renderer>().enabled = false;
+            transform.GetComponentInChildren<Renderer>().enabled = false;
         }
     }
 

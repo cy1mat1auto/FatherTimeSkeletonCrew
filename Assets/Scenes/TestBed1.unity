@@ -1958,6 +1958,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7600d5655053b90478860e28852fc352, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  paused: 0
+  screen: {fileID: 1390142678}
+  resume: {fileID: 180652943}
+  save: {fileID: 0}
+  quit: {fileID: 1766273287}
 --- !u!1 &696915475
 GameObject:
   m_ObjectHideFlags: 0
