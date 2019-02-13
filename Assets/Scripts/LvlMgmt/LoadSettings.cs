@@ -26,4 +26,9 @@ public class LoadSettings : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        Destroy(this.gameObject);
+    }
+
 }
