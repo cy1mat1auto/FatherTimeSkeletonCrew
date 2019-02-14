@@ -79,7 +79,7 @@ public class CutsceneTrigger3 : MonoBehaviour
             }
 
             // exits cutscene if player presses correct exit key(s)
-            if (Input.GetKeyDown(KeyCode.Escape) || cutSceneDone)
+            if (Input.GetKeyDown(KeyCode.E) || cutSceneDone)
             {
                 ExitCutscene();
 

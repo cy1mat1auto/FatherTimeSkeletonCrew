@@ -6,13 +6,7 @@ public class PlayerMove : MonoBehaviour
 {
     public float Speed;
     public float Sensitivity;
-    public bool canMove;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        canMove = true;
-    }
+    public bool canMove = true;
 
     // Update is called once per frame
     void Update()
