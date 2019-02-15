@@ -4,17 +4,19 @@ using UnityEngine;
 
 public class AstroidRotation : MonoBehaviour
 {
-    private Vector3 rot;
+    private Quaternion rot;
+    public Rigidbody rb;
 
     // Start is called before the first frame update
     void Start()
     {
-        rot = new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), Random.Range(-1, 1));
+        rot = Quaternion.Euler(new Vector3 (Random.Range(-1, 1), Random.Range(-1, 1), Random.Range(-1, 1)));
+        rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.Rotate(rot);
+        rb.MoveRotation(rb.rotation * rot);
     }
 }
