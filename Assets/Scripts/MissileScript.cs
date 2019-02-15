@@ -6,8 +6,11 @@ public class MissileScript : MonoBehaviour
 {
     private int timer, startTime;
     private bool fired, homing;
+
+    public Rigidbody rb;
     public Transform startObj;
     private Transform target;
+
     private float speed, acceleration, turnSpeed, turnAcceleration;
     public float maxSpeed;
     Quaternion lookRotation;
@@ -18,9 +21,12 @@ public class MissileScript : MonoBehaviour
         startTime = 300;
         timer = startTime;
         fired = false;
+
         target = JockeyWeapons.missileTarget;
         acceleration = 0.05f;
         turnAcceleration = 0.002f;
+
+        rb = GetComponent<Rigidbody>();
 
     }
 
@@ -48,7 +54,7 @@ public class MissileScript : MonoBehaviour
         {
             timer--;
             transform.GetComponentInChildren<Renderer>().enabled = true;
-            transform.Translate(transform.forward * speed, Space.World);
+            rb.MovePosition(transform.position + transform.forward * speed);
             if (speed < maxSpeed)
             {
                 speed += acceleration;
@@ -56,7 +62,7 @@ public class MissileScript : MonoBehaviour
             if (homing)
             {
                 lookRotation = Quaternion.LookRotation((target.position - transform.position).normalized);
-                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, turnSpeed);
+                rb.MoveRotation(Quaternion.Slerp(transform.rotation, lookRotation, turnSpeed));
                 turnSpeed += turnAcceleration;
             }
         }
