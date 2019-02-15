@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.020509489, g: 0.06631752, b: 0.05005648, a: 1}
+  m_IndirectSpecularColor: {r: 0.017366592, g: 0.06641788, b: 0.05004278, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1248,6 +1248,22 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1452135826}
   m_PrefabAsset: {fileID: 0}
+--- !u!54 &440997261
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 440997258}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!114 &440997263
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1260,8 +1276,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f1bb2e839f092e49956a277560aeeaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startObj: {fileID: 0}
-  maxSpeed: 0
+  rb: {fileID: 440997261}
+  startObj: {fileID: 239595187}
+  maxSpeed: 20
 --- !u!136 &440997264
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1461,6 +1478,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cd0df697597d4841ad7cb48c6351c12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 480294162}
 --- !u!1 &497551911
 GameObject:
   m_ObjectHideFlags: 0
@@ -1711,6 +1729,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &543295681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 543295674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cd0df697597d4841ad7cb48c6351c12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 543295676}
 --- !u!1 &553853169 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: 8011c4ac4c0b52649ada4140228c3080,
@@ -2096,10 +2127,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   paused: 0
-  screen: {fileID: 0}
-  resume: {fileID: 0}
+  screen: {fileID: 1390142678}
+  resume: {fileID: 180652943}
   save: {fileID: 0}
-  quit: {fileID: 0}
+  quit: {fileID: 1766273287}
 --- !u!1 &696915475
 GameObject:
   m_ObjectHideFlags: 0
@@ -2389,6 +2420,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cd0df697597d4841ad7cb48c6351c12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 871864705}
 --- !u!1 &937455259
 GameObject:
   m_ObjectHideFlags: 0
@@ -2671,6 +2703,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cd0df697597d4841ad7cb48c6351c12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 998659324}
 --- !u!1 &1091662904
 GameObject:
   m_ObjectHideFlags: 0
@@ -3576,7 +3609,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 684067286}
-  playCutscene: 0
+  playCutscene: 1
   cutScene: {fileID: 469478771}
   cutSceneDone: 0
   DefaultDuration: 5
@@ -4054,6 +4087,22 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1464528720}
   m_PrefabAsset: {fileID: 0}
+--- !u!54 &1524630621
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1524630618}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!114 &1524630623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4066,8 +4115,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f1bb2e839f092e49956a277560aeeaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startObj: {fileID: 0}
-  maxSpeed: 0
+  rb: {fileID: 1524630621}
+  startObj: {fileID: 107680061}
+  maxSpeed: 20
 --- !u!136 &1524630624
 CapsuleCollider:
   m_ObjectHideFlags: 0
