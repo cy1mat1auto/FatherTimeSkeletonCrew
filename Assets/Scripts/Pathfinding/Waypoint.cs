@@ -5,7 +5,7 @@ using UnityEngine;
 // Waypoint class to attach to each waypoint
 public class Waypoint : MonoBehaviour
 {
-    // Hold the list of all connections this waypoint has
+    // Hold the list of all connections this waypoint has. Turn this private
     public List<Waypoint> waypoints = new List<Waypoint>();
 
     public int num = 0;
@@ -60,6 +60,10 @@ public class Waypoint : MonoBehaviour
         return child;
     }
 
+    public void AddNodeConnection(Waypoint newNodeConnection)
+    {
+        waypoints.Add(newNodeConnection);
+    }
     public List<Waypoint> GetConnectedNodes()
     {
         return waypoints;
