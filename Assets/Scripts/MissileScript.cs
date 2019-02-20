@@ -15,6 +15,10 @@ public class MissileScript : MonoBehaviour
     public float maxSpeed;
     Quaternion lookRotation;
 
+    public int order;
+    private int orderTime;
+    private int increment;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +32,8 @@ public class MissileScript : MonoBehaviour
 
         rb = GetComponent<Rigidbody>();
 
+        orderTime = 0;
+        increment = 20;
     }
 
     // Update is called once per frame
@@ -52,18 +58,20 @@ public class MissileScript : MonoBehaviour
 
         if (fired)
         {
-            timer--;
-            transform.GetComponentInChildren<Renderer>().enabled = true;
-            rb.MovePosition(transform.position + transform.forward * speed);
-            if (speed < maxSpeed)
+            orderTime++;
+            if (order == 0 || orderTime / order >= increment)
             {
-                speed += acceleration;
-            }
-            if (homing)
-            {
-                lookRotation = Quaternion.LookRotation((target.position - transform.position).normalized);
-                rb.MoveRotation(Quaternion.Slerp(transform.rotation, lookRotation, turnSpeed));
-                turnSpeed += turnAcceleration;
+                timer--;
+                transform.GetComponentInChildren<Renderer>().enabled = true;
+                rb.MovePosition(transform.position + transform.forward * speed);
+                if (speed < maxSpeed)
+                    speed += acceleration;
+                if (homing)
+                {
+                    lookRotation = Quaternion.LookRotation((target.position - transform.position).normalized);
+                    rb.MoveRotation(Quaternion.Slerp(transform.rotation, lookRotation, turnSpeed));
+                    turnSpeed += turnAcceleration;
+                }
             }
         }
         else
@@ -72,6 +80,7 @@ public class MissileScript : MonoBehaviour
             turnSpeed = 0;
             homing = false;
             transform.GetComponentInChildren<Renderer>().enabled = false;
+            orderTime = 0;
         }
     }
 
