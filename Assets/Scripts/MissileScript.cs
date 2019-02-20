@@ -19,6 +19,8 @@ public class MissileScript : MonoBehaviour
     private int orderTime;
     private int increment;
 
+    public GameObject jockey01;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -41,7 +43,6 @@ public class MissileScript : MonoBehaviour
     {
         if (Input.GetMouseButton(1) && !fired)
         {
-            resetMissile();
             fired = true;
             if (JockeyWeapons.onObject)
             {
@@ -61,6 +62,11 @@ public class MissileScript : MonoBehaviour
             orderTime++;
             if (order == 0 || orderTime / order >= increment)
             {
+                if (timer == startTime)
+                {
+                    speed = jockey01.GetComponent<PlayerMove>().Speed;
+                    resetMissile();
+                }
                 timer--;
                 transform.GetComponentInChildren<Renderer>().enabled = true;
                 rb.MovePosition(transform.position + transform.forward * speed);

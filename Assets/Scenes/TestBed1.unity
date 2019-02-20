@@ -1398,6 +1398,7 @@ MonoBehaviour:
   startObj: {fileID: 239595187}
   maxSpeed: 20
   order: 1
+  jockey01: {fileID: 684067286}
 --- !u!136 &440997264
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -7236,6 +7237,7 @@ MonoBehaviour:
   startObj: {fileID: 107680061}
   maxSpeed: 20
   order: 2
+  jockey01: {fileID: 684067286}
 --- !u!136 &909749498
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -7571,6 +7573,7 @@ MonoBehaviour:
   startObj: {fileID: 239595187}
   maxSpeed: 20
   order: 3
+  jockey01: {fileID: 684067286}
 --- !u!136 &1055575271
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -9020,6 +9023,7 @@ MonoBehaviour:
   startObj: {fileID: 107680061}
   maxSpeed: 20
   order: 0
+  jockey01: {fileID: 684067286}
 --- !u!136 &1524630624
 CapsuleCollider:
   m_ObjectHideFlags: 0
