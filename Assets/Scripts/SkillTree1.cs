@@ -38,9 +38,9 @@ public class SkillTree1 : MonoBehaviour
     public int NumL2ToUnlockL3;
 
     // Different sprites overlayed over the buttons depending on their state
-    //public Sprite purchasedSprite;
-    //public Sprite cantAffordSprite;
-    //public Sprite levelTooLowSprite;
+    public Sprite purchasedSprite;
+    public Sprite cantAffordSprite;
+    public Sprite levelTooLowSprite;
 
     // Start method called when script starts
     public void Start()
@@ -223,8 +223,12 @@ public class SkillTree1 : MonoBehaviour
             else if (button.GetComponent<SkillTreeButton>().level > unlockedLevel)
             {
                 button.GetComponent<Button>().enabled = false;
-                // button.GetComponent<Image>().color = new Color(169, 169, 169);
                 Debug.Log("Disabled, level too high: " + button);
+
+                // This is probably bad will need to fix later
+                button.transform.Find("purchased").GetComponent<Image>().enabled = false;
+                button.transform.Find("levelLock").GetComponent<Image>().enabled = true;
+                button.transform.Find("cantAfford").GetComponent<Image>().enabled = false;
             }
 
             // Disables if its already been purchased
@@ -233,6 +237,11 @@ public class SkillTree1 : MonoBehaviour
                 button.GetComponent<Button>().enabled = false;
                 // button.GetComponent<Image>().color = new Color(0, 200, 0);
                 Debug.Log("Disabled, already purchased: " + button);
+
+                // This is probably bad will need to fix later
+                button.transform.Find("purchased").GetComponent<Image>().enabled = true;
+                button.transform.Find("levelLock").GetComponent<Image>().enabled = false;
+                button.transform.Find("cantAfford").GetComponent<Image>().enabled = false;
             }
 
             // Disables if cant afford it 
@@ -241,10 +250,23 @@ public class SkillTree1 : MonoBehaviour
                 button.GetComponent<Button>().enabled = false;
                 // button.GetComponent<Image>().color = new Color(211, 211, 211);
                 Debug.Log("Disabled, can't afford: " + button);
+
+                // This is probably bad will need to fix later
+                button.transform.Find("purchased").GetComponent<Image>().enabled = false;
+                button.transform.Find("levelLock").GetComponent<Image>().enabled = false;
+                button.transform.Find("cantAfford").GetComponent<Image>().enabled = true;
             }
 
             // Otherwise enables button
-            else { button.GetComponent<Button>().enabled = true; Debug.Log("Enabled: " + button); }
+            else 
+            { 
+                button.GetComponent<Button>().enabled = true; Debug.Log("Enabled: " + button);
+
+                // This is probably bad will need to fix later
+                button.transform.Find("purchased").GetComponent<Image>().enabled = false;
+                button.transform.Find("levelLock").GetComponent<Image>().enabled = false;
+                button.transform.Find("cantAfford").GetComponent<Image>().enabled = false;
+            }
         }
     }
 }
