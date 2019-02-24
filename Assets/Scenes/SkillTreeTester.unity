@@ -1046,6 +1046,7 @@ GameObject:
   m_Component:
   - component: {fileID: 596710465}
   - component: {fileID: 596710466}
+  - component: {fileID: 596710467}
   m_Layer: 5
   m_Name: Toggle
   m_TagString: Untagged
@@ -1121,6 +1122,19 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_IsOn: 1
+--- !u!114 &596710467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 596710464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67e135f5863362545affc71b4e5aebab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  purchased: 0
 --- !u!1 &602544889
 GameObject:
   m_ObjectHideFlags: 0
