@@ -12,7 +12,7 @@ public class MissileScript : MonoBehaviour
     private Transform target;
 
     private float speed, acceleration, turnSpeed, turnAcceleration;
-    public float maxSpeed;
+    public float maxSpeed, maxTurnSpeed;
     Quaternion lookRotation;
 
     public int order;
@@ -20,6 +20,8 @@ public class MissileScript : MonoBehaviour
     private int increment;
 
     public GameObject jockey01;
+
+    public int damage;
 
     // Start is called before the first frame update
     void Start()
@@ -76,7 +78,8 @@ public class MissileScript : MonoBehaviour
                 {
                     lookRotation = Quaternion.LookRotation((target.position - transform.position).normalized);
                     rb.MoveRotation(Quaternion.Slerp(transform.rotation, lookRotation, turnSpeed));
-                    turnSpeed += turnAcceleration;
+                    if (turnSpeed < maxTurnSpeed)
+                        turnSpeed += turnAcceleration;
                 }
             }
         }
@@ -96,12 +99,20 @@ public class MissileScript : MonoBehaviour
         transform.rotation = startObj.rotation;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    void OnCollisionEnter(Collision collision)
     {
+        Physics.IgnoreCollision(transform.GetComponent<Collider>(), jockey01.GetComponent<Collider>());
+        if (collision.collider.tag == "Missile")
+            Physics.IgnoreCollision(transform.GetComponent<Collider>(), collision.collider);
+
         if (fired)
         {
+            if (collision.collider.tag == "Enemy")
+                collision.gameObject.GetComponent<EnemyHealth>().CurrentHealth -= damage;
+
             fired = false;
-            Debug.Log("hi");
+            resetMissile();
+            timer = startTime;
         }
     }
 }

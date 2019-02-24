@@ -327,6 +327,8 @@ MonoBehaviour:
   startPoint: {fileID: 239595187}
   pressed: 0
   laserCharge: {fileID: 977330011}
+  depleatSpeed: 0.001
+  reloadSpeed: 0.0003
 --- !u!120 &112936443
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -432,6 +434,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: e4e581ab3b27edd48957f55c3d82f446, type: 3}
       propertyPath: m_Name
       value: ProjectilePort (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: e4e581ab3b27edd48957f55c3d82f446, type: 3}
+      propertyPath: m_TagString
+      value: Missile
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: e4e581ab3b27edd48957f55c3d82f446, type: 3}
       propertyPath: m_LocalPosition.x
@@ -858,19 +864,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &231065729
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 231065726}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 7.4, y: 9.9, z: 1.66}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!4 &231065731 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: b0c5119b8fa385c458bb9ace8a9db541,
@@ -1027,6 +1020,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: e4e581ab3b27edd48957f55c3d82f446, type: 3}
       propertyPath: m_Name
       value: ProjectileStarboard (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: e4e581ab3b27edd48957f55c3d82f446, type: 3}
+      propertyPath: m_TagString
+      value: Missile
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: e4e581ab3b27edd48957f55c3d82f446, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1383,6 +1380,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!136 &440997262
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 440997258}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.8
+  m_Height: 8
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: -1.5}
 --- !u!114 &440997263
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1398,22 +1409,10 @@ MonoBehaviour:
   rb: {fileID: 440997261}
   startObj: {fileID: 239595187}
   maxSpeed: 20
+  maxTurnSpeed: 0.1
   order: 1
   jockey01: {fileID: 684067286}
---- !u!136 &440997264
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 440997258}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.8000012
-  m_Height: 8.893804
-  m_Direction: 1
-  m_Center: {x: -0.0000009834766, y: 1.0641681, z: 0.0000009834769}
+  damage: 20
 --- !u!1 &469478771
 GameObject:
   m_ObjectHideFlags: 0
@@ -7237,8 +7236,10 @@ MonoBehaviour:
   rb: {fileID: 909749499}
   startObj: {fileID: 107680061}
   maxSpeed: 20
+  maxTurnSpeed: 0.1
   order: 2
   jockey01: {fileID: 684067286}
+  damage: 20
 --- !u!136 &909749498
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -7247,12 +7248,12 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 909749496}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.8000012
-  m_Height: 8.893804
-  m_Direction: 1
-  m_Center: {x: -0.0000009834766, y: 1.0641681, z: 0.0000009834769}
+  m_Radius: 0.8
+  m_Height: 8
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: -1.5}
 --- !u!54 &909749499
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -7573,8 +7574,10 @@ MonoBehaviour:
   rb: {fileID: 1055575272}
   startObj: {fileID: 239595187}
   maxSpeed: 20
+  maxTurnSpeed: 0.1
   order: 3
   jockey01: {fileID: 684067286}
+  damage: 20
 --- !u!136 &1055575271
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -7583,12 +7586,12 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1055575269}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.8000012
-  m_Height: 8.893804
-  m_Direction: 1
-  m_Center: {x: -0.0000009834766, y: 1.0641681, z: 0.0000009834769}
+  m_Radius: 0.8
+  m_Height: 8
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: -1.5}
 --- !u!54 &1055575272
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -7889,6 +7892,8 @@ MonoBehaviour:
   startPoint: {fileID: 107680061}
   pressed: 0
   laserCharge: {fileID: 977330011}
+  depleatSpeed: 0.001
+  reloadSpeed: 0.0003
 --- !u!120 &1187649075
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -8840,6 +8845,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ProjectileStarboard
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: e4e581ab3b27edd48957f55c3d82f446, type: 3}
+      propertyPath: m_TagString
+      value: Missile
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: e4e581ab3b27edd48957f55c3d82f446, type: 3}
       propertyPath: m_LocalPosition.x
       value: 37.741745
@@ -8896,6 +8905,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: e4e581ab3b27edd48957f55c3d82f446, type: 3}
       propertyPath: m_Name
       value: ProjectilePort
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: e4e581ab3b27edd48957f55c3d82f446, type: 3}
+      propertyPath: m_TagString
+      value: Missile
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: e4e581ab3b27edd48957f55c3d82f446, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8955,7 +8968,7 @@ GameObject:
   - component: {fileID: 1475109701}
   m_Layer: 0
   m_Name: MainHitBox
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9009,6 +9022,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!136 &1524630622
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1524630618}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.8
+  m_Height: 8
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: -1.5}
 --- !u!114 &1524630623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9024,22 +9051,10 @@ MonoBehaviour:
   rb: {fileID: 1524630621}
   startObj: {fileID: 107680061}
   maxSpeed: 20
+  maxTurnSpeed: 0.1
   order: 0
   jockey01: {fileID: 684067286}
---- !u!136 &1524630624
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1524630618}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.8000012
-  m_Height: 8.893804
-  m_Direction: 1
-  m_Center: {x: -0.0000009834766, y: 1.0641681, z: 0.0000009834769}
+  damage: 20
 --- !u!114 &1626116407
 MonoBehaviour:
   m_ObjectHideFlags: 0

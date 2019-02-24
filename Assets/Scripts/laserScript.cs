@@ -13,7 +13,7 @@ public class laserScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		laserLine = GetComponentInChildren<LineRenderer> ();
-		laserLine.SetWidth (0.2f, 0.2f);
+		//laserLine.SetWidth (0.2f, 0.2f);
         pressed = false;
 	}
 	
