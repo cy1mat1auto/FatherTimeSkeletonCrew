@@ -22,6 +22,7 @@ public class MissileScript : MonoBehaviour
     public GameObject jockey01;
 
     public int damage;
+    public ParticleSystem explosion;
 
     // Start is called before the first frame update
     void Start()
@@ -38,6 +39,8 @@ public class MissileScript : MonoBehaviour
 
         orderTime = 0;
         increment = 20;
+
+        explosion.GetComponent<Renderer>().enabled = false;
     }
 
     // Update is called once per frame
@@ -46,6 +49,7 @@ public class MissileScript : MonoBehaviour
         if (Input.GetMouseButton(1) && !fired)
         {
             fired = true;
+            resetMissile();
             if (JockeyWeapons.onObject)
             {
                 homing = true;
@@ -55,7 +59,7 @@ public class MissileScript : MonoBehaviour
         if (timer <= 0)
         {
             fired = false;
-            resetMissile();
+            explodeMissile();
             timer = startTime;
         }
 
@@ -99,6 +103,13 @@ public class MissileScript : MonoBehaviour
         transform.rotation = startObj.rotation;
     }
 
+    void explodeMissile()
+    {
+        explosion.GetComponent<Renderer>().enabled = true;
+        explosion.transform.position = transform.position;
+        explosion.Play();
+    }
+
     void OnCollisionEnter(Collision collision)
     {
         Physics.IgnoreCollision(transform.GetComponent<Collider>(), jockey01.GetComponent<Collider>());
@@ -110,8 +121,9 @@ public class MissileScript : MonoBehaviour
             if (collision.collider.tag == "Enemy")
                 collision.gameObject.GetComponent<EnemyHealth>().CurrentHealth -= damage;
 
+            explodeMissile();
+
             fired = false;
-            resetMissile();
             timer = startTime;
         }
     }
