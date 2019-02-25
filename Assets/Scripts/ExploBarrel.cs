@@ -10,7 +10,9 @@ public class ExploBarrel : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        ExploSource = GetComponent<ParticleSystem>();
+        var em = ExploSource.emission;
+        em.enabled = false;
     }
 
     // Update is called once per frame
@@ -18,6 +20,9 @@ public class ExploBarrel : MonoBehaviour
     {
         if (health == 0)
         {
+            Invoke("BlowUp", 2f);
+            var em = ExploSource.emission;
+            em.enabled = true;
             Collider [] InRadius = Physics.OverlapSphere(transform.position, 100f);
             Debug.Log(InRadius.Length);
             foreach(Collider hits in InRadius)
@@ -30,5 +35,10 @@ public class ExploBarrel : MonoBehaviour
                 }
             }
         }
+    }
+
+    void BlowUp()
+    {
+        Destroy(gameObject);
     }
 }
