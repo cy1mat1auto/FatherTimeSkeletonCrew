@@ -5,6 +5,7 @@ using UnityEngine;
 public class MissileScript : MonoBehaviour
 {
     private int timer, startTime;
+    private int cooldown;
     private bool fired, homing;
 
     public Rigidbody rb;
@@ -23,6 +24,7 @@ public class MissileScript : MonoBehaviour
 
     public int damage;
     public ParticleSystem explosion;
+    public ParticleSystem smokeTrail;
 
     // Start is called before the first frame update
     void Start()
@@ -41,12 +43,13 @@ public class MissileScript : MonoBehaviour
         increment = 20;
 
         explosion.GetComponent<Renderer>().enabled = false;
+        smokeTrail.Stop();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButton(1) && !fired)
+        if (Input.GetMouseButton(1) && !fired && !explosion.isPlaying)
         {
             fired = true;
             resetMissile();
@@ -68,6 +71,10 @@ public class MissileScript : MonoBehaviour
             orderTime++;
             if (order == 0 || orderTime / order >= increment)
             {
+                smokeTrail.transform.position = transform.position;
+                smokeTrail.transform.rotation = transform.rotation;
+                smokeTrail.Play();
+
                 if (timer == startTime)
                 {
                     speed = jockey01.GetComponent<PlayerMove>().Speed;
@@ -108,6 +115,7 @@ public class MissileScript : MonoBehaviour
         explosion.GetComponent<Renderer>().enabled = true;
         explosion.transform.position = transform.position;
         explosion.Play();
+        smokeTrail.Stop();
     }
 
     void OnCollisionEnter(Collision collision)
@@ -120,6 +128,7 @@ public class MissileScript : MonoBehaviour
         {
             if (collision.collider.tag == "Enemy")
                 collision.gameObject.GetComponent<EnemyHealth>().CurrentHealth -= damage;
+
 
             explodeMissile();
 
