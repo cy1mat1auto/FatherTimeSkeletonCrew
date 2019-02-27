@@ -15,7 +15,8 @@ public class Waypoint : MonoBehaviour
 
     Waypoint child = null;    // Used like a linked-list to keep track of the shortest path
 
-    bool blockedNode = false; // If this node is blocked by another object (sets this via onTriggerEnter)
+    public bool blockedNode = false; // If this node is blocked by another object (sets this via onTriggerEnter)
+    public bool momos = false;
 
     // Used by obstacles
     public void BlockNode(bool block)
@@ -67,5 +68,29 @@ public class Waypoint : MonoBehaviour
     public List<Waypoint> GetConnectedNodes()
     {
         return waypoints;
+    }
+
+    private void OnTriggerEnter(Collider collision)
+    {
+        if (!collision.CompareTag("Player"))
+        {
+            BlockNode(true);
+        }
+    }
+
+    private void OnTriggerStay(Collider collision)
+    {
+        if (!collision.CompareTag("Player"))
+        {
+            BlockNode(true);
+        }
+    }
+
+    private void OnTriggerExit(Collider collision)
+    {
+        if (!collision.CompareTag("Player"))
+        {
+            BlockNode(false);
+        }
     }
 }
