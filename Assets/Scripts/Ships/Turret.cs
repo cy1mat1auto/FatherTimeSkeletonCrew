@@ -20,9 +20,26 @@ public class Turret : MonoBehaviour
     protected Vector3 direction;
     protected Vector3 positionOffset;
 
+    // The threshold for turret behaviour
+    protected float aggressionThreshold = 0f;
+    protected float defenceThreshold = 0f;
+    protected float priority = 0f;  // Turret priority behaviour. Higher priority means it will be considered first
+    protected float aggressionDecrement = 0f;   // How much will the aggression level be decremented if this is activated
+    protected float defenceDecrement = 0f;  // How much will the defence level be decremented if this is activated
+ 
 
     protected bool targetEnemy = true;  // True means it targets enemies, False = targets player
 
+    // Used by A.I. If turret activation is successful, return true
+    public virtual bool Activate(float aggressionValue, float defenceValue, Vector3 direction)
+    {
+        if ((cooldownTimer <= 0f) && ((aggressionValue >= aggressionThreshold) || (defenceValue >= defenceThreshold)))
+        {
+            Activate(direction);
+            return true;
+        }
+        return false;
+    }
 
     public virtual void Activate(Vector3 direction)
     {
@@ -38,7 +55,7 @@ public class Turret : MonoBehaviour
         this.positionOffset = positionOffset;
     }
 
-    public void Init(bool targetEnemy, float cooldown, float power, float projectileSpeed, int burstCount, float burstDelay)
+    public void Init(bool targetEnemy, float cooldown, float power, float projectileSpeed, int burstCount, float burstDelay, float aggressionThreshold = 0f, float defenceThreshold = 1.1f)
     {
         this.targetEnemy = targetEnemy;
         maxCooldownTimer = cooldown;
@@ -89,5 +106,42 @@ public class Turret : MonoBehaviour
                 }
             }
         }
+    }
+
+
+    // GETTERS AND SETTERS
+
+    public void SetAggressionThreshold(float threshold)
+    {
+        aggressionThreshold = threshold;
+    }
+    public void SetAggressionCooldown(float setLevel)
+    {
+        // Input a negative value if a negative decrement is desired
+        aggressionDecrement = setLevel;
+    }
+    public float GetAggressionCooldown()
+    {
+        return aggressionDecrement;
+    }
+    public void SetDefenceThreshold(float threshold)
+    {
+        defenceThreshold = threshold;
+    }
+    public float GetAggressionThreshold()
+    {
+        return aggressionThreshold;
+    }
+    public float GetDefenceThreshold()
+    {
+        return defenceThreshold;
+    }
+    public void SetDefenceCooldown(float setLevel)
+    {
+        defenceDecrement = setLevel;
+    }
+    public float GetDefenceCooldown()
+    {
+        return defenceDecrement;
     }
 }

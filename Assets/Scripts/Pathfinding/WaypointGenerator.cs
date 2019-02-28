@@ -47,6 +47,7 @@ public class WaypointGenerator : MonoBehaviour
                 {
                     GameObject waypointClone = Instantiate(waypoint, new Vector3(centre.x - density * ((xNodes - 1) / 2 - i) - density / 2 * (xNodes % 2), centre.y - density * ((yNodes - 1) / 2 - j) - density / 2 * (yNodes % 2), centre.z - density * ((zNodes - 1) / 2 - k) - density / 2 * (zNodes % 2)), transform.rotation);
                     waypointList[i, j, k] = waypointClone.GetComponent<Waypoint>();
+                    waypointList[i, j, k].num = i + j + k;
                 }
             }
         }
@@ -60,40 +61,74 @@ public class WaypointGenerator : MonoBehaviour
                 {
                     if (i + 1 < xNodes)
                     {
-                        waypointList[i, j, k].AddNodeConnection(waypointList[i + 1, j, k]);
-                        waypointList[i + 1, j, k].AddNodeConnection(waypointList[i, j, k]);
+                        waypointList[i, j, k].AddNodeConnection(waypointList[i + 1, j, k]); // RIGHT
+                        waypointList[i + 1, j, k].AddNodeConnection(waypointList[i, j, k]); // LEFT
 
                         if(j + 1 < yNodes)
                         {
-                            waypointList[i, j, k].AddNodeConnection(waypointList[i + 1, j + 1, k]);
-                            waypointList[i + 1, j + 1, k].AddNodeConnection(waypointList[i, j, k]);
+                            waypointList[i, j, k].AddNodeConnection(waypointList[i + 1, j + 1, k]); // UP RIGHT
+                            waypointList[i + 1, j + 1, k].AddNodeConnection(waypointList[i, j, k]); // DOWN LEFT
 
                             if(k + 1 < zNodes)
                             {
-                                waypointList[i, j, k].AddNodeConnection(waypointList[i + 1, j, k + 1]);
-                                waypointList[i + 1, j, k + 1].AddNodeConnection(waypointList[i, j, k]);
+                                waypointList[i, j, k].AddNodeConnection(waypointList[i + 1, j, k + 1]); // RIGHT FORWARD
+                                waypointList[i + 1, j, k + 1].AddNodeConnection(waypointList[i, j, k]); // LEFT BACKWARD
 
-                                waypointList[i, j, k].AddNodeConnection(waypointList[i + 1, j + 1, k + 1]);
-                                waypointList[i + 1, j + 1, k + 1].AddNodeConnection(waypointList[i, j, k]);
+                                waypointList[i, j, k].AddNodeConnection(waypointList[i + 1, j + 1, k + 1]); // RIGHT UP FORWARD
+                                waypointList[i + 1, j + 1, k + 1].AddNodeConnection(waypointList[i, j, k]); // LEFT DOWN BACKWARD
                             }
                         }
 
                     }
                     if (j + 1 < yNodes)
                     {
-                        waypointList[i, j, k].AddNodeConnection(waypointList[i, j + 1, k]);
-                        waypointList[i, j + 1, k].AddNodeConnection(waypointList[i, j, k]);
+                        waypointList[i, j, k].AddNodeConnection(waypointList[i, j + 1, k]); // UP
+                        waypointList[i, j + 1, k].AddNodeConnection(waypointList[i, j, k]); // DOWN
 
                         if (k + 1 < zNodes)
                         {
-                            waypointList[i, j, k].AddNodeConnection(waypointList[i, j + 1, k + 1]);
-                            waypointList[i, j + 1, k + 1].AddNodeConnection(waypointList[i, j, k]);
+                            waypointList[i, j, k].AddNodeConnection(waypointList[i, j + 1, k + 1]); // UP FORWARD
+                            waypointList[i, j + 1, k + 1].AddNodeConnection(waypointList[i, j, k]); // DOWN BACKWARD
+                        }
+
+                        if(i - 1 >= 0)
+                        {
+                            waypointList[i, j, k].AddNodeConnection(waypointList[i - 1, j + 1, k]); // UP LEFT
+                            waypointList[i - 1, j + 1, k].AddNodeConnection(waypointList[i, j, k]); // DOWN RIGHT
                         }
                     }
                     if (k + 1 < zNodes)
                     {
-                        waypointList[i, j, k].AddNodeConnection(waypointList[i, j, k + 1]);
-                        waypointList[i, j, k + 1].AddNodeConnection(waypointList[i, j, k]);
+                        waypointList[i, j, k].AddNodeConnection(waypointList[i, j, k + 1]); // FORWARD
+                        waypointList[i, j, k + 1].AddNodeConnection(waypointList[i, j, k]); // BACKWARD
+
+                        if((i + 1 < xNodes) && (j - 1 >= 0))
+                        {
+                            waypointList[i, j, k].AddNodeConnection(waypointList[i + 1, j - 1, k + 1]); // FORWARD DOWN RIGHT
+                            waypointList[i + 1, j - 1, k + 1].AddNodeConnection(waypointList[i, j, k]); // BACKWARD UP LEFT
+                        }
+                        if (i - 1 >= 0)
+                        {
+                            waypointList[i, j, k].AddNodeConnection(waypointList[i - 1, j, k + 1]); // FORWARD LEFT
+                            waypointList[i - 1, j, k + 1].AddNodeConnection(waypointList[i, j, k]); // BACKWARD RIGHT
+
+                            if(j + 1 < yNodes)
+                            {
+                                waypointList[i, j, k].AddNodeConnection(waypointList[i - 1, j + 1, k + 1]); // FORWARD UP LEFT
+                                waypointList[i - 1, j + 1, k + 1].AddNodeConnection(waypointList[i, j, k]); // BACKWARD DOWN RIGHT
+                            }
+                            if(j - 1 >= 0)
+                            {
+                                waypointList[i, j, k].AddNodeConnection(waypointList[i - 1, j - 1, k + 1]); // FORWARD DOWN LEFT
+                                waypointList[i - 1, j - 1, k + 1].AddNodeConnection(waypointList[i, j, k]); // BACKWARD UP RIGHT
+                            }
+                        }
+                        if (j - 1 >= 0)
+                        {
+                            waypointList[i, j, k].AddNodeConnection(waypointList[i, j - 1, k + 1]); // FORWARD DOWN
+                            waypointList[i, j - 1, k + 1].AddNodeConnection(waypointList[i, j, k]); // BACKWARD UP
+                        }
+
                     }
                 }
             }

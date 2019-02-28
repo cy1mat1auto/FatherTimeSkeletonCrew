@@ -107,6 +107,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waypoints: []
   num: 0
+  blockedNode: 0
+  momos: 0
 --- !u!122 &1180655734111048863
 Halo:
   m_ObjectHideFlags: 0

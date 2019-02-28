@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class TestPathfinding : MonoBehaviour
 {
-    GameObject goal;
+    List<GameObject> goal = new List<GameObject>();
+    int goalCount = 0;
     List<Waypoint> followPath = new List<Waypoint>();
     float recalculatePath = 2f; // Recalculate every 2 seconds
 
@@ -14,12 +15,13 @@ public class TestPathfinding : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        goal = GameObject.FindWithTag("Player");
+        //goal = GameObject.FindWithTag("Player");
 
         manager = gameObject.GetComponent<WaypointManager>();
         manager.Init(); // TEMPORARY. MAKE WAYPOINT MANAGER STATIC AND REMOVE THIS LATER!!!
 
-        followPath = manager.FindPath(manager.FindClosestWaypoint(transform), goal.transform);
+        if(goal.Count > 0)
+            followPath = manager.FindPath(manager.FindClosestWaypoint(transform), goal[goalCount].transform);
     }
 
     public void SetOffset(Quaternion offset)
@@ -40,26 +42,51 @@ public class TestPathfinding : MonoBehaviour
                 if (recalculatePath <= 0)
                 {
                     recalculatePath = 2f;
-                    followPath = manager.FindPath(manager.FindClosestWaypoint(transform), goal.transform);
+                    followPath = manager.FindPath(manager.FindClosestWaypoint(transform), goal[goalCount].transform);
                 }
             }
             else
             {
-                transform.position = Vector3.MoveTowards(transform.position, followPath[0].gameObject.transform.position, 5);
+                transform.position = Vector3.MoveTowards(transform.position, followPath[0].gameObject.transform.position, 15);
                 Vector3 direction = followPath[0].gameObject.transform.position - gameObject.transform.position;
                 transform.rotation = Quaternion.LookRotation(direction.normalized) * angleOffset;
             }
         }
         else
         {
-            Vector3 direction = goal.transform.position - gameObject.transform.position;
-            transform.rotation = Quaternion.LookRotation(direction.normalized) * angleOffset;
-
-            if (recalculatePath <= 0)
+            if (goal.Count > 1)
+                goalCount = (goalCount + 1) % goal.Count;
+            else if (goal.Count == 1)
             {
-                recalculatePath = 2f;
-                followPath = manager.FindPath(manager.FindClosestWaypoint(transform), goal.transform);
+                Vector3 direction = goal[goalCount].transform.position - gameObject.transform.position;
+                transform.rotation = Quaternion.LookRotation(direction.normalized) * angleOffset;
             }
+
+            followPath = manager.FindPath(manager.FindClosestWaypoint(transform), goal[goalCount].transform);
+            recalculatePath = 2f;
         }
+    }
+
+
+    public void SetGoal(GameObject setGoal)
+    {
+        goal.Clear();
+        goal.Add(setGoal);
+        goalCount = 0;
+    }
+    public void AddGoal(GameObject addGoal)
+    {
+        goal.Add(addGoal);
+    }
+    public void SetGoals(GameObject[] setGoals)
+    {
+        goal.Clear();   // Clear all current waypoints
+        goal.AddRange(setGoals); // Add in the new waypoints
+
+        // Reset calculations
+        goalCount = 0;
+        if(goal.Count > 0)
+            followPath = manager.FindPath(manager.FindClosestWaypoint(transform), goal[goalCount].transform);
+        recalculatePath = 2f;
     }
 }

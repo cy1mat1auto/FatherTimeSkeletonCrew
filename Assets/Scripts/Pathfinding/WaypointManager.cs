@@ -71,15 +71,14 @@ public class WaypointManager : MonoBehaviour
                 // Make sure it's not already in the closed list. Ignore it otherwise
                 if (!closedList.Contains(currentLinks[i]))
                 {
-                    ////// TEMPORARY TESTING OF OBSTACLES////////////////
-                    if (currentLinks[i].IsBlocked())
-                        closedList.Add(currentLinks[i]);
-                    ////////////////////////////////////////////////////
-                    else
-                    {
+                 //   if (currentLinks[i].IsBlocked())
+                   //     closedList.Add(currentLinks[i]);
+                   // else
+                   // {
                         // Using Euclidean distance as heuristic function since waypoints are set at diff angles
                         float heuristic = Mathf.Pow(end.gameObject.transform.position.x - currentLinks[i].gameObject.transform.position.x, 2) + Mathf.Pow(end.gameObject.transform.position.y - currentLinks[i].gameObject.transform.position.y, 2) + Mathf.Pow(end.gameObject.transform.position.z - currentLinks[i].transform.position.z, 2);
                         float gValue = Mathf.Pow(currentLinks[i].gameObject.transform.position.x - currentWaypoint.gameObject.transform.position.x, 2) + Mathf.Pow(currentLinks[i].gameObject.transform.position.y - currentWaypoint.gameObject.transform.position.y, 2) + Mathf.Pow(currentLinks[i].gameObject.transform.position.z - currentWaypoint.transform.position.z, 2) + currentWaypoint.GetGVal();
+                        //heuristic = 0f; // Turn this into Dijkstra's
 
                         // If this item has not been seen OR if it has, that it has a higher cost value
                         if ((!openList.Contains(currentLinks[i]) || (openList.Contains(currentLinks[i]) && (currentLinks[i].GetNodeValue() > gValue + heuristic))))
@@ -88,11 +87,10 @@ public class WaypointManager : MonoBehaviour
 
                             // Assign the distance to each node
                             currentLinks[i].SetHeuristic(Mathf.Sqrt(heuristic));
-                            //currentLinks[i].SetHeuristic(0);  // Turn this into Dijkstra's
                             currentLinks[i].AssignNodeValue(gValue);
 
                             AddHeap(openList, currentLinks[i]);
-                        }
+                     //   }
                     }
                 }
                 // If the end is found, exit
@@ -115,7 +113,6 @@ public class WaypointManager : MonoBehaviour
             }
             path.Reverse(); // Or can implement as a stack
         }
-
         return path;
     }
 
@@ -145,30 +142,41 @@ public class WaypointManager : MonoBehaviour
     {
         Waypoint nextWaypoint = heap[0];
         Waypoint temp = null;
-        heap.RemoveAt(0);
+        heap[0] = heap[heap.Count - 1];
+        heap.RemoveAt(heap.Count - 1);
 
         if(heap.Count > 0)
         {
             temp = heap[0];
 
             int i = 0;
-
-            while (i < heap.Count)
+            int nextInd = 0;
+            while (i < heap.Count - 1)
             {
-                if ((i * 2 + 1 < heap.Count) && (heap[i].GetNodeValue() < heap[i * 2 + 1].GetNodeValue()))
-                {
-                    if ((i * 2 + 2 < heap.Count) && (heap[i * 2 + 1].GetNodeValue() < heap[i * 2 + 2].GetNodeValue()))
-                        i = i * 2 + 2;
-                    else
-                        i = i * 2 + 1;
-                    temp = heap[i];
-                    heap[i] = heap[i / 2];
-                    heap[1 / 2] = temp;
-                }
-                else
+                nextInd = i;
+                if ((i * 2 + 1 < heap.Count) && (heap[i].GetNodeValue() > heap[i * 2 + 1].GetNodeValue()))
+                    nextInd = i * 2 + 1;
+                if ((i * 2 + 2 < heap.Count) && (heap[i * 2 + 2].GetNodeValue() < heap[nextInd].GetNodeValue()))
+                    nextInd = i * 2 + 2;
+
+                if (nextInd == i)
                     i = heap.Count;
+                else
+                {
+                    temp = heap[i];
+                    heap[i] = heap[nextInd];
+                    heap[nextInd] = temp;
+                    i = nextInd;
+                }
             }
         }
         return nextWaypoint;
+    }
+
+
+    // FOR TESTING PURPOSES ONLY (Ship.cs)
+    public Waypoint GetRandomWaypoint()
+    {
+        return waypoints[Random.Range(0, waypoints.Count)];
     }
 }
