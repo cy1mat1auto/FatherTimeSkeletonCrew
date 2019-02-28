@@ -8,6 +8,11 @@ public class PlayerMove : MonoBehaviour
     public float Sensitivity;
     public bool canMove = true;
 
+    void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
     // Update is called once per frame
     void Update()
     {

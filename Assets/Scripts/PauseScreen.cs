@@ -39,6 +39,7 @@ public class PauseScreen : MonoBehaviour
 
         if (paused)
         {
+            Cursor.lockState = CursorLockMode.None;
             Quitter = StartCoroutine(LoadMenu());
             timer = Time.unscaledTime;
             //for the moment, buttons DO NOT restart in-engine time.
@@ -61,6 +62,7 @@ public class PauseScreen : MonoBehaviour
         Time.timeScale = 1;
         GetComponent<PlayerMove>().canMove = true;
         screen.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void MainMenu()
