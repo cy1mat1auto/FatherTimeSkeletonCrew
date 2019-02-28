@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.IO;
 
 // Error where the foreach loop stops when it reaches a null element but i need it to keep going, otherwise i need to remove all null elements from the <buttons> list
 
 public class SkillTree1 : MonoBehaviour
 {
-    // Values to be modified ==== (these should be made static later I think) ====
+    // Values to be modified ==== (these should be made static later I think) ==== (being saved)
     public int maxHealth;
     public int laserStrength;
     public int totalXP;
 
-    // All buttons in skill tree
+    // All buttons in skill tree (being saved)
     public Button healthIncr1Button;
     public Button laserStrIncr1Button;
 
@@ -22,10 +23,10 @@ public class SkillTree1 : MonoBehaviour
     public Button healthIncr3Button;
     public Button laserStrIncr3Button;
 
-    // List of all buttons in skill tree
+    // List of all buttons in skill tree (doesn't get changed)
     private List<Button> buttons = new List<Button>();
 
-    // Furthest unlocked level (Important !! STARTS AT 1 BY DEFAULT !!)
+    // Furthest unlocked level (Important !! STARTS AT 1 BY DEFAULT !!) 
     public int unlockedLevel = 1;
 
     // Number of skills purchased from each level
@@ -38,6 +39,7 @@ public class SkillTree1 : MonoBehaviour
     public int NumL2ToUnlockL3;
 
     // Different sprites overlayed over the buttons depending on their state
+    // This is the better way of doing the thing i did the poor way
     public Sprite purchasedSprite;
     public Sprite cantAffordSprite;
     public Sprite levelTooLowSprite;
@@ -52,6 +54,19 @@ public class SkillTree1 : MonoBehaviour
     // Update method called once per frame
     public void Update()
     {
+        // If player presses <S> save game
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            Save();
+        }
+
+        // If player presses <L> load game
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            Load();
+        }
+
+
         // Check each button to see if its available to purchase and enable if yes
         EnableButtons();
     }
@@ -151,17 +166,6 @@ public class SkillTree1 : MonoBehaviour
         if (healthIncr3Button != null) { buttons.Add(healthIncr3Button); }
         if (laserStrIncr3Button != null) { buttons.Add(laserStrIncr3Button); }
 
-        //buttons.Add(healthIncr2Button);
-        //Debug.Log("health 2: " + healthIncr2Button);
-        //buttons.Add(laserStrIncr2Button);
-
-        //buttons.Add(healthIncr3Button);
-        //buttons.Add(laserStrIncr3Button);
-
-        //foreach (Button button in buttons)
-        //{
-        //    Debug.Log("Add button test: " + button);
-        //}
         Debug.Log("Add button test length: " + buttons.Count);
 
         for (int i = 0; i < buttons.Count; i++)
@@ -170,43 +174,6 @@ public class SkillTree1 : MonoBehaviour
             Debug.Log("Add button test: " + button);
         }
     }
-
-    /*
-    // Enable/Disable buttons based on their level and current level
-    private void EnableButtonsOld()
-    {   
-        /* This loop doesnt work because there can be null elements in the list which the loop doesnt loop over
-        foreach (Button button in buttons)
-        {
-            // Disables button if its level is greater than the unlockedLevel or if it's already been purchased 
-            // or if you don't have enough XP to buy it 
-            //                                                                                                                     ==== (should seperate this later to be better) ====
-            if (button.GetComponent<SkillTreeButton>().level > unlockedLevel || button.GetComponent<SkillTreeButton>().purchased || totalXP < button.GetComponent<SkillTreeButton>().cost)
-            {
-                button.GetComponent<Button>().enabled = false;
-                Debug.Log("Disabled: " + button);
-            }
-
-            else { button.GetComponent<Button>().enabled = true; Debug.Log("Enabled: " + button); }
-        }
-
-        /* this doesnt work
-        for (int i = 0; i < buttons.Count; i++)
-        {
-            if (buttons[i] != null)
-            {
-                Button button = buttons[i];
-
-                if (button.GetComponent<SkillTreeButton>().level > unlockedLevel || button.GetComponent<SkillTreeButton>().purchased || totalXP < button.GetComponent<SkillTreeButton>().cost)
-                {
-                    button.GetComponent<Button>().enabled = false;
-                    Debug.Log("Disabled: " + button);
-                }
-
-                else { button.GetComponent<Button>().enabled = true; Debug.Log("Enabled: " + button); }
-            }
-        }
-    } */
 
     // Enable/Disable buttons based on their level and current level and update sprites
     private void EnableButtons()
@@ -268,5 +235,97 @@ public class SkillTree1 : MonoBehaviour
                 button.transform.Find("cantAfford").GetComponent<Image>().enabled = false;
             }
         }
+    }
+
+    public void Save()
+    {
+        List<int> costs = new List<int>();
+        List<bool> purchased = new List<bool>();
+        List<int> levels = new List<int>();
+
+        foreach (Button button in buttons)
+        {
+            costs.Add(button.GetComponent<SkillTreeButton>().cost);
+            purchased.Add(button.GetComponent<SkillTreeButton>().purchased);
+            levels.Add(button.GetComponent<SkillTreeButton>().level);
+        }
+
+        SaveObject saveObject = new SaveObject
+        {
+            maxHealth = maxHealth,
+            laserStrength = laserStrength,
+            totalXP = totalXP,
+
+            unlockedLevel = unlockedLevel,
+
+            NumUnlockedL1 = NumUnlockedL1,
+            NumUnlockedL2 = NumUnlockedL2,
+            NumUnlockedL3 = NumUnlockedL3,
+
+            NumL1ToUnlockL2 = NumL1ToUnlockL2,
+            NumL2ToUnlockL3 = NumL2ToUnlockL3,
+
+            costs = costs,
+            purchased = purchased,
+            levels = levels,
+        };
+
+        string json = JsonUtility.ToJson(saveObject);
+
+        SaveSkillTreeSystem.Save(json);
+    }
+
+    public void Load()
+    {
+        string saveString = SaveSkillTreeSystem.Load();
+
+        SaveObject saveObject = JsonUtility.FromJson<SaveObject>(saveString);
+
+        maxHealth = saveObject.maxHealth;
+        laserStrength = saveObject.laserStrength;
+        totalXP = saveObject.totalXP;
+
+        for (int i = 0; i < buttons.Count; i++)
+        {
+            buttons[i].GetComponent<SkillTreeButton>().cost = saveObject.costs[i];
+            buttons[i].GetComponent<SkillTreeButton>().purchased = saveObject.purchased[i];
+            buttons[i].GetComponent<SkillTreeButton>().level = saveObject.levels[i];
+        }
+
+        unlockedLevel = saveObject.unlockedLevel;
+
+        NumUnlockedL1 = saveObject.NumUnlockedL1;
+        NumUnlockedL2 = saveObject.NumUnlockedL2;
+        NumUnlockedL3 = saveObject.NumUnlockedL3;
+
+        NumL1ToUnlockL2 = saveObject.NumL1ToUnlockL2;
+        NumL2ToUnlockL3 = saveObject.NumL2ToUnlockL3;
+    }
+
+    private class SaveObject
+    {
+        // These should probably be database stuff
+        public int maxHealth;
+        public int laserStrength;
+        public int totalXP;
+
+        // Furthest unlocked level (Important !! STARTS AT 1 BY DEFAULT !!) 
+        public int unlockedLevel;
+
+        // Number of skills purchased from each level
+        public int NumUnlockedL1;
+        public int NumUnlockedL2;
+        public int NumUnlockedL3;
+
+        // Number of skills from previous level needed to unlock this level
+        public int NumL1ToUnlockL2;
+        public int NumL2ToUnlockL3;
+
+        // Related lists for all the stuff data in buttons
+        public List<int> costs;
+        public List<bool> purchased;
+        public List<int> levels;
+
+
     }
 }
