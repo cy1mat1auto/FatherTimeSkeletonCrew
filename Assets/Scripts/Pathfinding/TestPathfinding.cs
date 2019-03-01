@@ -10,7 +10,7 @@ public class TestPathfinding : MonoBehaviour
     float recalculatePath = 2f; // Recalculate every 2 seconds
 
     WaypointManager manager;    // Turn this static once things are figured out
-    Quaternion angleOffset = Quaternion.Euler(-90f, 0f, 0f); // Offset due to how the models are imported. Hardcoded
+    Quaternion angleOffset = Quaternion.Euler(0f, 0f, 0f); // Offset due to how the models are imported. Hardcoded
 
     // Start is called before the first frame update
     void Start()
