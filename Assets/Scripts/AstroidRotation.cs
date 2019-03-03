@@ -10,7 +10,7 @@ public class AstroidRotation : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rot = Quaternion.Euler(new Vector3 (Random.Range(-1, 1), Random.Range(-1, 1), Random.Range(-1, 1)));
+        rot = Quaternion.Euler(new Vector3 (Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)));
         rb = GetComponent<Rigidbody>();
     }
 

@@ -30,11 +30,15 @@ public class laserScript : MonoBehaviour {
 
         if (pressed)
         {
+            transform.GetComponent<Renderer>().enabled = true;
             if (laserCharge.value > 0)
                 laserCharge.value -= depleatSpeed;
         }
         else
+        {
             laserCharge.value += reloadSpeed;
+            transform.GetComponent<Renderer>().enabled = false;
+        }
         if (pressed && laserCharge.value > 0.05)
         {
             laserLine.SetPosition(0, startPoint.position);
