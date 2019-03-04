@@ -35,7 +35,7 @@ public class JockeyWeapons : MonoBehaviour
             //for hitting explosive barrels;
             else if (vision.transform.tag == "Explosive" && OneLaser.GetComponent<laserScript>().pressed)
             {
-                vision.transform.gameObject.GetComponent<ExploBarrel>().health -= 1;
+                vision.transform.gameObject.GetComponent<ExploBarrel2>().health -= 1;
             }
         }
         else
