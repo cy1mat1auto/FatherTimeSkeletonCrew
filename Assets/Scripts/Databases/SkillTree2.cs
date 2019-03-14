@@ -52,10 +52,9 @@ public class SkillTree2 : MonoBehaviour
 
     // Defensive
     public Toggle DragonScales;
-
     // ==========================
 
-    // Player Database Variables
+    // Player Database Variable
     public int totalXP = PlayerDatabase.playerXP;
 
     // List of all toggles

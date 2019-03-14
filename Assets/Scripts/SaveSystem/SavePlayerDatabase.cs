@@ -36,9 +36,6 @@ public static class SavePlayerDatabase
 
         File.WriteAllText(current_folder_path + cur_save_folder + saveNumber + ".txt", saveString);
 
-        // TODO: Save skill tree here
-        // SkillTree2.Save();
-
         Debug.Log("SAVED to: " + current_folder_path);
     }
 
@@ -70,9 +67,6 @@ public static class SavePlayerDatabase
         if (mostRecentFile != null)
         {
             Debug.Log("LOADED from: " + current_folder_path);
-
-            // TODO: Load skill tree here
-            // SkillTree2.Load();
 
             return File.ReadAllText(mostRecentFile.FullName);
         }

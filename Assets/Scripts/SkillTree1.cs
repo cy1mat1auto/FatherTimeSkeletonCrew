@@ -187,7 +187,7 @@ public class SkillTree1 : MonoBehaviour
             if (button is null) { Debug.Log("Null object"); }
 
             // Disables if button level is too high
-            else if (button.GetComponent<SkillTreeButton>().level > unlockedLevel)
+            else if (button.GetComponent<SkillTreeButton>().tier > unlockedLevel)
             {
                 button.GetComponent<Button>().enabled = false;
                 Debug.Log("Disabled, level too high: " + button);
