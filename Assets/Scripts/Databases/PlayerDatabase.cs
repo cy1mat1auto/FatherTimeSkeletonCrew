@@ -8,6 +8,7 @@ public static class PlayerDatabase
     public static int movementSpeed;
     public static int currentHealth;
     public static Vector3 playerPosition;
+    public static int playerXP;
 
     // Offensive Stats
     public static int laserDamage; // How much damage lasers deal
@@ -34,15 +35,15 @@ public static class PlayerDatabase
     // Defensive Stats
     public static int maxHealth; // Max health of the player
     public static int shieldCapacity; // Shield Capacity of the player
-    public static int shieldRechargeRage; // Rate at which shield recharges
+    public static int shieldRechargeRate; // Rate at which shield recharges
 
     public static bool canShildDamage; // Whether or not your shield can deal damage
-    public static int shieldDamge; // How much damage your shield deals (0 = impossible)
+    public static int shieldDamage; // How much damage your shield deals (0 = impossible)
     public static int flareCapacity; // How much flares your ship carries or 
                                      // maybe how much flares it shoots out at once or 
                                      // turn into bool if it should always stay the same
 
-    public static bool canBatteringRame; // Whether or not you can use battering ram
+    public static bool canBatteringRam; // Whether or not you can use battering ram
     public static int batteringRamDamageDealt; // How much damage you deal for battering enemy (0 = impossible)
     public static int batteringRamDamgeRecieved; // How much pain you feel for battering enemy (0 = impossible)
     public static bool canAllClear; // Whether you are able to allClear
@@ -61,6 +62,7 @@ public static class PlayerDatabase
             movementSpeedSO = movementSpeed,
             currentHealthSO = currentHealth,
             playerPositionSO = playerPosition,
+            playerXPSO = playerXP,
 
             // Offensive Stats
             laserDamageSO = laserDamage,
@@ -87,13 +89,13 @@ public static class PlayerDatabase
             // Defensive Stats
             maxHealthSO = maxHealth,
             shieldCapacitySO = shieldCapacity,
-            shieldRechargeRageSO = shieldRechargeRage,
+            shieldRechargeRageSO = shieldRechargeRate,
 
             canShildDamageSO = canShildDamage,
-            shieldDamgeSO = shieldDamge,
+            shieldDamageSO = shieldDamage,
             flareCapacitySO = flareCapacity,
 
-            canBatteringRameSO = canBatteringRame,
+            canBatteringRamSO = canBatteringRam,
             batteringRamDamageDealtSO = batteringRamDamageDealt,
             batteringRamDamgeRecievedSO = batteringRamDamgeRecieved,
             canAllClearSO = canAllClear,
@@ -105,13 +107,12 @@ public static class PlayerDatabase
         };
 
         string json = JsonUtility.ToJson(saveObject);
-        // SavePlayerDatabase.Save(json);
+        SavePlayerDatabase.Save(json);
     }
 
     // Load Database ===========================================================
     public static void Load()
     {
-        /*
         string saveString = SavePlayerDatabase.Load();
 
         SaveObject saveObject = JsonUtility.FromJson<SaveObject>(saveString);
@@ -119,6 +120,7 @@ public static class PlayerDatabase
         movementSpeed = saveObject.movementSpeedSO;
         currentHealth = saveObject.currentHealthSO;
         playerPosition = saveObject.playerPositionSO;
+        playerXP = saveObject.playerXPSO;
 
         // Offensive Stats
         laserDamage = saveObject.laserDamageSO;
@@ -145,13 +147,13 @@ public static class PlayerDatabase
         // Defensive Stats
         maxHealth = saveObject.maxHealthSO;
         shieldCapacity = saveObject.shieldCapacitySO;
-        shieldRechargeRage = saveObject.shieldRechargeRageSO;
+        shieldRechargeRate = saveObject.shieldRechargeRageSO;
 
         canShildDamage = saveObject.canShildDamageSO;
-        shieldDamge = saveObject.shieldDamgeSO;
+        shieldDamage = saveObject.shieldDamageSO;
         flareCapacity = saveObject.flareCapacitySO;
 
-        canBatteringRame = saveObject.canBatteringRameSO;
+        canBatteringRam = saveObject.canBatteringRamSO;
         batteringRamDamageDealt = saveObject.batteringRamDamageDealtSO;
         batteringRamDamgeRecieved = saveObject.batteringRamDamgeRecievedSO;
         canAllClear = saveObject.canAllClearSO;
@@ -160,7 +162,7 @@ public static class PlayerDatabase
 
         // Crew Stats
         crewSlots = saveObject.crewSlotsSO;
-        */       
+
     }
 
     // SaveObject used for saving database data with json
@@ -171,6 +173,7 @@ public static class PlayerDatabase
         public int movementSpeedSO;
         public  int currentHealthSO;
         public  Vector3 playerPositionSO;
+        public int playerXPSO;
 
         // Offensive Stats
         public  int laserDamageSO; // How much damage lasers deal
@@ -200,12 +203,12 @@ public static class PlayerDatabase
         public  int shieldRechargeRageSO; // Rate at which shield recharges
 
         public  bool canShildDamageSO; // Whether or not your shield can deal damage
-        public  int shieldDamgeSO; // How much damage your shield deals (0 = impossible)
+        public  int shieldDamageSO; // How much damage your shield deals (0 = impossible)
         public  int flareCapacitySO; // How much flares your ship carries or 
                                          // maybe how much flares it shoots out at once or 
                                          // turn into bool if it should always stay the same
 
-        public  bool canBatteringRameSO; // Whether or not you can use battering ram
+        public  bool canBatteringRamSO; // Whether or not you can use battering ram
         public  int batteringRamDamageDealtSO; // How much damage you deal for battering enemy (0 = impossible)
         public  int batteringRamDamgeRecievedSO; // How much pain you feel for battering enemy (0 = impossible)
         public  bool canAllClearSO; // Whether you are able to allClear
