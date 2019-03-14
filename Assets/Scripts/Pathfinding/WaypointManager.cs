@@ -6,8 +6,12 @@ using UnityEngine;
 public class WaypointManager : MonoBehaviour
 {
     /*static*/ List<Waypoint> waypoints = new List<Waypoint>(); // Keeps track of all the waypoints
-
+    int code;
     // Start is called before the first frame update
+    public void Start()
+    {
+        code = Random.Range(0, 1000);
+    }
     public void Init()
     {
         GameObject[] collectWaypoints = GameObject.FindGameObjectsWithTag("Waypoint");
@@ -26,11 +30,14 @@ public class WaypointManager : MonoBehaviour
 
         for (int i = 0; i < waypoints.Count; i++)
         {
-            distance = Mathf.Pow(waypoints[i].transform.position.x - currentPosition.position.x, 2) + Mathf.Pow(waypoints[i].transform.position.y - currentPosition.position.y, 2) + Mathf.Pow(waypoints[i].transform.position.z - currentPosition.position.z, 2);
-            if(distance < closestDistance)
+            if (waypoints[i].target == -1 || (waypoints[i].target == code))
             {
-                closestDistance = distance;
-                closestWaypoint = waypoints[i];
+                distance = Mathf.Pow(waypoints[i].transform.position.x - currentPosition.position.x, 2) + Mathf.Pow(waypoints[i].transform.position.y - currentPosition.position.y, 2) + Mathf.Pow(waypoints[i].transform.position.z - currentPosition.position.z, 2);
+                if (distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    closestWaypoint = waypoints[i];
+                }
             }
         }
         return closestWaypoint;
@@ -71,10 +78,10 @@ public class WaypointManager : MonoBehaviour
                 // Make sure it's not already in the closed list. Ignore it otherwise
                 if (!closedList.Contains(currentLinks[i]))
                 {
-                 //   if (currentLinks[i].IsBlocked())
-                   //     closedList.Add(currentLinks[i]);
-                   // else
-                   // {
+                    if (currentLinks[i].IsBlocked())
+                        closedList.Add(currentLinks[i]);
+                    else
+                    {
                         // Using Euclidean distance as heuristic function since waypoints are set at diff angles
                         float heuristic = Mathf.Pow(end.gameObject.transform.position.x - currentLinks[i].gameObject.transform.position.x, 2) + Mathf.Pow(end.gameObject.transform.position.y - currentLinks[i].gameObject.transform.position.y, 2) + Mathf.Pow(end.gameObject.transform.position.z - currentLinks[i].transform.position.z, 2);
                         float gValue = Mathf.Pow(currentLinks[i].gameObject.transform.position.x - currentWaypoint.gameObject.transform.position.x, 2) + Mathf.Pow(currentLinks[i].gameObject.transform.position.y - currentWaypoint.gameObject.transform.position.y, 2) + Mathf.Pow(currentLinks[i].gameObject.transform.position.z - currentWaypoint.transform.position.z, 2) + currentWaypoint.GetGVal();
@@ -90,13 +97,14 @@ public class WaypointManager : MonoBehaviour
                             currentLinks[i].AssignNodeValue(gValue);
 
                             AddHeap(openList, currentLinks[i]);
-                     //   }
+                        }
                     }
                 }
                 // If the end is found, exit
                 if (currentLinks[i] == end)
                 {
                     currentWaypoint = end;
+                    end.target = code;
                     i = currentLinks.Count;
                     foundEnd = true;
                 }
