@@ -111,13 +111,14 @@ public class Ship : MonoBehaviour
             }
         }
     }
-
+    
     protected virtual void SetPatrolPoints(GameObject[] setPatrolPoints)
     {
         // POINTS WILL BE PATROLLED IN ORDER
         patrolPoints = setPatrolPoints;
         searchTarget.SetGoals(patrolPoints);
     }
+    
 
     // DO NOT INHERIT THESE
     void OnTriggerEnter(Collider other)

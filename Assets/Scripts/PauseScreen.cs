@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class PauseScreen : MonoBehaviour
 {
     //This version of the script should work when attached to the player object (the Jockey spaceship)
+    public bool InCutScene = false;
     public bool paused = false;
     public GameObject screen;
     public Button resume, save, quit;
@@ -58,11 +59,22 @@ public class PauseScreen : MonoBehaviour
 
     void ResumeGame()
     {
-        paused = false;
-        Time.timeScale = 1;
-        GetComponent<PlayerMove>().canMove = true;
-        screen.SetActive(false);
-        Cursor.lockState = CursorLockMode.Locked;
+        if (InCutScene)
+        {
+            paused = false;
+            screen.SetActive(false);
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+
+        else
+        {
+            paused = false;
+            Time.timeScale = 1;
+            GetComponent<PlayerMove>().canMove = true;
+            screen.SetActive(false);
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+        
     }
 
     void MainMenu()
