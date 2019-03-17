@@ -12,6 +12,7 @@ ModelImporter:
     400004: Armature
     400006: Bone
     2100000: Material
+    2100002: Material_001
     2300000: //RootNode
     2300002: Cube
     3300000: //RootNode
