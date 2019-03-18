@@ -16,7 +16,7 @@ public class ExploBarrel2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print(health);
+        //print(health);
         if (health == 0)
         {
             explosion.transform.position = transform.position;

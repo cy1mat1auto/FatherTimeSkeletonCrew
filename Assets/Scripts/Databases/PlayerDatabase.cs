@@ -33,7 +33,7 @@ public static class PlayerDatabase
     public static int numDrones; // Number of drones your ship can release (not in skill tree but I thought it was useful)
 
     // Defensive Stats
-    public static int maxHealth; // Max health of the player
+    public static int maxHealth = 500; // Max health of the player
     public static int shieldCapacity; // Shield Capacity of the player
     public static int shieldRechargeRate; // Rate at which shield recharges
 

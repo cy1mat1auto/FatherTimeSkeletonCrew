@@ -11004,6 +11004,20 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1192421674533315249}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &684067295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 684067286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02bfd16a2db5f43f68419eb0cabc4559, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillTree: {fileID: 0}
+  NewLoad: 0
 --- !u!1 &696915475
 GameObject:
   m_ObjectHideFlags: 0
@@ -22348,6 +22362,16 @@ PrefabInstance:
     - target: {fileID: 1192421673415816885, guid: 3832b02c7190c614d800e4ec9b93bab3,
         type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1192421673237939819, guid: 3832b02c7190c614d800e4ec9b93bab3,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1192421673321327257, guid: 3832b02c7190c614d800e4ec9b93bab3,
+        type: 3}
+      propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
