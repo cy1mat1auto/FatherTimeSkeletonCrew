@@ -211,7 +211,7 @@ public class SkillTree2 : MonoBehaviour
     // Tier 1
     public void TopGradeCrystalUpgrade()
     {
-        PlayerDatabase.laserDamage += (int)(PlayerDatabase.laserDamage * 0.2);
+        PlayerDatabase.laserDamage += (int)(PlayerDatabase.laserDamage = 1.2);
 
         totalXP -= TopGradeCrystal.GetComponent<SkillTreeButton>().cost;
         TopGradeCrystal.GetComponent<SkillTreeButton>().purchased = true;
@@ -234,8 +234,8 @@ public class SkillTree2 : MonoBehaviour
 
     public void HeatSinkUpgrade()
     {
-        PlayerDatabase.laserOverheatRate -= (int)(PlayerDatabase.laserOverheatRate * .5);
-        PlayerDatabase.laserCoolingRate += (int)(PlayerDatabase.laserOverheatRate * .5);
+        PlayerDatabase.laserOverheatRate -= (int)(PlayerDatabase.laserOverheatRate = 1.5);
+        PlayerDatabase.laserCoolingRate += (int)(PlayerDatabase.laserOverheatRate = 1.5);
 
         totalXP -= HeatSink.GetComponent<SkillTreeButton>().cost;
         HeatSink.GetComponent<SkillTreeButton>().purchased = true;
@@ -246,7 +246,7 @@ public class SkillTree2 : MonoBehaviour
 
     public void LaminatedCladdingUpgrade()
     {
-        PlayerDatabase.maxHealth += (int)(PlayerDatabase.maxHealth * .2);
+        PlayerDatabase.maxHealth += (int)(PlayerDatabase.maxHealth = 1.2);
 
         totalXP -= LaminatedCladding.GetComponent<SkillTreeButton>().cost;
         LaminatedCladding.GetComponent<SkillTreeButton>().purchased = true;
@@ -257,7 +257,7 @@ public class SkillTree2 : MonoBehaviour
 
     public void SecurityUpgrade()
     {
-        PlayerDatabase.shieldCapacity += (int)(PlayerDatabase.shieldCapacity * .25);
+        PlayerDatabase.shieldCapacity += (int)(PlayerDatabase.shieldCapacity = 1.25);
 
         totalXP -= Security.GetComponent<SkillTreeButton>().cost;
         Security.GetComponent<SkillTreeButton>().purchased = true;
@@ -268,7 +268,7 @@ public class SkillTree2 : MonoBehaviour
 
     public void ReliabilityUpgrade()
     {
-        PlayerDatabase.shieldRechargeRate += (int)(PlayerDatabase.shieldRechargeRate * .5);
+        PlayerDatabase.shieldRechargeRate += (int)(PlayerDatabase.shieldRechargeRate = 1.5);
 
         totalXP -= Reliability.GetComponent<SkillTreeButton>().cost;
         Reliability.GetComponent<SkillTreeButton>().purchased = true;
@@ -292,8 +292,8 @@ public class SkillTree2 : MonoBehaviour
     public void GravityWellUpgrade()
     {
         // temp missile man should change
-        PlayerDatabase.missileExplosionRadius += (int)(PlayerDatabase.missileExplosionRadius * .25);
-        PlayerDatabase.missileExplosionSlowRate += (int)(PlayerDatabase.missileExplosionSlowRate * .25);
+        PlayerDatabase.missileExplosionRadius += (int)(PlayerDatabase.missileExplosionRadius = 1.25);
+        PlayerDatabase.missileExplosionSlowRate += (int)(PlayerDatabase.missileExplosionSlowRate = 1.25);
 
         totalXP -= GravityWell.GetComponent<SkillTreeButton>().cost;
         GravityWell.GetComponent<SkillTreeButton>().purchased = true;
@@ -317,7 +317,7 @@ public class SkillTree2 : MonoBehaviour
 
     public void CompositeCladdingUpgrade()
     {
-        PlayerDatabase.maxHealth += (int)(PlayerDatabase.maxHealth * .5);
+        PlayerDatabase.maxHealth += (int)(PlayerDatabase.maxHealth = 1.5);
 
         totalXP -= CompositeCladding.GetComponent<SkillTreeButton>().cost;
         CompositeCladding.GetComponent<SkillTreeButton>().purchased = true;
@@ -441,7 +441,7 @@ public class SkillTree2 : MonoBehaviour
 
     public void DragonScalesUpgrade()
     {
-        PlayerDatabase.maxHealth += (int)(PlayerDatabase.maxHealth * .5);
+        PlayerDatabase.maxHealth += (int)(PlayerDatabase.maxHealth = 2.0);
         PlayerDatabase.canHealthScales = true;
 
         totalXP -= DragonScales.GetComponent<SkillTreeButton>().cost;
