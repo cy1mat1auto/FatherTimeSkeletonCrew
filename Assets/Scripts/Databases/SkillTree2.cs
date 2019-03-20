@@ -55,7 +55,7 @@ public class SkillTree2 : MonoBehaviour
     // ==========================
 
     // Player Database Variable
-    public int totalXP = PlayerDatabase.playerXP;
+    public static int totalXP = PlayerDatabase.playerXP;
 
     // List of all toggles
     private List<Toggle> toggles = new List<Toggle>(); 
@@ -77,6 +77,8 @@ public class SkillTree2 : MonoBehaviour
     // Start method called when script starts
     public void Start()
     {
+        Debug.Log("my initial xp :" + totalXP);
+        Debug.Log("actual inital xp: " + PlayerDatabase.playerXP);
         AddToggles();
     }
 
@@ -89,59 +91,42 @@ public class SkillTree2 : MonoBehaviour
     private void EnableToggles()
     {
         foreach (Toggle toggle in toggles)
-        {
-            Debug.Log("test: " + toggle);
-            Debug.Log("length of buttons: " + toggles.Count);
-
+        { 
             // Hopefully this is now redundant but who knows lol
             if (toggle is null) { Debug.Log("Null object"); }
 
             // Disables if button level is too high
             else if (toggle.GetComponent<SkillTreeButton>().tier > unlockedTier)
             {
-                toggle.GetComponent<Toggle>().enabled = false;
+                toggle.GetComponent<Toggle>().interactable = false;
+                toggle.GetComponent<Toggle>().isOn = false;
                 Debug.Log("Disabled, level too high: " + toggle);
-
-                //// This is probably bad will need to fix later
-                //toggle.transform.Find("purchased").GetComponent<Image>().enabled = false;
-                //toggle.transform.Find("levelLock").GetComponent<Image>().enabled = true;
-                //toggle.transform.Find("cantAfford").GetComponent<Image>().enabled = false;
             }
 
             // Disables if its already been purchased
             else if (toggle.GetComponent<SkillTreeButton>().purchased)
             {
-                toggle.GetComponent<Toggle>().enabled = false;
+                toggle.GetComponent<Toggle>().interactable = false;
+                toggle.GetComponent<Toggle>().isOn = true;
                 Debug.Log("Disabled, already purchased: " + toggle);
-
-                // This is probably bad will need to fix later
-                //button.transform.Find("purchased").GetComponent<Image>().enabled = true;
-                //button.transform.Find("levelLock").GetComponent<Image>().enabled = false;
-                //button.transform.Find("cantAfford").GetComponent<Image>().enabled = false;
             }
 
             // Disables if cant afford it 
             else if (totalXP < toggle.GetComponent<SkillTreeButton>().cost)
             {
-                toggle.GetComponent<Toggle>().enabled = false;
-                Debug.Log("Disabled, can't afford: " + toggle);
+                Debug.Log("My XP: " + totalXP + "Cost: " + toggle.GetComponent<SkillTreeButton>().cost);
 
-                // This is probably bad will need to fix later
-                //button.transform.Find("purchased").GetComponent<Image>().enabled = false;
-                //button.transform.Find("levelLock").GetComponent<Image>().enabled = false;
-                //button.transform.Find("cantAfford").GetComponent<Image>().enabled = true;
+                toggle.GetComponent<Toggle>().interactable = false;
+                toggle.GetComponent<Toggle>().isOn = false;
+                Debug.Log("Disabled, can't afford: " + toggle);
             }
 
             // Otherwise enables button
             else
             {
-                toggle.GetComponent<Toggle>().enabled = true; 
+                toggle.GetComponent<Toggle>().interactable = true;
+                toggle.GetComponent<Toggle>().isOn = false;
                 Debug.Log("Enabled: " + toggle);
-
-                // This is probably bad will need to fix later
-                //button.transform.Find("purchased").GetComponent<Image>().enabled = false;
-                //button.transform.Find("levelLock").GetComponent<Image>().enabled = false;
-                //button.transform.Find("cantAfford").GetComponent<Image>().enabled = false;
             }
         }
     }
@@ -295,7 +280,7 @@ public class SkillTree2 : MonoBehaviour
         PlayerDatabase.missileExplosionRadius += (int)(PlayerDatabase.missileExplosionRadius = 1.25);
         PlayerDatabase.missileExplosionSlowRate += (int)(PlayerDatabase.missileExplosionSlowRate = 1.25);
 
-        totalXP -= GravityWell.GetComponent<SkillTreeButton>().cost;
+        totalXP -= GravityWell.GetComponent<SkillTreeButton>().cost; 
         GravityWell.GetComponent<SkillTreeButton>().purchased = true;
         NumUnlockedT2++;
         Debug.Log("Purchased Gravity Well Upgrade");

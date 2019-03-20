@@ -10,14 +10,14 @@ public class SaveAll : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // If shift 5 was pressed save all
+        // If left shift 5 was pressed save all
         if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha5)) 
         {
             PlayerDatabase.Save();
             skillTree.Save();
         }
 
-        // If shift 9 was pressed load all
+        // If left shift 9 was pressed load all
         if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Alpha9))
         {
             NewLoad = true;

@@ -45,7 +45,7 @@ public static class PlayerDatabase
     public static double movementSpeed = 1;
     public static int currentHealth = 1;
     public static Vector3 playerPosition = new Vector3(0,0,0);
-    public static int playerXP = 1;
+    public static int playerXP = 100;
 
     // Offensive Stats
     public static double laserDamage = 1; // How much damage lasers deal
