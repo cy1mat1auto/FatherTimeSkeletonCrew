@@ -8,8 +8,8 @@ public class HealthDisplay : MonoBehaviour
 
     public GameObject Jockey;
     public Text HealthNumber;
-    public float MaxHealth;
-    public float CurrentHealth;
+    public double MaxHealth;
+    public double CurrentHealth;
 
     // Start is called before the first frame update
     void Start()
@@ -26,7 +26,7 @@ public class HealthDisplay : MonoBehaviour
             MaxHealth = PlayerDatabase.maxHealth;
         }
         CurrentHealth = Jockey.GetComponent<PlayerHealth>().CurrentHealth;
-        GetComponent<Slider>().value = CurrentHealth / MaxHealth;
+        GetComponent<Slider>().value = (float) (CurrentHealth / MaxHealth);
         HealthNumber.text = CurrentHealth.ToString();
     }
 }
