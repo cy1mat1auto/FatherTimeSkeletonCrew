@@ -12,7 +12,7 @@ public class PlayerHealth : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        MaxHealth = PlayerDatabase.maxHealth;
+        MaxHealth = PlayerDatabase.maxHealthBase * PlayerDatabase.maxHealth;
         CurrentHealth = MaxHealth;
     }
 
@@ -21,7 +21,7 @@ public class PlayerHealth : MonoBehaviour
     {
         if (GetComponent<SaveAll>().NewLoad)
         {
-            MaxHealth = PlayerDatabase.maxHealth;
+            MaxHealth = PlayerDatabase.maxHealthBase * PlayerDatabase.maxHealth;
             CurrentHealth = PlayerDatabase.currentHealth;
         }
         CurrentHealth = Mathf.Clamp((float) CurrentHealth, 0, (float) MaxHealth);
