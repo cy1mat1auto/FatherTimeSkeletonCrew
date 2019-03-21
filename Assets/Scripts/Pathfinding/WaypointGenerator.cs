@@ -5,11 +5,18 @@ using UnityEngine;
 public class WaypointGenerator : MonoBehaviour
 {
     GameObject waypoint;
+    Waypoint[,,] waypointList;
+    int[] waypointIndexes;  // The proxy for the tree
+    int numBranches = 0;
 
     // Dimensions of the box. Temporarily public, can and should be manipulated through Init()
     public float xLength = 1;
     public float yLength = 1;
     public float zLength = 1;
+
+    int xNodes;
+    int yNodes;
+    int zNodes;
 
     // Space between the waypoints. Number of waypoints is defined as dimensions / density for each dimension
     public float density = 1;  // Depending on density, the amount of waypoints might not fit the dimensions.
@@ -32,12 +39,14 @@ public class WaypointGenerator : MonoBehaviour
     {
         waypoint = (GameObject)Resources.Load("Waypoint");
 
-        int xNodes = Mathf.CeilToInt(xLength / density);
-        int yNodes = Mathf.CeilToInt(yLength / density);
-        int zNodes = Mathf.CeilToInt(zLength / density);
+        xNodes = Mathf.CeilToInt(xLength / density);
+        yNodes = Mathf.CeilToInt(yLength / density);
+        zNodes = Mathf.CeilToInt(zLength / density);
 
-        Waypoint[,,] waypointList = new Waypoint[xNodes, yNodes, zNodes];
- 
+        waypointList = new Waypoint[xNodes, yNodes, zNodes];
+        numBranches = Mathf.CeilToInt(Mathf.Log(xNodes * yNodes * zNodes / 10, 2)); // Collect the required number of branches containing set of 10 waypoints per leaf
+        waypointIndexes = new int[Mathf.CeilToInt(Mathf.Pow(2, numBranches))];
+
         // Create the entire grid first. No connections made
         for (int i = 0; i < xNodes; i++)
         {
@@ -133,5 +142,105 @@ public class WaypointGenerator : MonoBehaviour
                 }
             }
         }
+    }
+
+    /*
+    // Modified version of Kd-Tree, adapted for Skeleton Crew
+    void BuildTree(int count, int[] minLength, int[] maxLength)
+    {
+
+        count = # of nodes, required for base case. Branch determined as n / 2
+        minLength = lower bound of partition
+        maxLength = upper bound of partition
+
+        int[] min = minLength;
+        int[] max = maxLength;
+
+        if(count > waypointIndexes.Length)
+            return;
+
+        waypointIndexes[count] = (minLength[count % 3] + maxLength[count % 3]) / 2; // Assign the median
+
+        min[Mathf.CeilToInt(count / 2) % 3] = 1;
+        max[Mathf.CeilToInt(count / 2) % 3] = 1;
+
+        BuildTree(2 * count + 1);   // Left
+        BuildTree(2 * count + 2);   // Right
+    }
+*/
+
+    // Binary search tree; Adapted Kd-tree for Skeleton Crew. Currently doesn't check for the actual closest nodes under all cases
+    public Waypoint SearchTree(Transform position)
+    {
+        int count = 0;
+
+        int minX = 0;
+        int maxX = xNodes - 1;
+        int minY = 0;
+        int maxY = yNodes - 1;
+        int minZ = 0;
+        int maxZ = zNodes - 1;
+
+        int pivotX = xNodes - 1;
+        int pivotY = yNodes - 1;
+        int pivotZ = zNodes - 1;
+
+        Waypoint closestNode = waypointList[pivotX,pivotY,pivotZ];
+
+        int counter = 0;
+
+        while (count < numBranches)
+        {
+            counter++;
+            counter++;
+            switch (count % 3)
+            {
+                case 0:
+                    pivotX = (maxX + minX) / 2;
+                    if (position.position.x <= waypointList[pivotX, pivotY, pivotZ].transform.position.x)
+                        maxX = (maxX + minX) / 2;
+                    else if ((maxX + minX) / 2 + 1 < xNodes)
+                        minX = (maxX + minX) / 2 + 1;
+                    break;
+                case 1:
+                    pivotY = (maxY + minY) / 2;
+                    if (position.position.y <= waypointList[pivotX, pivotY, pivotZ].transform.position.y)
+                        maxY = (maxY + minY) / 2;
+                    else if ((maxY + minY) / 2 + 1 < yNodes)
+                        minY = (maxY + minY) / 2 + 1;
+                    break;
+                case 2:
+                    pivotZ = (maxZ + minZ) / 2;
+                    if (position.position.z <= waypointList[pivotX, pivotY, pivotZ].transform.position.z)
+                        maxZ = (maxZ + minZ) / 2;
+                    else if((maxZ + minZ) / 2 + 1 < zNodes)
+                        minZ = (maxZ + minZ) / 2 + 1;
+                    break;
+                default:
+                    print("Error");
+                    return null;
+            }
+            if(Mathf.Pow(position.position.x - waypointList[pivotX, pivotY, pivotZ].transform.position.x, 2) + Mathf.Pow(position.position.y - waypointList[pivotX, pivotY, pivotZ].transform.position.y, 2) + Mathf.Pow(position.position.z - waypointList[pivotX, pivotY, pivotZ].transform.position.z, 2) < Mathf.Pow(position.position.x - closestNode.transform.position.x, 2) + Mathf.Pow(position.position.y - closestNode.transform.position.y, 2) + Mathf.Pow(position.position.z - closestNode.transform.position.z, 2))
+                closestNode = waypointList[pivotX, pivotY, pivotZ];
+            counter++;
+            count++;
+        }
+
+        // Goes through the remaining nodes. Not n^3
+        for(int i = minX; i < maxX + 1; i++)
+        {
+            for(int j = minY; j < maxY + 1; j++)
+            {
+                for(int k = minZ; k < maxZ + 1; k++)
+                {
+                    if (Mathf.Pow(position.position.x - waypointList[i, j, k].transform.position.x, 2) + Mathf.Pow(position.position.y - waypointList[i, j, k].transform.position.y, 2) + Mathf.Pow(position.position.z - waypointList[i, j, k].transform.position.z, 2) < Mathf.Pow(position.position.x - closestNode.transform.position.x, 2) + Mathf.Pow(position.position.y - closestNode.transform.position.y, 2) + Mathf.Pow(position.position.z - closestNode.transform.position.z, 2))
+                        closestNode = waypointList[i, j, k];
+                    counter++;
+                }
+            }
+        }
+        counter += (maxX - minX + 1) * (maxY - minY + 1) * (minZ - maxZ + 1);
+     //   print("Operations: " + counter);
+        return closestNode;
     }
 }

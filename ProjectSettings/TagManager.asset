@@ -9,6 +9,7 @@ TagManager:
   - Explosive
   - Terrain
   - Missile
+  - Generator
   layers:
   - Default
   - TransparentFX

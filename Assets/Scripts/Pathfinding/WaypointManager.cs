@@ -19,21 +19,28 @@ public class WaypointManager : MonoBehaviour
     // Use a Kd-Tree. To be implemented later
     public Waypoint FindClosestWaypoint(Transform currentPosition)
     {
-        // Find the closest distance
-        float distance;
-        float closestDistance = Mathf.Infinity;
-        Waypoint closestWaypoint = null;
+        GameObject findGenerator = GameObject.FindGameObjectWithTag("Generator");
 
-        for (int i = 0; i < waypoints.Count; i++)
+        if (findGenerator != null)
+            return findGenerator.GetComponent<WaypointGenerator>().SearchTree(currentPosition);
+        else
         {
-            distance = Mathf.Pow(waypoints[i].transform.position.x - currentPosition.position.x, 2) + Mathf.Pow(waypoints[i].transform.position.y - currentPosition.position.y, 2) + Mathf.Pow(waypoints[i].transform.position.z - currentPosition.position.z, 2);
-            if(distance < closestDistance)
+            // Find the closest distance
+            float distance;
+            float closestDistance = Mathf.Infinity;
+            Waypoint closestWaypoint = null;
+
+            for (int i = 0; i < waypoints.Count; i++)
             {
-                closestDistance = distance;
-                closestWaypoint = waypoints[i];
+                distance = Mathf.Pow(waypoints[i].transform.position.x - currentPosition.position.x, 2) + Mathf.Pow(waypoints[i].transform.position.y - currentPosition.position.y, 2) + Mathf.Pow(waypoints[i].transform.position.z - currentPosition.position.z, 2);
+                if (distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    closestWaypoint = waypoints[i];
+                }
             }
+            return closestWaypoint;
         }
-        return closestWaypoint;
     }
 
 
@@ -45,7 +52,8 @@ public class WaypointManager : MonoBehaviour
     // Making use of A*
     public List<Waypoint> FindPath(Waypoint start, Waypoint end)
     {
-        List<Waypoint> closedList = new List<Waypoint>();   // Create a list containing nodes already seen (start is default)
+        Dictionary<int, Waypoint> closedList = new Dictionary<int, Waypoint>();
+        //List<Waypoint> closedList = new List<Waypoint>();   // Create a list containing nodes already seen (start is default)
         List<Waypoint> openList = new List<Waypoint>() { start };   // Create a list containing nodes seen but not assessed yet. Ordered as a priority queue
 
         List<Waypoint> path = new List<Waypoint>(); // List containing all the nodes in the shortest path
@@ -60,16 +68,22 @@ public class WaypointManager : MonoBehaviour
 
         bool foundEnd = false;
 
+        int counter = 0;
+
         while ((openList.Count > 0) && (!foundEnd))
         {
             currentWaypoint = RemoveHeap(openList);
-            closedList.Add(currentWaypoint);    // Move the currently assessed waypoint to the closed list and mark it as completed
+            closedList[currentWaypoint.num] = currentWaypoint;
+            //closedList.Add(currentWaypoint);    // Move the currently assessed waypoint to the closed list and mark it as completed
             currentLinks = currentWaypoint.GetConnectedNodes(); // Take all the nodes that the current node is connected to
+
+            counter += 6;
 
             for(int i = 0; i < currentLinks.Count; i++)
             {
+                counter += 2;
                 // Make sure it's not already in the closed list. Ignore it otherwise
-                if (!closedList.Contains(currentLinks[i]))
+                if (!closedList.ContainsKey(currentLinks[i].num))//!closedList.Contains(currentLinks[i]))
                 {
                  //   if (currentLinks[i].IsBlocked())
                    //     closedList.Add(currentLinks[i]);
@@ -78,8 +92,8 @@ public class WaypointManager : MonoBehaviour
                         // Using Euclidean distance as heuristic function since waypoints are set at diff angles
                         float heuristic = Mathf.Pow(end.gameObject.transform.position.x - currentLinks[i].gameObject.transform.position.x, 2) + Mathf.Pow(end.gameObject.transform.position.y - currentLinks[i].gameObject.transform.position.y, 2) + Mathf.Pow(end.gameObject.transform.position.z - currentLinks[i].transform.position.z, 2);
                         float gValue = Mathf.Pow(currentLinks[i].gameObject.transform.position.x - currentWaypoint.gameObject.transform.position.x, 2) + Mathf.Pow(currentLinks[i].gameObject.transform.position.y - currentWaypoint.gameObject.transform.position.y, 2) + Mathf.Pow(currentLinks[i].gameObject.transform.position.z - currentWaypoint.transform.position.z, 2) + currentWaypoint.GetGVal();
-                        //heuristic = 0f; // Turn this into Dijkstra's
-
+                    //heuristic = 0f; // Turn this into Dijkstra's
+                    counter += 5;
                         // If this item has not been seen OR if it has, that it has a higher cost value
                         if ((!openList.Contains(currentLinks[i]) || (openList.Contains(currentLinks[i]) && (currentLinks[i].GetNodeValue() > gValue + heuristic))))
                         {
@@ -89,30 +103,39 @@ public class WaypointManager : MonoBehaviour
                             currentLinks[i].SetHeuristic(Mathf.Sqrt(heuristic));
                             currentLinks[i].AssignNodeValue(gValue);
 
+                        counter += 3;
                             AddHeap(openList, currentLinks[i]);
                      //   }
                     }
                 }
+                counter++;
                 // If the end is found, exit
                 if (currentLinks[i] == end)
                 {
                     currentWaypoint = end;
                     i = currentLinks.Count;
                     foundEnd = true;
+
+                    counter += 3;
                 }
             }
         }
 
+        counter++;
         // If a path was found, otherwise the path list will return empty
         if(foundEnd)
         {
             while(currentWaypoint != null)
             {
+                counter++;
                 path.Add(currentWaypoint);
                 currentWaypoint = currentWaypoint.GetChild();
             }
             path.Reverse(); // Or can implement as a stack
+
+            counter += path.Count;
         }
+        //print("Total calc: " + counter);
         return path;
     }
 

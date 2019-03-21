@@ -5,12 +5,14 @@ using UnityEngine;
 // Class containing all the gun modules, behaviour and pathfinding (needs to be added as prefabs for visual effect)
 public class Ship : MonoBehaviour
 {
+    public bool testPathfind = true;
     protected TestPathfinding searchTarget;
     protected string[] targetTypes = {"Player"};
     protected Turret[] equippedTurrets;
     protected int numTurrets = 2;
     protected bool targetInRange = false;
     protected bool engaged = false;
+    protected string shipName = "";
 
     //protected float patrolRadius = 50f;  // The RADIUS of player detection (may modify later such that the player must be in cone of detection)
     GameObject[] patrolPoints;    // Likely will not follow A* if on patrol. Depends on presence of obstacles
@@ -54,6 +56,7 @@ public class Ship : MonoBehaviour
     {
         currentHp = maxHp;
         searchTarget = gameObject.AddComponent<TestPathfinding>();
+        searchTarget.SetTurnRadius(600);
         equippedTurrets = new Turret[numTurrets];
 
         // Temporary
@@ -87,6 +90,7 @@ public class Ship : MonoBehaviour
             else
             {
                 engaged = true;
+                searchTarget.SetEngage(engaged);
                 searchTarget.SetGoal(GameObject.FindGameObjectWithTag("Player"));
             }
         }
@@ -129,6 +133,7 @@ public class Ship : MonoBehaviour
             if(!engaged)
             {
                 engaged = true;
+                searchTarget.SetEngage(engaged);
                 searchTarget.SetGoal(other.gameObject);
             }
         }
@@ -138,5 +143,23 @@ public class Ship : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
             targetInRange = false;
+    }
+
+    public void SetName(string name)
+    {
+        shipName = name;
+    }
+
+    public string GetName()
+    {
+        return shipName;
+    }
+
+    public float GetTurnRadius()
+    {
+        // The turn radius returned is a SQUARED VALUE
+        if (gameObject.GetComponent<TestPathfinding>() != null)
+            return gameObject.GetComponent<TestPathfinding>().GetTurnRadius();
+        return 0;
     }
 }

@@ -16,7 +16,6 @@ public class Waypoint : MonoBehaviour
     Waypoint child = null;    // Used like a linked-list to keep track of the shortest path
 
     public bool blockedNode = false; // If this node is blocked by another object (sets this via onTriggerEnter)
-    public bool momos = false;
 
     // Used by obstacles
     public void BlockNode(bool block)
