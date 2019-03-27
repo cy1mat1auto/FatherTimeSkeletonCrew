@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1449157697}
   - component: {fileID: 1449157698}
   - component: {fileID: 1449157699}
+  - component: {fileID: 164412836015031032}
   m_Layer: 0
   m_Name: StationDebris01
   m_TagString: Terrain
@@ -142,3 +143,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 1449157697}
+--- !u!114 &164412836015031032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1449157692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c32d1da9d54f2b459384b6ddc017742, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
