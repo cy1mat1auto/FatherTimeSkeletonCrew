@@ -26,6 +26,8 @@ public class MissileScript : MonoBehaviour
     public ParticleSystem explosion;
     public ParticleSystem smokeTrail;
 
+    public GameObject missileIcon;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,6 +46,8 @@ public class MissileScript : MonoBehaviour
 
         explosion.GetComponent<Renderer>().enabled = false;
         smokeTrail.Stop();
+
+        missileIcon.GetComponent<MissileIconScript>().missileLoaded = true;
     }
 
     // Update is called once per frame
@@ -71,6 +75,8 @@ public class MissileScript : MonoBehaviour
             orderTime++;
             if (order == 0 || orderTime / order >= increment)
             {
+                missileIcon.GetComponent<MissileIconScript>().missileLoaded = false;
+
                 smokeTrail.transform.position = transform.position;
                 smokeTrail.transform.rotation = transform.rotation;
                 smokeTrail.Play();
@@ -116,6 +122,8 @@ public class MissileScript : MonoBehaviour
         explosion.transform.position = transform.position;
         explosion.Play();
         smokeTrail.Stop();
+
+        missileIcon.GetComponent<MissileIconScript>().missileLoaded = true;
     }
 
     void OnCollisionEnter(Collision collision)
@@ -128,7 +136,6 @@ public class MissileScript : MonoBehaviour
         {
             if (collision.collider.tag == "Enemy")
                 collision.gameObject.GetComponent<EnemyHealth>().CurrentHealth -= damage;
-
 
             explodeMissile();
 
