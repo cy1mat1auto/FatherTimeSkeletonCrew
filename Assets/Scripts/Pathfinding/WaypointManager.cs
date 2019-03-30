@@ -52,8 +52,7 @@ public class WaypointManager : MonoBehaviour
     // Making use of A*
     public List<Waypoint> FindPath(Waypoint start, Waypoint end)
     {
-        Dictionary<int, Waypoint> closedList = new Dictionary<int, Waypoint>();
-        //List<Waypoint> closedList = new List<Waypoint>();   // Create a list containing nodes already seen (start is default)
+        Dictionary<int, Waypoint> closedList = new Dictionary<int, Waypoint>(); // Create a list containing nodes already seen (start is default)
         List<Waypoint> openList = new List<Waypoint>() { start };   // Create a list containing nodes seen but not assessed yet. Ordered as a priority queue
 
         List<Waypoint> path = new List<Waypoint>(); // List containing all the nodes in the shortest path
@@ -74,7 +73,6 @@ public class WaypointManager : MonoBehaviour
         {
             currentWaypoint = RemoveHeap(openList);
             closedList[currentWaypoint.num] = currentWaypoint;
-            //closedList.Add(currentWaypoint);    // Move the currently assessed waypoint to the closed list and mark it as completed
             currentLinks = currentWaypoint.GetConnectedNodes(); // Take all the nodes that the current node is connected to
 
             counter += 6;
@@ -136,6 +134,7 @@ public class WaypointManager : MonoBehaviour
             counter += path.Count;
         }
         //print("Total calc: " + counter);
+
         return path;
     }
 

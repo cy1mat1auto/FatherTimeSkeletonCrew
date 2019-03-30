@@ -14,6 +14,10 @@ public class Ship : MonoBehaviour
     protected bool engaged = false;
     protected string shipName = "";
 
+    // FLOCK BEHAVIOUR
+    protected List<Ship> squad = new List<Ship>();
+    protected int maxFlockCount = 3;
+
     //protected float patrolRadius = 50f;  // The RADIUS of player detection (may modify later such that the player must be in cone of detection)
     GameObject[] patrolPoints;    // Likely will not follow A* if on patrol. Depends on presence of obstacles
 
@@ -116,6 +120,28 @@ public class Ship : MonoBehaviour
         }
     }
 
+    // Check if it has a flock attached to it, and inform each flock to disengage or find a new leader
+    private void OnDestroy()
+    {
+        if (squad.Count == 1)
+            squad[0].GetComponent<FlockBehaviour>().AssignLeader(null);
+        else
+        {
+            for (int i = 0; i < squad.Count; i++)
+            {
+                if (squad[i] != null)
+                {
+                    for(int j = i; j < squad.Count; j++)
+                    {
+                        if(squad[j] != null)
+                            squad[j].GetComponent<FlockBehaviour>().AssignLeader(squad[i]);
+                    }
+                    i = squad.Count;
+                }
+            }
+        }
+    }
+
     protected virtual void SetPatrolPoints(GameObject[] setPatrolPoints)
     {
         // POINTS WILL BE PATROLLED IN ORDER
@@ -161,5 +187,41 @@ public class Ship : MonoBehaviour
         if (gameObject.GetComponent<TestPathfinding>() != null)
             return gameObject.GetComponent<TestPathfinding>().GetTurnRadius();
         return 0;
+    }
+
+
+
+
+
+    public void SetFlockCount(int setCount)
+    {
+        maxFlockCount = setCount;
+    }
+    public int GetMaxFlockCount()
+    {
+        return maxFlockCount;
+    }
+    public int GetFlockCount()
+    {
+        return squad.Count;
+    }
+    public int AddToFlock(Ship add)
+    {
+        if (squad.Count < maxFlockCount)
+        {
+            squad.Add(add);
+            return squad.Count;
+        }
+        return -1;
+    }
+    public void RemoveFromFlock(FlockBehaviour remove)
+    {
+        squad.Remove(remove.gameObject.GetComponent<Ship>());
+    }
+
+    // This will probably be moved to ship.cs
+    public List<Ship> GetFlock()
+    {
+        return squad;
     }
 }

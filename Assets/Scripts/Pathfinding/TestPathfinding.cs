@@ -81,7 +81,7 @@ public class TestPathfinding : MonoBehaviour
             }
             else
             {
-                if (goal.Count > 1)
+                if (goal.Count > 0)
                 {
                     goalCount = (goalCount + 1) % goal.Count;
                     recalculatePath = 0;
