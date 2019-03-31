@@ -187,7 +187,7 @@ public class SkillTree1 : MonoBehaviour
             if (button is null) { Debug.Log("Null object"); }
 
             // Disables if button level is too high
-            else if (button.GetComponent<SkillTreeButton>().level > unlockedLevel)
+            else if (button.GetComponent<SkillTreeButton>().tier > unlockedLevel)
             {
                 button.GetComponent<Button>().enabled = false;
                 Debug.Log("Disabled, level too high: " + button);
@@ -247,7 +247,7 @@ public class SkillTree1 : MonoBehaviour
         {
             costs.Add(button.GetComponent<SkillTreeButton>().cost);
             purchased.Add(button.GetComponent<SkillTreeButton>().purchased);
-            levels.Add(button.GetComponent<SkillTreeButton>().level);
+            levels.Add(button.GetComponent<SkillTreeButton>().tier);
         }
 
         SaveObject saveObject = new SaveObject
@@ -289,7 +289,7 @@ public class SkillTree1 : MonoBehaviour
         {
             buttons[i].GetComponent<SkillTreeButton>().cost = saveObject.costs[i];
             buttons[i].GetComponent<SkillTreeButton>().purchased = saveObject.purchased[i];
-            buttons[i].GetComponent<SkillTreeButton>().level = saveObject.levels[i];
+            buttons[i].GetComponent<SkillTreeButton>().tier = saveObject.levels[i];
         }
 
         unlockedLevel = saveObject.unlockedLevel;
@@ -325,7 +325,5 @@ public class SkillTree1 : MonoBehaviour
         public List<int> costs;
         public List<bool> purchased;
         public List<int> levels;
-
-
     }
 }

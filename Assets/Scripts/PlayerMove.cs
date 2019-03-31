@@ -7,6 +7,8 @@ public class PlayerMove : MonoBehaviour
     public float Speed;
     public float Sensitivity;
     public bool canMove = true;
+    public bool Inverted = true;
+    private int Inv = 1;
 
     void Start()
     {
@@ -16,6 +18,17 @@ public class PlayerMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (Inverted)
+        {
+            Inv = 1;
+        }
+
+        else
+        {
+            Inv = -1;
+        }
+
         if (canMove)
         {
             if (Input.GetKey(KeyCode.Z))
@@ -25,7 +38,7 @@ public class PlayerMove : MonoBehaviour
 
             else
             {
-                transform.rotation *= Quaternion.AngleAxis(Input.GetAxis("Mouse Y") * Sensitivity, Vector3.right);
+                transform.rotation *= Quaternion.AngleAxis(Input.GetAxis("Mouse Y") * Sensitivity, Inv * Vector3.right);
                 transform.rotation *= Quaternion.AngleAxis(Input.GetAxis("Mouse X") * Sensitivity, Vector3.up);
             }
 

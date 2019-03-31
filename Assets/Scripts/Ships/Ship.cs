@@ -149,6 +149,7 @@ public class Ship : MonoBehaviour
         searchTarget.SetGoals(patrolPoints);
     }
 
+
     // DO NOT INHERIT THESE
     void OnTriggerEnter(Collider other)
     {
@@ -164,7 +165,7 @@ public class Ship : MonoBehaviour
             }
         }
     }
-        
+
     void OnTriggerExit(Collider other)
     {
         if (other.gameObject.tag == "Player")

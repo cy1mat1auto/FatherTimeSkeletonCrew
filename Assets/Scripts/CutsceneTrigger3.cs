@@ -8,6 +8,7 @@ public class CutsceneTrigger3 : MonoBehaviour
     public GameObject cutScene;
     private bool inCutscene = false;
     PlayerMove movescript;
+    PauseScreen PS;
     public bool cutSceneDone = false;
     // Duration of each frame, in seconds if individual Duration is empty for 
     // Particular frame. Defualts to 5 seconds
@@ -43,6 +44,10 @@ public class CutsceneTrigger3 : MonoBehaviour
             Debug.Log(SceneStack.Count);
             Time.timeScale = 0;
             timing = Time.unscaledTime;
+
+            //interface with the pause screen system:
+            PS = other.GetComponent<PauseScreen>();
+            PS.InCutScene = true;
 
             // Freezes player movement
             movescript = other.GetComponent<PlayerMove>();
@@ -108,6 +113,7 @@ public class CutsceneTrigger3 : MonoBehaviour
         Time.timeScale = 1;
         cutScene.SetActive(false);
         movescript.canMove = true;
+        PS.InCutScene = false;
         cutSceneDone = false;
         Destroy(GetComponentInParent<Collider>());
     }

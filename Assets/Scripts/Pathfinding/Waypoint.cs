@@ -16,6 +16,7 @@ public class Waypoint : MonoBehaviour
     Waypoint child = null;    // Used like a linked-list to keep track of the shortest path
 
     public bool blockedNode = false; // If this node is blocked by another object (sets this via onTriggerEnter)
+    public int target = -1;
 
     // Used by obstacles
     public void BlockNode(bool block)
@@ -79,7 +80,14 @@ public class Waypoint : MonoBehaviour
 
     private void OnTriggerStay(Collider collision)
     {
-        if (!collision.CompareTag("Player"))
+        if (collision.CompareTag("Enemy"))
+        {
+            if (CalculateDistance(collision.GetComponent<Ship>().transform.position, transform.position) <= 100f)
+            {
+                BlockNode(true);
+            }
+        }
+        else if (!collision.CompareTag("Player"))
         {
             BlockNode(true);
         }
@@ -87,9 +95,17 @@ public class Waypoint : MonoBehaviour
 
     private void OnTriggerExit(Collider collision)
     {
+        if (collision.CompareTag("Enemy"))
+            target = -1;
         if (!collision.CompareTag("Player"))
         {
             BlockNode(false);
         }
+    }
+
+    private float CalculateDistance(Vector3 o1, Vector3 o2)
+    {
+        float total = Mathf.Pow(o1.x - o2.x, 2) + Mathf.Pow(o1.y - o2.y, 2) + Mathf.Pow(o1.z - o2.z, 2);
+        return (Mathf.Sqrt(total));
     }
 }

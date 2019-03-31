@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class LoadSettings : MonoBehaviour
 {
+    //OBSOLETE; replaced by Ivan's save system
     //Stores a series of settings that are loaded into the next scene
     public float maxhealth;
 

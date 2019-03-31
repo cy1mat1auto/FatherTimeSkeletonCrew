@@ -5,19 +5,25 @@ using UnityEngine;
 public class PlayerHealth : MonoBehaviour
 {
 
-    public float MaxHealth;
-    public float CurrentHealth;
+    public double MaxHealth;
+    public double CurrentHealth;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        MaxHealth = PlayerDatabase.maxHealthBase * PlayerDatabase.maxHealth;
         CurrentHealth = MaxHealth;
     }
 
     // Update is called once per frame
     void Update()
     {
-        CurrentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth);
+        if (GetComponent<SaveAll>().NewLoad)
+        {
+            MaxHealth = PlayerDatabase.maxHealthBase * PlayerDatabase.maxHealth;
+            CurrentHealth = PlayerDatabase.currentHealth;
+        }
+        CurrentHealth = Mathf.Clamp((float) CurrentHealth, 0, (float) MaxHealth);
     }
 }
