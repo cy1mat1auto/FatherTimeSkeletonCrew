@@ -218,6 +218,10 @@ public class Ship : MonoBehaviour
     {
         squad.Remove(remove.gameObject.GetComponent<Ship>());
     }
+    public void ClearFlock()
+    {
+        squad.Clear();
+    }
 
     // This will probably be moved to ship.cs
     public List<Ship> GetFlock()
