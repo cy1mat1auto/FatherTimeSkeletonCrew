@@ -26,6 +26,10 @@ public class CutsceneLevelLoad : MonoBehaviour
     //A bunch of UI Sprites; drag-and-drop is probably the best way to deal with this
     public Sprite im1; public Sprite im2; public Sprite im3; public Sprite im4; public Sprite im5;
     public Sprite im6; public Sprite im7; public Sprite im8; public Sprite im9; public Sprite im10;
+    public Sprite im11; public Sprite im12; public Sprite im13; public Sprite im14; public Sprite im15;
+    public Sprite im16; public Sprite im17; public Sprite im18; public Sprite im19; public Sprite im20;
+    public Sprite im21; public Sprite im22; public Sprite im23; public Sprite im24; public Sprite im25;
+    public Sprite im26; public Sprite im27; public Sprite im28; public Sprite im29; public Sprite im30;
     //A value, in case your cutscene does not fill this whole script. This should default to the maximum length of the script;
     public int SceneLength = 10;
     //This part allows us to create a list of the UI sprites used to generate the cutscene, allowing us to iterate through the scenes in order
@@ -39,7 +43,8 @@ public class CutsceneLevelLoad : MonoBehaviour
     {
         if (playCutscene)
         { 
-            Sprite[] input = { im1, im2, im3, im4, im5, im6, im7, im8, im9, im10 };
+            Sprite[] input = { im1, im2, im3, im4, im5, im6, im7, im8, im9, im10, im11, im12, im13, im14, im15, im16, im17, im18, im19, im20,
+            im21, im22, im23, im24, im25, im26, im27, im28, im29, im30};
             BufferStack.AddRange(input);
             SceneStack.AddRange(BufferStack.GetRange(0, SceneLength));
             Debug.Log(SceneStack.Count);
