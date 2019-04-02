@@ -32626,18 +32626,38 @@ MonoBehaviour:
   cutScene: {fileID: 1405857011}
   cutSceneDone: 0
   DefaultDuration: 5
-  IndividualDuration: 1,1, 1 ,1,1
-  im1: {fileID: 21300000, guid: 6850977a5c0fae941b891da63fef7281, type: 3}
-  im2: {fileID: 21300000, guid: 275a76577332e2a4dafc756dc00dc1fa, type: 3}
-  im3: {fileID: 21300000, guid: 2637931bdcceff54693829d4aca326e3, type: 3}
-  im4: {fileID: 21300000, guid: d86aabddeb7f8ce42bf1298d3d2db243, type: 3}
-  im5: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
-  im6: {fileID: 0}
-  im7: {fileID: 0}
-  im8: {fileID: 0}
-  im9: {fileID: 0}
-  im10: {fileID: 0}
-  SceneLength: 5
+  IndividualDuration: 4,5,2,2,2,2,3,8,6,3,5,3,2,2,5,2,3,2,5,3,8,3,5,4,4,3,2
+  im1: {fileID: 21300000, guid: 74b775a052e19d84ab2b3e4e2de71618, type: 3}
+  im2: {fileID: 21300000, guid: e410f6d6d59cf384cb8252f68462bdbd, type: 3}
+  im3: {fileID: 21300000, guid: 225bb592058d36648b1641c834929472, type: 3}
+  im4: {fileID: 21300000, guid: 5c51e33d13359ae4fb5bf0635ffe41e4, type: 3}
+  im5: {fileID: 21300000, guid: bfe510542325a1745bf8c05799ede866, type: 3}
+  im6: {fileID: 21300000, guid: 8c9be804a29d409409f72f5a6245c598, type: 3}
+  im7: {fileID: 21300000, guid: 6140ae04edf06fe4393e4d8fc6ef4bdf, type: 3}
+  im8: {fileID: 21300000, guid: ac78ca090974aa549a2579a874e306ab, type: 3}
+  im9: {fileID: 21300000, guid: ae42805554c7bb840876b64ef88d0eee, type: 3}
+  im10: {fileID: 21300000, guid: 38202bb7c6aad9b43b7e95596e968820, type: 3}
+  im11: {fileID: 21300000, guid: 4a0e64ca83a6be44f849f140e8dc029b, type: 3}
+  im12: {fileID: 21300000, guid: 277a2d8410c4bd74d86a79a98625f075, type: 3}
+  im13: {fileID: 21300000, guid: 1674821ad5dff6a4fac883a7969d2b88, type: 3}
+  im14: {fileID: 21300000, guid: 354ed1e70279b7b4a997fe5ae267c6ea, type: 3}
+  im15: {fileID: 21300000, guid: 25da94cf60d0a57419459036a209bd7e, type: 3}
+  im16: {fileID: 21300000, guid: 646ca0182b8e35d49b1efc85fc02c792, type: 3}
+  im17: {fileID: 21300000, guid: fbac5970a7e75c644aaad552845231a0, type: 3}
+  im18: {fileID: 21300000, guid: c0486ec42c6a9b14b93c506c155fb143, type: 3}
+  im19: {fileID: 21300000, guid: 07a9a99943949014db84d9903aa122f0, type: 3}
+  im20: {fileID: 21300000, guid: 8c7e6680bdfb9964a9b565f9639b3179, type: 3}
+  im21: {fileID: 21300000, guid: be881cf784fd72d4a91a5187e0eba02e, type: 3}
+  im22: {fileID: 21300000, guid: dc07910bb5f21b34b8c441e1cd7836f2, type: 3}
+  im23: {fileID: 21300000, guid: afd67b61023ee984c8812b1e97eb0fbe, type: 3}
+  im24: {fileID: 21300000, guid: fca38a1601fc62245969ae3a1b0d5779, type: 3}
+  im25: {fileID: 21300000, guid: 1c5d290ec72d6ef46a872e759cdd12b2, type: 3}
+  im26: {fileID: 21300000, guid: ff41f6457a04d664d9a2fa80316b81e6, type: 3}
+  im27: {fileID: 21300000, guid: 5cc3b53b49fac5b46b7972fe43c81754, type: 3}
+  im28: {fileID: 0}
+  im29: {fileID: 0}
+  im30: {fileID: 0}
+  SceneLength: 27
   BufferStack: []
   SceneStack: []
   Duration: 
