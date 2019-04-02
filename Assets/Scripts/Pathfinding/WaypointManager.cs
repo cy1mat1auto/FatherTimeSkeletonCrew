@@ -91,7 +91,7 @@ public class WaypointManager : MonoBehaviour
                 if (!closedList.ContainsKey(currentLinks[i].num))//!closedList.Contains(currentLinks[i]))
                 {
                     if (currentLinks[i].IsBlocked())
-                        closedList.Add(currentLinks[i]);
+                        closedList.Add(i, currentLinks[i]);
                     else
                     {
                         // Using Euclidean distance as heuristic function since waypoints are set at diff angles
