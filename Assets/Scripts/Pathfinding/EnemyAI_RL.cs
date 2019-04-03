@@ -34,6 +34,7 @@ public class EnemyAI_RL : MonoBehaviour
     void FixedUpdate()
     {
         //Debug.DrawRay(transform.position, (Prey.transform.position - transform.position), Color.red, 0.1f);
+        //This part determines if the enemy has spotted the player; the first branch point of the decision tree:
         if ((Mathf.Abs(Vector3.Angle(transform.forward, (Prey.transform.position - transform.position))) < 50f) && Vector3.Distance(transform.position, Prey.transform.position) < 500f)
         {
             if (Physics.Raycast(transform.position, (Prey.transform.position - transform.position), out view, 500f))
