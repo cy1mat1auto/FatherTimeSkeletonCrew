@@ -18,10 +18,11 @@ public class EnemyAI_RL : MonoBehaviour
     //For fake path smoothing:
     private Vector3 TurnSmoother = new Vector3(0, 0, 0);
 
-    //For delay in re-engaging after fly-by:
+    //For delay in re-engaging after fly-by, and re-engaging at close range:
     public float delay = 5f;
     private float counter = 0;
     private Transform LastLocation;
+    private bool WasAlerted = false;
 
     // Start is called before the first frame update
     void Start()
@@ -33,6 +34,12 @@ public class EnemyAI_RL : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (GetComponent<EnemyHealth>().CurrentHealth == 0)
+        {
+            Destroy(GetComponent<EnemyHBar2>().OverallBar);
+            Destroy(gameObject);
+        }
+
         //Debug.DrawRay(transform.position, (Prey.transform.position - transform.position), Color.red, 0.1f);
         //This part determines if the enemy has spotted the player; the first branch point of the decision tree:
         if ((Mathf.Abs(Vector3.Angle(transform.forward, (Prey.transform.position - transform.position))) < 50f) && Vector3.Distance(transform.position, Prey.transform.position) < 500f)
@@ -78,11 +85,11 @@ public class EnemyAI_RL : MonoBehaviour
                 else if (Vector3.Distance(transform.position, Prey.transform.position) < 60f)
                 {
                     //Debug.DrawRay(transform.position, (Prey.transform.TransformPoint(Prey.transform.localPosition + new Vector3(0, 20f, 0)) - transform.position), Color.red, 0.1f);
-                    if (Mathf.Abs(Vector3.Angle(transform.forward, (Prey.transform.localPosition + new Vector3(0, 20f, 0) - transform.position))) >= 2f)
+                    if (Mathf.Abs(Vector3.Angle(transform.forward, (Prey.transform.position + new Vector3(0, 20f, 0) - transform.position))) >= 2f)
                     {
 
                         TurnSmoother += new Vector3(0f, 0.5f, 0f);
-                        transform.LookAt(Prey.transform.localPosition + TurnSmoother);
+                        transform.LookAt(Prey.transform.position + TurnSmoother);
                         ShipRB.AddRelativeForce(new Vector3(0, 0, 15f), ForceMode.Force);
                     }
 
