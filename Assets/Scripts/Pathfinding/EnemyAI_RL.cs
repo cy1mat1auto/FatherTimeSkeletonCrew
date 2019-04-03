@@ -15,6 +15,14 @@ public class EnemyAI_RL : MonoBehaviour
     //Prey is the player or player's ally, used for chasing and attacking;
     private GameObject Prey = null;
 
+    //For fake path smoothing:
+    private Vector3 TurnSmoother = new Vector3(0, 0, 0);
+
+    //For delay in re-engaging after fly-by:
+    public float delay = 5f;
+    private float counter = 0;
+    private Transform LastLocation;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +33,7 @@ public class EnemyAI_RL : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        Debug.DrawRay(transform.position, (Prey.transform.position - transform.position), Color.red, 0.1f);
+        //Debug.DrawRay(transform.position, (Prey.transform.position - transform.position), Color.red, 0.1f);
         if ((Mathf.Abs(Vector3.Angle(transform.forward, (Prey.transform.position - transform.position))) < 50f) && Vector3.Distance(transform.position, Prey.transform.position) < 500f)
         {
             if (Physics.Raycast(transform.position, (Prey.transform.position - transform.position), out view, 500f))
@@ -58,11 +66,57 @@ public class EnemyAI_RL : MonoBehaviour
             //ShipRB.rotation = rotation;
 
             //rotate the enemy using transform.LookAt:
-            transform.LookAt(Prey.transform.position);
-
-            if (Vector3.Distance(transform.position, Prey.transform.position) <= 500f && Vector3.Distance(transform.position, Prey.transform.position) >= 20f)
+            if (counter == 0)
             {
-                ShipRB.AddRelativeForce(new Vector3(0, 0, 15f), ForceMode.Force);
+                if (Vector3.Distance(transform.position, Prey.transform.position) <= 500f && Vector3.Distance(transform.position, Prey.transform.position) >= 60f)
+                {
+                    transform.LookAt(Prey.transform.position);
+                    ShipRB.AddRelativeForce(new Vector3(0, 0, 15f), ForceMode.Force);
+                }
+
+                else if (Vector3.Distance(transform.position, Prey.transform.position) < 60f)
+                {
+                    //Debug.DrawRay(transform.position, (Prey.transform.TransformPoint(Prey.transform.localPosition + new Vector3(0, 20f, 0)) - transform.position), Color.red, 0.1f);
+                    if (Mathf.Abs(Vector3.Angle(transform.forward, (Prey.transform.localPosition + new Vector3(0, 20f, 0) - transform.position))) >= 2f)
+                    {
+
+                        TurnSmoother += new Vector3(0f, 0.5f, 0f);
+                        transform.LookAt(Prey.transform.localPosition + TurnSmoother);
+                        ShipRB.AddRelativeForce(new Vector3(0, 0, 15f), ForceMode.Force);
+                    }
+
+                    else
+                    {
+                        ShipRB.AddRelativeForce(new Vector3(0, 0, 15f), ForceMode.Force);
+                        LastLocation = Prey.transform;
+                        TurnSmoother = new Vector3(0, 0, 0);
+                        counter += Time.deltaTime;
+                        Debug.Log(TurnSmoother);
+                    }
+                }
+
+            }
+
+            else if (counter <= delay)
+            {
+                counter += Time.deltaTime;
+                ShipRB.AddRelativeForce(new Vector3(0, 0, 30f), ForceMode.Force);
+            }
+
+            else
+            {
+                if(Mathf.Abs(Vector3.Angle(transform.forward, (LastLocation.position - transform.position))) >= 5f)
+                {
+                    ShipRB.AddRelativeForce(new Vector3(0, 0, 15f), ForceMode.Force);
+                    ShipRB.rotation *= Quaternion.Euler(new Vector3(0, 0.6f, 0));
+                }
+
+                else
+                {
+                    transform.LookAt(LastLocation.position);
+                    counter = 0;
+                }
+                
             }
 
         }
