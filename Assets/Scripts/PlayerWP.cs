@@ -27,7 +27,7 @@ public class PlayerWP : MonoBehaviour
         if (Mathf.Abs(Vector3.Angle(PlayerView.transform.forward, (ThisPoint.transform.position - PlayerView.transform.position))) < 50f)
         {
             OnScreen.transform.position = PlayerView.WorldToScreenPoint(ThisPoint.transform.position);
-            //OverallBar.GetComponent<RectTransform>().pivot = new Vector2(-0.1f, 0);
+            //OnScreen.GetComponent<RectTransform>().pivot = new Vector2(0, 0);
         }
         
     }
