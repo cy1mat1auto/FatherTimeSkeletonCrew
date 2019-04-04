@@ -108,6 +108,7 @@ MonoBehaviour:
   waypoints: []
   num: 0
   blockedNode: 0
+  target: -1
 --- !u!122 &1180655734111048863
 Halo:
   m_ObjectHideFlags: 0

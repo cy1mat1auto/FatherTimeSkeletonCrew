@@ -67,12 +67,13 @@ public class Ship : MonoBehaviour
         for(int i = 0; i < numTurrets; i++)
         {
             equippedTurrets[i] = gameObject.AddComponent<Turret>();
-            equippedTurrets[i].Init(false, 0.8f, 10f, 300f, 3, 0.2f);
+            equippedTurrets[i].Init(false, 0.8f, 10f, 900f, 3, 0.2f);
             equippedTurrets[i].SetTurretOffset(new Vector3(30 * (2 * i - 1), 0f, 0f));  // Testing
         }
 
+        /*
         if(gameObject.GetComponent<SphereCollider>() != null)
-            gameObject.GetComponent<SphereCollider>().radius = attackRadius;
+            gameObject.GetComponent<SphereCollider>().radius = attackRadius;*/
     }
     // Update is called once per frame
     protected virtual void Update()
@@ -108,6 +109,7 @@ public class Ship : MonoBehaviour
             Destroy(gameObject);
         }
 
+        /*
         if (targetInRange)
         {
             bool hitObject = Physics.Raycast(transform.position, -transform.up, out RaycastHit lineOfSight, attackRadius * 100);
@@ -118,6 +120,7 @@ public class Ship : MonoBehaviour
                     equippedTurrets[i].Activate(-gameObject.transform.up);  // Hard-coded offset
             }
         }
+        */
     }
 
     // Check if it has a flock attached to it, and inform each flock to disengage or find a new leader
@@ -162,6 +165,25 @@ public class Ship : MonoBehaviour
                 engaged = true;
                 searchTarget.SetEngage(engaged);
                 searchTarget.SetGoal(other.gameObject);
+            }
+
+            /*
+             * 
+             * 
+             * TEMPORARY!!!!
+             * 
+             * */
+
+            if (Vector3.Angle(transform.position, other.transform.position) < 65f)
+            {
+                for (int i = 0; i < numTurrets; i++)
+                {
+                    if (equippedTurrets[i] != null)
+                    {
+                        //equippedTurrets[i].Activate(-gameObject.transform.up);  // Hard-coded offset
+                        equippedTurrets[i].Activate((other.transform.position - transform.position).normalized);//gameObject.transform.forward);  // Hard-coded offset
+                    }
+                }
             }
         }
     }

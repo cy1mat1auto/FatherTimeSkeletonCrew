@@ -58,12 +58,13 @@ public class Projectile : MonoBehaviour
             Destroy(gameObject);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        for(int i = 0; i < targetList.Length; i++)
+        for (int i = 0; i < targetList.Length; i++)
         {
-            if (collision.gameObject.tag == targetList[i])
+            if (other.gameObject.tag == targetList[i])
                 Destroy(gameObject);
         }
     }
+
 }

@@ -90,7 +90,7 @@ public class Turret : MonoBehaviour
                 GameObject homingAttachment = new GameObject();
                 homingAttachment.transform.position = projectileClone.transform.position;
                 homingAttachment.AddComponent<Homing>();
-                homingAttachment.GetComponent<Homing>().Init(projectileClone.GetComponent<Projectile>(), 90);
+                homingAttachment.GetComponent<Homing>().Init(projectileClone.GetComponent<Projectile>(), 150);
 
                 projectileClone.GetComponent<Rigidbody>().velocity = direction * shotSpeed;
 

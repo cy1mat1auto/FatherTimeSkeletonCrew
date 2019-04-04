@@ -84,7 +84,8 @@ public class TestPathfinding : MonoBehaviour
                 if (goal.Count > 0)
                 {
                     goalCount = (goalCount + 1) % goal.Count;
-                    recalculatePath = 0;
+                    if(goal.Count > 1)
+                        recalculatePath = 0;
                 }
 
                 if ((isEngaged) && (Mathf.Pow(goal[goalCount].transform.position.x - gameObject.transform.position.x, 2) + Mathf.Pow(goal[goalCount].transform.position.y - gameObject.transform.position.y, 2) + Mathf.Pow(goal[goalCount].transform.position.z - gameObject.transform.position.z, 2) < turnRadius))

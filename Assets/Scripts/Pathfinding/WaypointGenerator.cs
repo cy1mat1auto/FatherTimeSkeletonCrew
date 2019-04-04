@@ -37,6 +37,10 @@ public class WaypointGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // TESTING PURPOSES!!!
+        centre = gameObject.transform.position;
+
+
         waypoint = (GameObject)Resources.Load("Waypoint");
 
         xNodes = Mathf.CeilToInt(xLength / density);
