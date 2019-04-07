@@ -16,7 +16,7 @@ public class Ship : MonoBehaviour
 
     // FLOCK BEHAVIOUR
     protected List<Ship> squad = new List<Ship>();
-    protected int maxFlockCount = 3;
+    protected int maxFlockCount = 10;
 
     //protected float patrolRadius = 50f;  // The RADIUS of player detection (may modify later such that the player must be in cone of detection)
     GameObject[] patrolPoints;    // Likely will not follow A* if on patrol. Depends on presence of obstacles
