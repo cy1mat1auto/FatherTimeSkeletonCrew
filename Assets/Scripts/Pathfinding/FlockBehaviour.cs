@@ -5,7 +5,7 @@ using UnityEngine;
 
 /*
  * Alternative to A*. Idea is to enable this and disable A* while the "lead" ship conducts actual pathfinding.
- * Using this is proposed to be less intensive than if all ships conducted A* at the same time, despite runtime projected to be
+ * Using this is proposed to be less intensive than if all ships conducted A* at the same time despite runtime projected to be
  * O(n^2), n being the number of ships in game with this script attached. 
  * 
  * If an obstacle is within range, disengage and switch to A*
@@ -22,8 +22,10 @@ public class FlockBehaviour : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        // Use Physics.IgnoreLayer()
+        if (other.tag == "Waypoint")
+            return;
         // Take angle into account
-        // Take flock count into ac-count
         if ((other.GetComponent<Ship>() != null) && other.GetComponent<Ship>().GetName() == gameObject.GetComponent<Ship>().GetName())
         {
             // If other ship name matches own name and self is not following or being followed
@@ -49,11 +51,13 @@ public class FlockBehaviour : MonoBehaviour
                 }
             }
         }
+        /*
         else if (other.gameObject.tag != "Waypoint")
         {
+            print("Disengaging!");
             engageCooldown = 15f;
             gameObject.GetComponent<Ship>().testPathfind = true;
-        }
+        }*/
     }
 
     // Start is called before the first frame update
@@ -70,7 +74,7 @@ public class FlockBehaviour : MonoBehaviour
     {
         engageCooldown -= Time.deltaTime;
         if (following)
-            transform.position += (transform.forward + (Separation() + Orient()).normalized) * 15f;
+             transform.position += (transform.forward + (Separation() + Orient()).normalized) * 15f;    // 15f is arbitrary speeds
     }
 
     /*
@@ -93,22 +97,18 @@ public class FlockBehaviour : MonoBehaviour
             flock = leader.gameObject.GetComponent<Ship>().GetFlock();
 
         Vector3 position = Vector3.zero;
-        if (flock.Count > 0)    // Includes size of 1 (which is self)
+
+        for (int i = 0; i < flock.Count; i++)
         {
-            for (int i = 0; i < flock.Count; i++)
-            {
-                // Add up all the distances between the object and flock members (already counted for as negative)
-                if (flock[i] != gameObject.GetComponent<Ship>()) // Do not count self during calculations
-                {
-                    position += (transform.position - flock[i].transform.position);
-                    //position += (flock[i].transform.position - transform.position);
-                }
-            }
-
-            position += leader.gameObject.transform.position - transform.position;
-
-            position /= flock.Count; // Average the distances
+            // Add up all the distances between the object and flock members (already counted for as negative)
+            if (flock[i] != gameObject.GetComponent<Ship>()) // Do not count self during calculations
+                position += (transform.position - flock[i].transform.position);
         }
+
+        position += transform.position - leader.gameObject.transform.position;
+
+        position /= flock.Count; // Average the distances
+
         return position.normalized;
     }
 
@@ -116,20 +116,20 @@ public class FlockBehaviour : MonoBehaviour
     {
         if (leader != gameObject.GetComponent<Ship>())
             flock = leader.gameObject.GetComponent<Ship>().GetFlock();
-        Vector3 position = Vector3.zero;//transform.position;  // Used for cohesion
-        if (flock.Count > 0)
+        Vector3 position = Vector3.zero;  // Used for cohesion
+
+        // There is always at least one (self) ship in the flock
+        // Alignment and Cohesion put together
+        for (int i = 0; i < flock.Count; i++)
         {
-            // Alignment and Cohesion put together
-            for (int i = 0; i < flock.Count; i++)
-            {
-                position += flock[i].gameObject.transform.position; // Add up all the position vectors
-            }
-
-            position += leader.gameObject.transform.position;
-            position /= flock.Count;    // Average the positions
-
-            transform.rotation = leader.gameObject.transform.rotation;    // Make the rotation the same as the leader
+            position += flock[i].gameObject.transform.position; // Add up all the position vectors
         }
+
+        position += leader.gameObject.transform.position;
+        position /= (flock.Count + 1);    // Average the positions, including the leader
+
+        transform.rotation = leader.gameObject.transform.rotation;    // Make the rotation the same as the leader
+
         return (position - transform.position).normalized; // Normalize the direction towards the average position (in this case the leader)
     }
 
