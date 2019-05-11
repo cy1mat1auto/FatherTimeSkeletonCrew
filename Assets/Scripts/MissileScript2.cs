@@ -26,8 +26,6 @@ public class MissileScript2 : MonoBehaviour
     public ParticleSystem explosion;
     public ParticleSystem smokeTrail;
 
-    public GameObject missileIcon;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -46,12 +44,12 @@ public class MissileScript2 : MonoBehaviour
 
         explosion.GetComponent<Renderer>().enabled = false;
         smokeTrail.Stop();
-
-        missileIcon.GetComponent<MissileIconScript>().missileLoaded = true;
     }
 
     void Awake()
     {
+        jockey01 = GameObject.FindGameObjectWithTag("Player");
+        startObj = jockey01.transform.Find("PortLaser");
         fired = true;
         transform.position = startObj.position;
         transform.rotation = startObj.rotation;
@@ -63,7 +61,6 @@ public class MissileScript2 : MonoBehaviour
         if (Input.GetMouseButton(1) && !fired && !explosion.isPlaying)
         {
             fired = true;
-            resetMissile();
             if (JockeyWeapons.onObject)
             {
                 homing = true;
@@ -82,7 +79,6 @@ public class MissileScript2 : MonoBehaviour
             orderTime++;
             if (order == 0 || orderTime / order >= increment)
             {
-                missileIcon.GetComponent<MissileIconScript>().missileLoaded = false;
 
                 smokeTrail.transform.position = transform.position;
                 smokeTrail.transform.rotation = transform.rotation;
@@ -91,7 +87,6 @@ public class MissileScript2 : MonoBehaviour
                 if (timer == startTime)
                 {
                     speed = jockey01.GetComponent<PlayerMove>().Speed;
-                    resetMissile();
                 }
                 timer--;
                 transform.GetComponentInChildren<Renderer>().enabled = true;
@@ -117,12 +112,6 @@ public class MissileScript2 : MonoBehaviour
         }
     }
 
-    void resetMissile()
-    {
-        transform.position = startObj.position;
-        transform.rotation = startObj.rotation;
-    }
-
     void explodeMissile()
     {
         explosion.GetComponent<Renderer>().enabled = true;
@@ -130,7 +119,6 @@ public class MissileScript2 : MonoBehaviour
         explosion.Play();
         smokeTrail.Stop();
 
-        missileIcon.GetComponent<MissileIconScript>().missileLoaded = true;
     }
 
     void OnCollisionEnter(Collision collision)

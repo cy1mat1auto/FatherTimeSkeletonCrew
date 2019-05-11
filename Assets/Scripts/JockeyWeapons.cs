@@ -21,7 +21,7 @@ public class JockeyWeapons : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.DrawRay(transform.position, transform.forward * rayLength, Color.red, 8.5f);
+        //Debug.DrawRay(transform.position, transform.forward * rayLength, Color.red, 8.5f);
         onObject = Physics.Raycast(transform.position, transform.forward * rayLength, out vision, rayLength);
         if (onObject)
         {
@@ -41,6 +41,13 @@ public class JockeyWeapons : MonoBehaviour
         else
         {
             laserEnd = transform.forward * 100000;
+        }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            GameObject.Instantiate(Resources.Load("ProjectilePortGen"));
+
+            Debug.Log("NewMissileFired");
         }
     }
 }
