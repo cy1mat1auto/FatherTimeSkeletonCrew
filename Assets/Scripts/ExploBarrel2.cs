@@ -46,5 +46,10 @@ public class ExploBarrel2 : MonoBehaviour
                     hits.gameObject.GetComponent<PlayerHealth>().CurrentHealth -= damage;
             }
         }
+
+        else if (health < 0)
+        {
+            transform.GetComponent<Renderer>().enabled = false;
+        }
     }
 }
