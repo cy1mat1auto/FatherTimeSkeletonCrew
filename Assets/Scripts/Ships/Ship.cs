@@ -5,14 +5,16 @@ using UnityEngine;
 // Class containing all the gun modules, behaviour and pathfinding (needs to be added as prefabs for visual effect)
 public class Ship : MonoBehaviour
 {
-    public bool testPathfind = true;
-    protected TestPathfinding searchTarget;
+    List<MovementBehaviour> movementBehaviour = new List<MovementBehaviour>();  // Complete list of all behaviours this ship is capable of
+    List<MovementBehaviour> activatedBehaviours = new List<MovementBehaviour>();    // List of behaviours that have been activated (BehaviourActivation)
+
     protected string[] targetTypes = {"Player"};
+    protected GameObject mainTarget;
     protected Turret[] equippedTurrets;
     protected int numTurrets = 2;
     protected bool targetInRange = false;
-    protected bool engaged = false;
-    protected string shipName = "";
+    protected bool engaged = false; // Prevents the ship from re-engaging with different enemies constantly if they are detected
+    protected string shipName = ""; // Used for identification in flocking and targeting
 
     // FLOCK BEHAVIOUR
     protected List<Ship> squad = new List<Ship>();
@@ -29,6 +31,8 @@ public class Ship : MonoBehaviour
     protected float baseSpeed = 1f;
     protected float attackRadius = 30f;
 
+
+    /* CURRENTLY UNUSED
     // Aggression levels (rudimentary behaviour for A.I.)
     protected float aggression = 0f;    // 0 being no aggression, 1 being max aggression
     protected float evasiveness = 0f;   // 0 being no defence, 1 being max defence
@@ -42,7 +46,7 @@ public class Ship : MonoBehaviour
     // Aggression calculations
     protected float reactionTime = 8f;  // The time before evasion/aggression calculations must be recalculated
     protected bool bombRun = false; // If the ship is able to overtake the player, perform a "bomb-run", which resets the reactionTime
-
+    */
     protected bool init = false;
 
     protected void Init(int numTurrets = 1, int maxHp = 10, float baseSpeed = 1f, float power = 1f, float radius = 10f, int level = 1)
@@ -55,12 +59,52 @@ public class Ship : MonoBehaviour
         attackRadius = radius;
     }
 
+    public void InsertionSortBehaviourPriority()
+    {
+        // Insertion sort. The list will very likely be small and nearly sorted, with additional behaviour being added sparsely. 
+        // If initial loading of movementbehaviour types is high, can init with a different type of sort. Sort in descending order
+        if (activatedBehaviours.Count <= 1)
+            return;
+        int reference = 0;
+        MovementBehaviour temp;
+        for(int i = 0; i < activatedBehaviours.Count; i++)
+        {
+            reference = i - 1;
+            while (reference >= 0)
+            {
+                // .GetPriority() applies to all behaviour. .GetAdditionalPriority() also applies to all, but is used with .IsActivated() for default behaviour that would be overridden unless activated
+                if(activatedBehaviours[i].GetTotalPriority() >= activatedBehaviours[reference].GetTotalPriority())
+                {
+                    temp = activatedBehaviours[i];
+                    activatedBehaviours[i] = activatedBehaviours[reference];
+                    activatedBehaviours[reference] = temp;
+                    reference = -1;
+                }
+                reference--;
+            }
+        }
+    }
+
     // Start is called before the first frame update
     protected virtual void Start()
     {
         currentHp = maxHp;
-        searchTarget = gameObject.AddComponent<TestPathfinding>();
-        searchTarget.SetTurnRadius(600);
+
+        movementBehaviour.Add(AssignMovementBehaviour.CreateBehaviour(MovementTypes.A, gameObject));
+        movementBehaviour.Add(AssignMovementBehaviour.CreateBehaviour(MovementTypes.FLOCK, gameObject));
+
+        for(int i = 0; i < movementBehaviour.Count; i++)
+        {
+            movementBehaviour[i].Init(this);
+            movementBehaviour[i].SetTurnRadius(600);
+        }
+
+        // Add the first behaviour as the default for movement (can set according to what movement should be most important to set as default)
+        movementBehaviour[0].SetDefaultBehaviour(true);
+        movementBehaviour[0].SetAdditionalPriority(movementBehaviour[0].GetPriority());
+        movementBehaviour[0].SetPriority(0);
+        BehaviourActivation(movementBehaviour[0]);
+
         equippedTurrets = new Turret[numTurrets];
 
         // Temporary
@@ -70,7 +114,6 @@ public class Ship : MonoBehaviour
             equippedTurrets[i].Init(false, 0.8f, 10f, 900f, 3, 0.2f);
             equippedTurrets[i].SetTurretOffset(new Vector3(30 * (2 * i - 1), 0f, 0f));  // Testing
         }
-
         /*
         if(gameObject.GetComponent<SphereCollider>() != null)
             gameObject.GetComponent<SphereCollider>().radius = attackRadius;*/
@@ -85,19 +128,32 @@ public class Ship : MonoBehaviour
             if (gameObject.GetComponent<WaypointManager>() != null) // GENERATE RANDOM PATROL POINTS FOR EACH SHIP. TESTING
             {
                 patrolPoints = new GameObject[Random.Range(2, 5)];
-
                 for (int i = 0; i < patrolPoints.Length; i++)
                 {
                     patrolPoints[i] = gameObject.GetComponent<WaypointManager>().GetRandomWaypoint().gameObject;
                 }
                 SetPatrolPoints(patrolPoints);
             }
-            else
+            //  engaged = true;
+            mainTarget = GameObject.FindGameObjectWithTag("Player");
+            for (int i = 0; i < movementBehaviour.Count; i++)
             {
-                engaged = true;
-                searchTarget.SetEngage(engaged);
-                searchTarget.SetGoal(GameObject.FindGameObjectWithTag("Player"));
+                movementBehaviour[i].SetTarget(mainTarget);
             }
+        }
+
+        // Where ship movement behaviour is executed (Assume sorted via InsertionSortBehaviourPriority())
+        for(int i = 0; i < activatedBehaviours.Count; i++)
+        {
+            // If the behaviour no longer applies and is not the default
+            if(!activatedBehaviours[i].ExecuteBehaviour())
+            {
+                activatedBehaviours[i].EndBehaviour();
+                if(!activatedBehaviours[i].GetDefaultBehaviour())
+                    activatedBehaviours.Remove(activatedBehaviours[i]);
+            }
+            if(!activatedBehaviours[i].GetSharedBehaviour())
+                i = activatedBehaviours.Count;
         }
 
         if (currentHp <= 0)
@@ -108,19 +164,6 @@ public class Ship : MonoBehaviour
             }
             Destroy(gameObject);
         }
-
-        /*
-        if (targetInRange)
-        {
-            bool hitObject = Physics.Raycast(transform.position, -transform.up, out RaycastHit lineOfSight, attackRadius * 100);
-
-            for (int i = 0; i < numTurrets; i++)
-            {
-                if ((equippedTurrets[i] != null) && (hitObject) && (lineOfSight.transform.tag == "Player"))
-                    equippedTurrets[i].Activate(-gameObject.transform.up);  // Hard-coded offset
-            }
-        }
-        */
     }
 
     // Check if it has a flock attached to it, and inform each flock to disengage or find a new leader
@@ -149,22 +192,29 @@ public class Ship : MonoBehaviour
     {
         // POINTS WILL BE PATROLLED IN ORDER
         patrolPoints = setPatrolPoints;
-        searchTarget.SetGoals(patrolPoints);
+    }
+
+    public GameObject[] GetPatrolPoints()
+    {
+        return patrolPoints;
     }
 
 
     // DO NOT INHERIT THESE
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if(System.Array.Exists(targetTypes, id => id == other.gameObject.tag))
         {
             targetInRange = true;
+            mainTarget = other.gameObject;
 
             if(!engaged)
             {
                 engaged = true;
-                searchTarget.SetEngage(engaged);
-                searchTarget.SetGoal(other.gameObject);
+                for(int i = 0; i < movementBehaviour.Count; i++)
+                {
+                    movementBehaviour[i].SetTarget(mainTarget);
+                }
             }
 
             /*
@@ -213,7 +263,14 @@ public class Ship : MonoBehaviour
     }
 
 
-
+    public void BehaviourActivation(MovementBehaviour alert)
+    {
+        // Assuming the list of behaviours will be small enough for List.Contains() to not cause problems
+        if(!activatedBehaviours.Contains(alert))
+            activatedBehaviours.Add(alert);
+        // Sort regardless of if in list or not because it might have an updated priority value
+        InsertionSortBehaviourPriority();
+    }
 
 
     public void SetFlockCount(int setCount)
@@ -245,7 +302,6 @@ public class Ship : MonoBehaviour
     {
         squad.Clear();
     }
-
     // This will probably be moved to ship.cs
     public List<Ship> GetFlock()
     {

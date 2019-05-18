@@ -12,52 +12,21 @@ using UnityEngine;
 */
 
 // Must be attached to Ship.cs
-public class FlockBehaviour : MonoBehaviour
+public class FlockBehaviour : MovementBehaviour
 {
     SphereCollider engageFlock;
     public List<Ship> flock = new List<Ship>();
-    public bool following = false;
+   // public bool following = false;
     public Ship leader = null;
     float engageCooldown = 0f;
 
-    private void OnTriggerEnter(Collider other)
+    private void Awake()
     {
-        // Use Physics.IgnoreLayer()
-        if (other.tag == "Waypoint")
-            return;
-        // Take angle into account
-        if ((other.GetComponent<Ship>() != null) && other.GetComponent<Ship>().GetName() == gameObject.GetComponent<Ship>().GetName())
-        {
-            // If other ship name matches own name and self is not following or being followed
-            if ((engageCooldown <= 0))
-            {
-                float distanceToShip = Mathf.Pow(gameObject.transform.position.x - other.gameObject.transform.position.x, 2) + Mathf.Pow(gameObject.transform.position.y - other.gameObject.transform.position.y, 2) + Mathf.Pow(gameObject.transform.position.z - other.gameObject.transform.position.z, 2);
-                if (gameObject.GetComponent<Ship>().GetTurnRadius() >= distanceToShip)  // If distance to ship is greater than own turning radius
-                {
-                    bool autopilot = false; // Some conditions need to be met before FlockBehaviour activates
+        priority = 1.5f;
+    }
 
-                    // If the other ship displays no flock behaviour, but can be followed (maybe add in a check of some sort)
-                    if (other.gameObject.GetComponent<FlockBehaviour>() == null)
-                            autopilot = ResignLeadership(other.gameObject.GetComponent<Ship>());
-                    else if (other.gameObject.GetComponent<FlockBehaviour>().GetLeader() == null) // Otherwise if the other ship has no leader, make it the leader
-                            autopilot = ResignLeadership(other.gameObject.GetComponent<Ship>());
-                    else // Otherwise if the ship has or is a leader and within limit
-                        autopilot = ResignLeadership(other.gameObject.GetComponent<FlockBehaviour>().GetLeader());
-                    if (autopilot)
-                    {
-                        following = true;
-                        gameObject.GetComponent<Ship>().testPathfind = false;
-                    }
-                }
-            }
-        }
-        /*
-        else if (other.gameObject.tag != "Waypoint")
-        {
-            print("Disengaging!");
-            engageCooldown = 15f;
-            gameObject.GetComponent<Ship>().testPathfind = true;
-        }*/
+    public override void SetTarget(GameObject target)
+    {
     }
 
     // Start is called before the first frame update
@@ -69,12 +38,67 @@ public class FlockBehaviour : MonoBehaviour
         engageFlock.radius = gameObject.GetComponent<Ship>().GetTurnRadius() * 1.2f;
     }
 
-    // Update is called once per frame
-    void Update()
+    public override bool ExecuteBehaviour()
     {
         engageCooldown -= Time.deltaTime;
-        if (following)
-             transform.position += (transform.forward + (Separation() + Orient()).normalized) * 15f;    // 15f is arbitrary speeds
+
+        // Refuse to execute behaviour if not following anyone, but do not EndBehaviour() unless explicitly told to by Ship.cs (ie. still activated)
+        if ((leader == null) || (leader == gameObject.GetComponent<Ship>())) // || (distanceToShip is too far)
+            return false;
+    //    if (following)
+        transform.position += (transform.forward + (Separation() + Orient()).normalized) * 15f;    // 15f is arbitrary speeds
+        return true;
+    }
+
+    // What should happen after disengaging from behaviour
+    public override void EndBehaviour()
+    {
+        if (activated)
+        {
+            if ((leader != null) && (leader.GetComponent<Ship>() != null))
+                leader.RemoveFromFlock(this);
+
+            //    following = false;
+            activated = false;
+            totalPriority = priority;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!activated)
+        {
+            // Use Physics.IgnoreLayer()
+            if (other.tag == "Waypoint")
+                return;
+            // Take angle into account
+            if ((other.GetComponent<Ship>() != null) && other.GetComponent<Ship>().GetName() == gameObject.GetComponent<Ship>().GetName())
+            {
+                // If other ship name matches own name and self is not following or being followed
+                if ((engageCooldown <= 0))
+                {
+                    float distanceToShip = Mathf.Pow(gameObject.transform.position.x - other.gameObject.transform.position.x, 2) + Mathf.Pow(gameObject.transform.position.y - other.gameObject.transform.position.y, 2) + Mathf.Pow(gameObject.transform.position.z - other.gameObject.transform.position.z, 2);
+                    if (gameObject.GetComponent<Ship>().GetTurnRadius() >= distanceToShip)  // If distance to ship is greater than own turning radius
+                    {
+                        bool autopilot = false; // Some conditions need to be met before FlockBehaviour activates
+
+                        // If the other ship displays no flock behaviour, but can be followed (maybe add in a check of some sort)
+                        if (other.gameObject.GetComponent<FlockBehaviour>() == null)
+                            autopilot = ResignLeadership(other.gameObject.GetComponent<Ship>());
+                        else if (other.gameObject.GetComponent<FlockBehaviour>().GetLeader() == null) // Otherwise if the other ship has no leader, make it the leader
+                            autopilot = ResignLeadership(other.gameObject.GetComponent<Ship>());
+                        else // Otherwise if the ship has or is a leader and within limit
+                            autopilot = ResignLeadership(other.gameObject.GetComponent<FlockBehaviour>().GetLeader());
+                        if (autopilot)
+                        {
+                            // following = true;
+                            totalPriority = priority + additionalPriority;
+                            PingParent();
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /*
@@ -93,8 +117,8 @@ public class FlockBehaviour : MonoBehaviour
          * 
          * */
         // If self were to be leader, would not actually engage in flock behaviour
-        if (leader != gameObject.GetComponent<Ship>())
-            flock = leader.gameObject.GetComponent<Ship>().GetFlock();
+        //if (leader != gameObject.GetComponent<Ship>())
+        flock = leader.gameObject.GetComponent<Ship>().GetFlock();
 
         Vector3 position = Vector3.zero;
 
@@ -114,8 +138,8 @@ public class FlockBehaviour : MonoBehaviour
 
     Vector3 Orient()
     {
-        if (leader != gameObject.GetComponent<Ship>())
-            flock = leader.gameObject.GetComponent<Ship>().GetFlock();
+        //if (leader != gameObject.GetComponent<Ship>())
+        flock = leader.gameObject.GetComponent<Ship>().GetFlock();
         Vector3 position = Vector3.zero;  // Used for cohesion
 
         // There is always at least one (self) ship in the flock
@@ -144,7 +168,7 @@ public class FlockBehaviour : MonoBehaviour
         // Transferring leadership of flock to a new ship newLeader. Return true if successful
 
         // If the ship is a leader and encounters a new leader that's not it's own with a large enough squad size
-        if ((!following) && (newLeader != gameObject.GetComponent<Ship>()) && (newLeader.GetFlockCount() + gameObject.GetComponent<Ship>().GetFlockCount() + 1 <= newLeader.GetMaxFlockCount()))
+        if (/*(!following) && */(newLeader != gameObject.GetComponent<Ship>()) && (newLeader.GetFlockCount() + gameObject.GetComponent<Ship>().GetFlockCount() + 1 <= newLeader.GetMaxFlockCount()))
         {
             // Add all of the ship's current squad to the new leader
             for (int i = 0; i < gameObject.GetComponent<Ship>().GetFlockCount(); i++)
@@ -167,7 +191,6 @@ public class FlockBehaviour : MonoBehaviour
 
     private void OnDestroy()
     {
-        if ((following) && (leader != null) && (leader.GetComponent<Ship>() != null))
-            leader.RemoveFromFlock(this);
+        EndBehaviour();
     }
 }
