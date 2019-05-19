@@ -154,7 +154,6 @@ GameObject:
   - component: {fileID: 2921391894258197679}
   - component: {fileID: 2921391894248707922}
   - component: {fileID: 2921391894248707923}
-  - component: {fileID: 2921391894248707948}
   - component: {fileID: 2921391894248707950}
   m_Layer: 0
   m_Name: ProjectilePortGen
@@ -230,28 +229,6 @@ CapsuleCollider:
   m_Height: 8
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: -1.5}
---- !u!114 &2921391894248707948
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2921391894248707951}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f1bb2e839f092e49956a277560aeeaf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rb: {fileID: 2921391894248707922}
-  startObj: {fileID: 0}
-  maxSpeed: 20
-  maxTurnSpeed: 0.1
-  order: 0
-  jockey01: {fileID: 0}
-  damage: 20
-  explosion: {fileID: 3663925441126117364}
-  smokeTrail: {fileID: 3663925441270487261}
-  missileIcon: {fileID: 0}
 --- !u!114 &2921391894248707950
 MonoBehaviour:
   m_ObjectHideFlags: 0

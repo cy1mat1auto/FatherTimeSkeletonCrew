@@ -25641,7 +25641,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 915874722}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8aeeef98f5d480f45a656ba4ab64a6cc, type: 3}
   m_Name: 
@@ -33476,6 +33476,7 @@ GameObject:
   - component: {fileID: 1467727320}
   - component: {fileID: 1467727319}
   - component: {fileID: 1467727318}
+  - component: {fileID: 1467727326}
   m_Layer: 0
   m_Name: Jockey01
   m_TagString: Player
@@ -33495,7 +33496,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8aeeef98f5d480f45a656ba4ab64a6cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OneLaser: {fileID: 1513751798}
+  OneLaser: {fileID: 754971325}
   ProjectileGeneric: {fileID: 1896647343598938588}
   Port: {fileID: 1513751798}
 --- !u!114 &1467727319
@@ -33615,6 +33616,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 57
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1467727326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1467727317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02bfd16a2db5f43f68419eb0cabc4559, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillTree: {fileID: 0}
+  NewLoad: 0
 --- !u!1001 &1475672841
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -37336,5 +37351,6 @@ PrefabInstance:
       propertyPath: jockey01
       value: 
       objectReference: {fileID: 1467727317}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2921391894248707948, guid: f0f0a2675aef6cb4bb06781f35118010, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f0f0a2675aef6cb4bb06781f35118010, type: 3}

@@ -21,8 +21,10 @@ public class JockeyWeapons : MonoBehaviour
     {
 		rayLength = 200;
         onObject = false;
-        //ProjectileGeneric = Resources.Load<GameObject>("ProjectilePortGen");
-        //ProjectileGeneric.SetActive(false);
+        ProjectileGeneric = Resources.Load<GameObject>("ProjectilePortGen");
+        ProjectileGeneric.GetComponent<MissileScript2>().jockey01 = gameObject.transform.parent.gameObject;
+        ProjectileGeneric.SetActive(false);
+
     }
 
     // Update is called once per frame
