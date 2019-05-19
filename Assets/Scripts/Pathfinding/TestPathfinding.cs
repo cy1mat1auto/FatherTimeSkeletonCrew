@@ -2,29 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestPathfinding : MonoBehaviour
+public class TestPathfinding : MovementBehaviour
 {
     List<GameObject> goal = new List<GameObject>();
     int goalCount = 0;
     List<Waypoint> followPath = new List<Waypoint>();
-    float recalculatePath = 2f; // Recalculate every 2 seconds
+    float recalculatePath = 0f; // Recalculate every 2 seconds
 
     WaypointManager manager;    // Turn this static once things are figured out
     Quaternion angleOffset = Quaternion.Euler(0f, 0f, 0f); // Offset due to how the models are imported. Hardcoded
 
-    float turnRadius = 30f;   // The player must be outside of this radius in order for the ship to turn properly
     Vector3 disengageDirection = Vector3.zero;    // If the target is within turnRadius when pathfinding is finished, then continue moving in last known direction
     bool isEngaged = false;
     float speed = 15f;
+    float pursuitRadius;    // If the enemy is outside of this radius, the ship will no longer follow
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        //goal = GameObject.FindWithTag("Player");
+        priority = 1;
 
         manager = gameObject.GetComponent<WaypointManager>();
         manager.Init(); // TEMPORARY. MAKE WAYPOINT MANAGER STATIC AND REMOVE THIS LATER!!!
 
+        /*
         if (goal.Count > 0)
         {
             followPath = manager.FindPath(manager.FindClosestWaypoint(transform), goal[goalCount].transform);
@@ -34,91 +34,101 @@ public class TestPathfinding : MonoBehaviour
                 Vector3 direction = followPath[0].gameObject.transform.position - gameObject.transform.position;
                 transform.rotation = Quaternion.LookRotation(direction.normalized) * angleOffset;
             }
-        }
+        }*/
     }
-
+    public new void SetTurnRadius(float newRadius)
+    {
+        detectionRadius = newRadius;
+        pursuitRadius = 1.5f * detectionRadius; // For now, the pursuit radius is 1.5x the detection radius. Enemies outside of this will not be pursued
+    }
     public void SetOffset(Quaternion offset)
     {
         angleOffset = offset;
     }
+    private void Update()
+    {
+        if((!activated) && (isEngaged)) // || (obstacle immediately in way))
+        {
+            recalculatePath = 0f;
+            totalPriority = priority + additionalPriority;
+            PingParent();
+        }
+    }
 
     // Update is called once per frame
-    void Update()
+    public override bool ExecuteBehaviour()
     {
-        /*
-         * 
-         * TEMPORARY CONDITION!!!!!!!!!!!!!!
-         * 
-         * 
-         * */
-        if (gameObject.GetComponent<Ship>().testPathfind)
+        recalculatePath -= Time.deltaTime;
+        if (followPath.Count > 0)
         {
-            recalculatePath -= Time.deltaTime;
-            if (followPath.Count > 0)
+            if (followPath[0].transform.position == transform.position)
             {
-                if (followPath[0].transform.position == transform.position)
+                followPath.RemoveAt(0);
+                if (recalculatePath <= 0)
                 {
-                    followPath.RemoveAt(0);
-                    if (recalculatePath <= 0)
-                    {
-                        recalculatePath = 2f;
+                    recalculatePath = 2f;
 
-                        // If the player is still able to be pursued (ie. outside of turn radius)
-                        if ((!isEngaged) || ((isEngaged) && (Mathf.Pow(goal[goalCount].transform.position.x - gameObject.transform.position.x, 2) + Mathf.Pow(goal[goalCount].transform.position.y - gameObject.transform.position.y, 2) + Mathf.Pow(goal[goalCount].transform.position.z - gameObject.transform.position.z, 2) > turnRadius)))
-                            followPath = manager.FindPath(manager.FindClosestWaypoint(transform), goal[goalCount].transform);
-                        else
-                            followPath.Clear(); // Otherwise clear the list (the player is too close for turning)
-                    }
-
-                    if (followPath.Count > 0)
-                    {
-                        Vector3 direction = followPath[0].gameObject.transform.position - gameObject.transform.position;
-                        transform.rotation = Quaternion.LookRotation(direction.normalized) * angleOffset;
-                    }
+                    // If the player is still able to be pursued (ie. outside of turn radius)
+                    if ((!isEngaged) || ((isEngaged) && (Mathf.Pow(goal[goalCount].transform.position.x - gameObject.transform.position.x, 2) + Mathf.Pow(goal[goalCount].transform.position.y - gameObject.transform.position.y, 2) + Mathf.Pow(goal[goalCount].transform.position.z - gameObject.transform.position.z, 2) > turnRadius)))
+                        followPath = manager.FindPath(manager.FindClosestWaypoint(transform), goal[goalCount].transform);
+                    else
+                        followPath.Clear(); // Otherwise clear the list (the player is too close for turning)
                 }
-                else
-                    transform.position = Vector3.MoveTowards(transform.position, followPath[0].gameObject.transform.position, speed);
+
+                if (followPath.Count > 0)
+                {
+                    Vector3 direction = followPath[0].gameObject.transform.position - gameObject.transform.position;
+                    transform.rotation = Quaternion.LookRotation(direction.normalized) * angleOffset;
+                }
             }
             else
+                transform.position = Vector3.MoveTowards(transform.position, followPath[0].gameObject.transform.position, speed);
+        }
+        else
+        {
+            if (goal.Count > 0)
             {
-                if (goal.Count > 0)
-                {
-                    goalCount = (goalCount + 1) % goal.Count;
-                    if(goal.Count > 1)
-                        recalculatePath = 0;
-                }
-
-                if ((isEngaged) && (Mathf.Pow(goal[goalCount].transform.position.x - gameObject.transform.position.x, 2) + Mathf.Pow(goal[goalCount].transform.position.y - gameObject.transform.position.y, 2) + Mathf.Pow(goal[goalCount].transform.position.z - gameObject.transform.position.z, 2) < turnRadius))
-                {
-                    gameObject.GetComponent<Rigidbody>().velocity = speed * 50 * gameObject.transform.forward;
-                    recalculatePath = 3f;   // Temporary cooldown. Replace this once turning is implemented
-                }
-                else if (recalculatePath <= 0)
-                {
-                    followPath = manager.FindPath(manager.FindClosestWaypoint(transform), goal[goalCount].transform);
-                    if (followPath.Count > 0)
-                    {
-                        Vector3 direction = followPath[0].gameObject.transform.position - gameObject.transform.position;
-                        transform.rotation = Quaternion.LookRotation(direction.normalized) * angleOffset;
-                    }
-                    recalculatePath = 2f;
-                    gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-                }
+                goalCount = (goalCount + 1) % goal.Count;
+                if(goal.Count > 1)
+                    recalculatePath = 0;
             }
+
+            if ((isEngaged) && (Mathf.Pow(goal[goalCount].transform.position.x - gameObject.transform.position.x, 2) + Mathf.Pow(goal[goalCount].transform.position.y - gameObject.transform.position.y, 2) + Mathf.Pow(goal[goalCount].transform.position.z - gameObject.transform.position.z, 2) < turnRadius))
+            {
+                gameObject.GetComponent<Rigidbody>().velocity = speed * 50 * gameObject.transform.forward;
+                recalculatePath = 3f;   // Temporary cooldown. Replace this once turning is implemented
+            }
+            else if (recalculatePath <= 0)
+            {
+                followPath = manager.FindPath(manager.FindClosestWaypoint(transform), goal[goalCount].transform);
+                if (followPath.Count > 0)
+                {
+                    Vector3 direction = followPath[0].gameObject.transform.position - gameObject.transform.position;
+                    transform.rotation = Quaternion.LookRotation(direction.normalized) * angleOffset;
+                }
+                recalculatePath = 2f;
+                gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            }
+        }
+
+        // If the enemy is outside of pursuit radius, return false. Do not clear followPath in case this behaviour is meant to be the default and is still active
+        return ((isEngaged) && (Mathf.Pow(goal[goalCount].transform.position.x - gameObject.transform.position.x, 2) + Mathf.Pow(goal[goalCount].transform.position.y - gameObject.transform.position.y, 2) + Mathf.Pow(goal[goalCount].transform.position.z - gameObject.transform.position.z, 2) > pursuitRadius));
+    }
+
+    public override void EndBehaviour()
+    {
+        if (activated)
+        {
+            activated = false;
+            totalPriority = priority;
+            if (parent != null)
+                SetGoals(parent.GetPatrolPoints());
         }
     }
 
     public void SetEngage(bool engage)
     {
         isEngaged = engage;
-    }
-    public void SetTurnRadius(float radius)
-    {
-        turnRadius = Mathf.Pow(radius, 2);
-    }
-    public float GetTurnRadius()
-    {
-        return turnRadius;
     }
     public void SetSpeed(float speed)
     {
@@ -136,6 +146,7 @@ public class TestPathfinding : MonoBehaviour
     }
     public void SetGoals(GameObject[] setGoals)
     {
+        isEngaged = false;
         goal.Clear();   // Clear all current waypoints
         goal.AddRange(setGoals); // Add in the new waypoints
 
@@ -144,5 +155,20 @@ public class TestPathfinding : MonoBehaviour
         if(goal.Count > 0)
             followPath = manager.FindPath(manager.FindClosestWaypoint(transform), goal[goalCount].transform);
         recalculatePath = 2f;
+    }
+
+    public override void SetTarget(GameObject target)
+    {
+        if (target != null)
+        {
+            totalPriority = priority + additionalPriority;
+            isEngaged = true;
+            SetGoal(target);
+        }
+        else if (parent != null)
+        {
+            totalPriority = priority;
+            SetGoals(parent.GetPatrolPoints());
+        }
     }
 }
