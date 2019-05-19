@@ -11,6 +11,11 @@ public class JockeyWeapons : MonoBehaviour
     public static Vector3 laserEnd;
     public static Transform missileTarget;
 
+    //For creating missiles:
+    public GameObject ProjectileGeneric;
+    public GameObject Port;
+    private GameObject LoadedMissile = null;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,11 +48,22 @@ public class JockeyWeapons : MonoBehaviour
             laserEnd = transform.forward * 100000;
         }
 
+        ProjectileGeneric.transform.position = Port.transform.position;
+        ProjectileGeneric.transform.rotation = Port.transform.rotation;
+
         if (Input.GetMouseButtonDown(1))
         {
-            GameObject.Instantiate(Resources.Load("ProjectilePortGen"));
 
-            Debug.Log("NewMissileFired");
+            LoadedMissile = GameObject.Instantiate(ProjectileGeneric);
+            LoadedMissile.SetActive(true);
+            if (onObject)
+            {
+                LoadedMissile.GetComponent<MissileScript2>().target = vision.collider.transform;
+                LoadedMissile.GetComponent<MissileScript2>().homing = true;
+            }
+
+
+            //Debug.Log("NewMissileFired");
         }
     }
 }

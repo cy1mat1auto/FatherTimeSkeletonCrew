@@ -6,11 +6,12 @@ public class MissileScript2 : MonoBehaviour
 {
     private int timer, startTime;
     private int cooldown;
-    private bool fired, homing;
+    private bool fired;
+    public bool homing = false;
 
     public Rigidbody rb;
     public Transform startObj;
-    private Transform target;
+    public Transform target = null;
 
     private float speed, acceleration, turnSpeed, turnAcceleration;
     public float maxSpeed, maxTurnSpeed;
@@ -29,18 +30,18 @@ public class MissileScript2 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Physics.IgnoreCollision(transform.GetComponent<Collider>(), jockey01.GetComponent<Collider>());
         startTime = 300;
         timer = startTime;
-        fired = false;
+        fired = true;
 
-        target = JockeyWeapons.missileTarget;
         acceleration = 0.05f;
         turnAcceleration = 0.002f;
 
         rb = GetComponent<Rigidbody>();
 
         orderTime = 0;
-        increment = 20;
+        increment = 0;
 
         explosion.GetComponent<Renderer>().enabled = false;
         smokeTrail.Stop();
@@ -48,25 +49,22 @@ public class MissileScript2 : MonoBehaviour
 
     void Awake()
     {
-        jockey01 = GameObject.FindGameObjectWithTag("Player");
-        startObj = jockey01.transform.Find("PortLaser");
+        //jockey01 = GameObject.FindGameObjectWithTag("Player");
+        //startObj = jockey01.transform.Find("PortLaser");
         fired = true;
-        transform.position = startObj.position;
-        transform.rotation = startObj.rotation;
+        //transform.position = startObj.position;
+        //transform.rotation = startObj.rotation;
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        if (Input.GetMouseButton(1) && !fired && !explosion.isPlaying)
+        if (!fired && !explosion.isPlaying)
         {
             fired = true;
-            if (JockeyWeapons.onObject)
-            {
-                homing = true;
-                target = JockeyWeapons.missileTarget;
-            }
+            resetMissile();
         }
+
         if (timer <= 0)
         {
             fired = false;
@@ -77,7 +75,7 @@ public class MissileScript2 : MonoBehaviour
         if (fired)
         {
             orderTime++;
-            if (order == 0 || orderTime / order >= increment)
+            if (order == 0)// || orderTime / order >= increment)
             {
 
                 smokeTrail.transform.position = transform.position;
@@ -102,6 +100,7 @@ public class MissileScript2 : MonoBehaviour
                 }
             }
         }
+
         else
         {
             speed = 0;
@@ -112,22 +111,34 @@ public class MissileScript2 : MonoBehaviour
         }
     }
 
+    void resetMissile()
+    {
+        transform.position = startObj.position;
+        transform.rotation = startObj.rotation;
+    }
+
     void explodeMissile()
     {
         explosion.GetComponent<Renderer>().enabled = true;
         explosion.transform.position = transform.position;
         explosion.Play();
         smokeTrail.Stop();
+        Invoke("RemoveMissile", 1.5f);
+    }
 
+    void RemoveMissile()
+    {
+        Destroy(gameObject);
     }
 
     void OnCollisionEnter(Collision collision)
     {
-        Physics.IgnoreCollision(transform.GetComponent<Collider>(), jockey01.GetComponent<Collider>());
-        if (collision.collider.tag == "Missile")
+        if (fired && collision.collider.tag == "Missile")
+        {
             Physics.IgnoreCollision(transform.GetComponent<Collider>(), collision.collider);
-
-        if (fired)
+        }
+ 
+        else if (fired)
         {
             if (collision.collider.tag == "Enemy")
                 collision.gameObject.GetComponent<EnemyHealth>().CurrentHealth -= damage;
