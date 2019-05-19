@@ -21,6 +21,8 @@ public class JockeyWeapons : MonoBehaviour
     {
 		rayLength = 200;
         onObject = false;
+        //ProjectileGeneric = Resources.Load<GameObject>("ProjectilePortGen");
+        //ProjectileGeneric.SetActive(false);
     }
 
     // Update is called once per frame
@@ -48,13 +50,10 @@ public class JockeyWeapons : MonoBehaviour
             laserEnd = transform.forward * 100000;
         }
 
-        ProjectileGeneric.transform.position = Port.transform.position;
-        ProjectileGeneric.transform.rotation = Port.transform.rotation;
-
         if (Input.GetMouseButtonDown(1))
         {
 
-            LoadedMissile = GameObject.Instantiate(ProjectileGeneric);
+            LoadedMissile = GameObject.Instantiate(ProjectileGeneric, Port.transform.position, Port.transform.rotation);
             LoadedMissile.SetActive(true);
             if (onObject)
             {
