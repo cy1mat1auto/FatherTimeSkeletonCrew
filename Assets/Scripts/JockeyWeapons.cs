@@ -5,7 +5,8 @@ using UnityEngine;
 public class JockeyWeapons : MonoBehaviour
 {
     public GameObject OneLaser;
-	private RaycastHit vision;
+    public GameObject PlayerView;
+    private RaycastHit vision;
 	private float rayLength;
     public static bool onObject;
     public static Vector3 laserEnd;
@@ -22,7 +23,7 @@ public class JockeyWeapons : MonoBehaviour
 		rayLength = 200;
         onObject = false;
         ProjectileGeneric = Resources.Load<GameObject>("ProjectilePortGen");
-        ProjectileGeneric.GetComponent<MissileScript2>().jockey01 = gameObject.transform.parent.gameObject;
+        ProjectileGeneric.GetComponent<MissileScript2>().jockey01 = gameObject;
         ProjectileGeneric.SetActive(false);
 
     }
@@ -30,8 +31,8 @@ public class JockeyWeapons : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.DrawRay(transform.position, transform.forward * rayLength, Color.red, 8.5f);
-        onObject = Physics.Raycast(transform.position, transform.forward * rayLength, out vision, rayLength);
+        Debug.DrawRay(PlayerView.transform.position, PlayerView.transform.forward * rayLength, Color.red, 2.0f);
+        onObject = Physics.Raycast(PlayerView.transform.position, PlayerView.transform.forward * rayLength, out vision, rayLength);
         if (onObject)
         {
             laserEnd = vision.collider.transform.position;
