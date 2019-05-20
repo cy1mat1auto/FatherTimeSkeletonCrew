@@ -46,6 +46,11 @@ public class JockeyWeapons : MonoBehaviour
 
         MissileStatus.value = NumberLoaded;
 
+        if (PlayerView == null)
+        {
+            PlayerView = gameObject.transform.Find("PlayerView").gameObject;
+        }
+
     }
 
     // Update is called once per frame
