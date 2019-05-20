@@ -919,6 +919,19 @@ MonoBehaviour:
   ProjectileGeneric: {fileID: 0}
   Port: {fileID: 0}
   Starboard: {fileID: 0}
+--- !u!114 &4147260273953568240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3479342386913615992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef3f5b38f82aa254e88398d1bf9a3d04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Destination: {fileID: 0}
 --- !u!1001 &4857403094624729457
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1028,6 +1041,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fab78118df191454cba2d27ea82cc3d8, type: 3}
+--- !u!1 &3479342386913615992 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: fab78118df191454cba2d27ea82cc3d8,
+    type: 3}
+  m_PrefabInstance: {fileID: 4857403094624729457}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &437485435349160555 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: fab78118df191454cba2d27ea82cc3d8,
