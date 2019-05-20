@@ -253,7 +253,7 @@ GameObject:
   - component: {fileID: 236034179932937349}
   - component: {fileID: 1426192920994456657}
   m_Layer: 0
-  m_Name: JockeyPF01 (1)
+  m_Name: JockeyPF02
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -389,8 +389,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OneLaser: {fileID: 236034180572928905}
   PlayerView: {fileID: 0}
+  Capacity: 4
+  NumberLoaded: 0
+  ReloadSpeed: 1
+  FireRate: 0.4
+  MissileStatus: {fileID: 0}
   ProjectileGeneric: {fileID: 0}
   Port: {fileID: 236034181636250757}
+  Starboard: {fileID: 236034181504410379}
 --- !u!114 &1426192920994456657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -904,5 +910,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OneLaser: {fileID: 236034180572928905}
   PlayerView: {fileID: 0}
+  Capacity: 4
+  NumberLoaded: 0
+  ReloadSpeed: 1
+  FireRate: 1.5
+  MissileStatus: {fileID: 0}
   ProjectileGeneric: {fileID: 0}
   Port: {fileID: 0}
+  Starboard: {fileID: 0}
