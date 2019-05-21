@@ -22,20 +22,25 @@ public class GuideArrow : MonoBehaviour
         if (Destination != null)
         {
            transform.LookAt(Destination.transform);
+
+            if (Input.GetKeyDown(KeyCode.C) && Navigating == false && Time.time - LastSwitch > SwitchDelay)
+            {
+                LastSwitch = Time.time;
+                Navigating = true;
+                //Debug.Log("Navigating");
+            }
+
+            if (Input.GetKeyUp(KeyCode.C) && Navigating == true && Time.time - LastSwitch > SwitchDelay)
+            {
+                LastSwitch = Time.time;
+                Navigating = false;
+                //Debug.Log("Not Navigating");
+            }
         }
 
-        if (Input.GetKeyDown(KeyCode.C) && Navigating == false && Time.time - LastSwitch > SwitchDelay)
+       else
         {
-            LastSwitch = Time.time;
-            Navigating = true;
-            //Debug.Log("Navigating");
-        }
-
-        if (Input.GetKeyUp(KeyCode.C) && Navigating == true && Time.time - LastSwitch > SwitchDelay)
-        {
-            LastSwitch = Time.time;
             Navigating = false;
-            //Debug.Log("Not Navigating");
         }
 
         if (Navigating == true)

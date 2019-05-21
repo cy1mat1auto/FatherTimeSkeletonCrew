@@ -5,30 +5,30 @@ using UnityEngine.UI;
 
 public class PlayerWP : MonoBehaviour
 {
-    //public SpriteRenderer Holder;
-    public GameObject OnScreen;
-    public Camera PlayerView;
-    public Canvas HUD;
+    public GameObject Jockey01;
     public int Order;
-    public bool Destination = false;
-    public GameObject ThisPoint;
+    public bool Terminal = false;
     public GameObject NextPoint;
     public GameObject Boss;
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
-        OnScreen.transform.SetParent(HUD.transform);
+        if (Jockey01 == null)
+        {
+            Jockey01 = GameObject.FindGameObjectWithTag("Player");
+        }
+
+        if (Order == 1)
+        {
+            Jockey01.transform.Find("Pointer01").gameObject.GetComponent<GuideArrow>().Destination = gameObject;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Mathf.Abs(Vector3.Angle(PlayerView.transform.forward, (ThisPoint.transform.position - PlayerView.transform.position))) < 50f)
-        {
-            OnScreen.transform.position = PlayerView.WorldToScreenPoint(ThisPoint.transform.position);
-            //OnScreen.GetComponent<RectTransform>().pivot = new Vector2(0, 0);
-        }
+        
         
     }
 
@@ -36,10 +36,9 @@ public class PlayerWP : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if (Destination == false)
+            if (Terminal == false)
             {
-                NextPoint.SetActive(true);
-                Destroy(OnScreen);
+                Jockey01.transform.Find("Pointer01").gameObject.GetComponent<GuideArrow>().Destination = NextPoint;
                 Destroy(gameObject);
             }
 
@@ -48,7 +47,6 @@ public class PlayerWP : MonoBehaviour
                 Boss.GetComponent<EnemyHealth>().enabled = true;
                 Boss.GetComponent<EnemyHBar2>().enabled = true;
                 Boss.GetComponent<BossAIDemo>().enabled = true;
-                Destroy(OnScreen);
                 Destroy(gameObject);
             }
         }
