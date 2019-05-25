@@ -10,7 +10,9 @@ public class PauseScreen : MonoBehaviour
     public bool InCutScene = false;
     public bool paused = false;
     public GameObject screen = null;
-    public Button resume = null, save, quit;
+    public GameObject Main, UGScreen, SettingScreen;
+    public Button resume, save, quit, settings, upgrades, UGBack, SettingsBack;
+    public Toggle SettingsInvert;
     //the next two floats are used to asynchronously load the main menu. Read on for more details.
     private float timer, timeofquit = 100000000f;
     private Coroutine Quitter;
@@ -18,6 +20,7 @@ public class PauseScreen : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Upon Start, automatically assign buttons. This makes the prefabs easier to use.
         if (screen == null)
         {
             screen = GameObject.FindGameObjectWithTag("PauseScreen");
@@ -33,7 +36,57 @@ public class PauseScreen : MonoBehaviour
             quit = screen.transform.Find("PauseMain/QuitButton").GetComponent<Button>();
         }
 
+        //if (save == null)
+        //{
+        //    save = screen.transform.Find("PauseMain/SaveButton").GetComponent<Button>();
+        //}
+
+        if (upgrades == null)
+        {
+            upgrades = screen.transform.Find("PauseMain/UpgradeButton").GetComponent<Button>();
+        }
+
+        if (UGBack == null)
+        {
+            UGBack = screen.transform.Find("Upgrades/BackButton").GetComponent<Button>();
+        }
+
+        if (settings == null)
+        {
+            settings = screen.transform.Find("PauseMain/SettingsButton").GetComponent<Button>();
+        }
+
+        if (SettingsBack == null)
+        {
+            SettingsBack = screen.transform.Find("Settings/BackButton").GetComponent<Button>();
+        }
+
+        if (SettingsInvert == null)
+        {
+            SettingsInvert = screen.transform.Find("Settings/InvertedToggle").GetComponent<Toggle>();
+        }
+
+        if (Main == null)
+        {
+            Main = screen.transform.Find("PauseMain").gameObject;
+        }
+
+        if (UGScreen == null)
+        {
+            UGScreen = screen.transform.Find("Upgrades").gameObject;
+        }
+
+        if (SettingScreen == null)
+        {
+            SettingScreen = screen.transform.Find("Settings").gameObject;
+        }
+
         screen.SetActive(false);
+        Main.SetActive(true);
+        UGScreen.SetActive(false);
+        SettingScreen.SetActive(false);
+        SettingsInvert.isOn = gameObject.GetComponent<PlayerMove>().Inverted;
+
     }
 
     // Update is called once per frame
@@ -58,10 +111,14 @@ public class PauseScreen : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             Quitter = StartCoroutine(LoadMenu());
             timer = Time.unscaledTime;
-            //for the moment, buttons DO NOT restart in-engine time.
             resume.onClick.AddListener(ResumeGame);
-            quit.onClick.AddListener(MainMenu); 
-            
+            quit.onClick.AddListener(MainMenu);
+            upgrades.onClick.AddListener(GoToUpgrades);
+            UGBack.onClick.AddListener(GoToMain);
+            settings.onClick.AddListener(GoToSettings);
+            SettingsBack.onClick.AddListener(GoToMain);
+
+            SettingsInvert.onValueChanged.AddListener(delegate { Invert(SettingsInvert); });
         }
     }
 
@@ -96,5 +153,31 @@ public class PauseScreen : MonoBehaviour
     {
         timeofquit = Time.unscaledTime;
         //SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+    }
+
+    void GoToUpgrades()
+    {
+        Main.SetActive(false);
+        UGScreen.SetActive(true);
+        SettingScreen.SetActive(false);
+    }
+
+    void GoToSettings()
+    {
+        Main.SetActive(false);
+        UGScreen.SetActive(false);
+        SettingScreen.SetActive(true);
+    }
+
+    void GoToMain()
+    {
+        Main.SetActive(true);
+        UGScreen.SetActive(false);
+        SettingScreen.SetActive(false);
+    }
+
+    void Invert(Toggle change)
+    {
+        gameObject.GetComponent<PlayerMove>().Inverted = SettingsInvert.isOn;
     }
 }
