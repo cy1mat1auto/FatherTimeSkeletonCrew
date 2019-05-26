@@ -13,6 +13,7 @@ public class PauseScreen : MonoBehaviour
     public GameObject Main, UGScreen, SettingScreen;
     public Button resume, save, quit, settings, upgrades, UGBack, SettingsBack;
     public Toggle SettingsInvert;
+    public Slider Sensitivity;
     //the next two floats are used to asynchronously load the main menu. Read on for more details.
     private float timer, timeofquit = 100000000f;
     private Coroutine Quitter;
@@ -81,11 +82,17 @@ public class PauseScreen : MonoBehaviour
             SettingScreen = screen.transform.Find("Settings").gameObject;
         }
 
+        if (Sensitivity == null)
+        {
+            Sensitivity = screen.transform.Find("Settings/SensitivitySlider").GetComponent<Slider>();
+        }
+
         screen.SetActive(false);
         Main.SetActive(true);
         UGScreen.SetActive(false);
         SettingScreen.SetActive(false);
         SettingsInvert.isOn = gameObject.GetComponent<PlayerMove>().Inverted;
+        Sensitivity.value = gameObject.GetComponent<PlayerMove>().Sensitivity;
 
     }
 
@@ -119,6 +126,7 @@ public class PauseScreen : MonoBehaviour
             SettingsBack.onClick.AddListener(GoToMain);
 
             SettingsInvert.onValueChanged.AddListener(delegate { Invert(SettingsInvert); });
+            Sensitivity.onValueChanged.AddListener(delegate { XYSensitivity(Sensitivity); });
         }
     }
 
@@ -179,5 +187,10 @@ public class PauseScreen : MonoBehaviour
     void Invert(Toggle change)
     {
         gameObject.GetComponent<PlayerMove>().Inverted = SettingsInvert.isOn;
+    }
+
+    void XYSensitivity(Slider change)
+    {
+        gameObject.GetComponent<PlayerMove>().Sensitivity = Sensitivity.value;
     }
 }
