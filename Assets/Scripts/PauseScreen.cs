@@ -10,8 +10,8 @@ public class PauseScreen : MonoBehaviour
     public bool InCutScene = false;
     public bool paused = false;
     public GameObject screen = null;
-    public GameObject Main, UGScreen, SettingScreen;
-    public Button resume, save, quit, settings, upgrades, UGBack, SettingsBack;
+    public GameObject Main, UGScreen, SettingScreen, SaveScreen;
+    public Button resume, save, quit, settings, upgrades, UGBack, SettingsBack, SaveBack;
     public Toggle SettingsInvert;
     public Slider Sensitivity;
     //the next two floats are used to asynchronously load the main menu. Read on for more details.
@@ -37,10 +37,10 @@ public class PauseScreen : MonoBehaviour
             quit = screen.transform.Find("PauseMain/QuitButton").GetComponent<Button>();
         }
 
-        //if (save == null)
-        //{
-        //    save = screen.transform.Find("PauseMain/SaveButton").GetComponent<Button>();
-        //}
+        if (save == null)
+        {
+            save = screen.transform.Find("PauseMain/SaveButton").GetComponent<Button>();
+        }
 
         if (upgrades == null)
         {
@@ -82,6 +82,16 @@ public class PauseScreen : MonoBehaviour
             SettingScreen = screen.transform.Find("Settings").gameObject;
         }
 
+        if (SaveScreen == null)
+        {
+            SaveScreen = screen.transform.Find("Saves").gameObject;
+        }
+
+        if (SaveBack == null)
+        {
+            SaveBack = screen.transform.Find("Saves/BackButton").GetComponent<Button>();
+        }
+
         if (Sensitivity == null)
         {
             Sensitivity = screen.transform.Find("Settings/SensitivitySlider").GetComponent<Slider>();
@@ -91,6 +101,7 @@ public class PauseScreen : MonoBehaviour
         Main.SetActive(true);
         UGScreen.SetActive(false);
         SettingScreen.SetActive(false);
+        SaveScreen.SetActive(false);
         SettingsInvert.isOn = gameObject.GetComponent<PlayerMove>().Inverted;
         Sensitivity.value = gameObject.GetComponent<PlayerMove>().Sensitivity;
 
@@ -124,6 +135,8 @@ public class PauseScreen : MonoBehaviour
             UGBack.onClick.AddListener(GoToMain);
             settings.onClick.AddListener(GoToSettings);
             SettingsBack.onClick.AddListener(GoToMain);
+            save.onClick.AddListener(GoToSaveScreen);
+            SaveBack.onClick.AddListener(GoToMain);
 
             SettingsInvert.onValueChanged.AddListener(delegate { Invert(SettingsInvert); });
             Sensitivity.onValueChanged.AddListener(delegate { XYSensitivity(Sensitivity); });
@@ -168,6 +181,7 @@ public class PauseScreen : MonoBehaviour
         Main.SetActive(false);
         UGScreen.SetActive(true);
         SettingScreen.SetActive(false);
+        SaveScreen.SetActive(false);
     }
 
     void GoToSettings()
@@ -175,6 +189,15 @@ public class PauseScreen : MonoBehaviour
         Main.SetActive(false);
         UGScreen.SetActive(false);
         SettingScreen.SetActive(true);
+        SaveScreen.SetActive(false);
+    }
+
+    void GoToSaveScreen()
+    {
+        Main.SetActive(false);
+        UGScreen.SetActive(false);
+        SettingScreen.SetActive(false);
+        SaveScreen.SetActive(true);
     }
 
     void GoToMain()
@@ -182,6 +205,7 @@ public class PauseScreen : MonoBehaviour
         Main.SetActive(true);
         UGScreen.SetActive(false);
         SettingScreen.SetActive(false);
+        SaveScreen.SetActive(false);
     }
 
     void Invert(Toggle change)
