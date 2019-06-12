@@ -14,6 +14,7 @@ public class HealthDisplay : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Jockey = GameObject.FindGameObjectWithTag("Player");
         CurrentHealth = Jockey.GetComponent<PlayerHealth>().CurrentHealth;
         MaxHealth = Jockey.GetComponent<PlayerHealth>().MaxHealth;
     }
@@ -21,7 +22,7 @@ public class HealthDisplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GetComponentInParent<SaveAll>().NewLoad)
+        if (Jockey.GetComponent<SaveAll>().NewLoad)
         {
             MaxHealth = PlayerDatabase.maxHealthBase * PlayerDatabase.maxHealth;
             CurrentHealth = PlayerDatabase.currentHealth;

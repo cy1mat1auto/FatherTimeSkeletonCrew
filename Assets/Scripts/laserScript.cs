@@ -15,6 +15,11 @@ public class laserScript : MonoBehaviour {
 		laserLine = GetComponentInChildren<LineRenderer> ();
 		//laserLine.SetWidth (0.2f, 0.2f);
         pressed = false;
+
+        if (laserCharge == null)
+        {
+            laserCharge = GameObject.FindGameObjectWithTag("PlayerHUD").transform.Find("LaserCharge").gameObject.GetComponent<Slider>();
+        }
 	}
 	
 	// Update is called once per frame

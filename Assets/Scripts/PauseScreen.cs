@@ -9,8 +9,11 @@ public class PauseScreen : MonoBehaviour
     //This version of the script should work when attached to the player object (the Jockey spaceship)
     public bool InCutScene = false;
     public bool paused = false;
-    public GameObject screen;
-    public Button resume, save, quit;
+    public GameObject screen = null;
+    public GameObject Main, UGScreen, SettingScreen, SaveScreen;
+    public Button resume, save, quit, settings, upgrades, UGBack, SettingsBack, SaveBack;
+    public Toggle SettingsInvert;
+    public Slider Sensitivity;
     //the next two floats are used to asynchronously load the main menu. Read on for more details.
     private float timer, timeofquit = 100000000f;
     private Coroutine Quitter;
@@ -18,7 +21,90 @@ public class PauseScreen : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Upon Start, automatically assign buttons. This makes the prefabs easier to use.
+        if (screen == null)
+        {
+            screen = GameObject.FindGameObjectWithTag("PauseScreen");
+        }
+
+        if (resume == null)
+        {
+            resume = screen.transform.Find("PauseMain/ResumeButton").GetComponent<Button>();
+        }
+
+        if (quit == null)
+        {
+            quit = screen.transform.Find("PauseMain/QuitButton").GetComponent<Button>();
+        }
+
+        if (save == null)
+        {
+            save = screen.transform.Find("PauseMain/SaveButton").GetComponent<Button>();
+        }
+
+        if (upgrades == null)
+        {
+            upgrades = screen.transform.Find("PauseMain/UpgradeButton").GetComponent<Button>();
+        }
+
+        if (UGBack == null)
+        {
+            UGBack = screen.transform.Find("Upgrades/BackButton").GetComponent<Button>();
+        }
+
+        if (settings == null)
+        {
+            settings = screen.transform.Find("PauseMain/SettingsButton").GetComponent<Button>();
+        }
+
+        if (SettingsBack == null)
+        {
+            SettingsBack = screen.transform.Find("Settings/BackButton").GetComponent<Button>();
+        }
+
+        if (SettingsInvert == null)
+        {
+            SettingsInvert = screen.transform.Find("Settings/InvertedToggle").GetComponent<Toggle>();
+        }
+
+        if (Main == null)
+        {
+            Main = screen.transform.Find("PauseMain").gameObject;
+        }
+
+        if (UGScreen == null)
+        {
+            UGScreen = screen.transform.Find("Upgrades").gameObject;
+        }
+
+        if (SettingScreen == null)
+        {
+            SettingScreen = screen.transform.Find("Settings").gameObject;
+        }
+
+        if (SaveScreen == null)
+        {
+            SaveScreen = screen.transform.Find("Saves").gameObject;
+        }
+
+        if (SaveBack == null)
+        {
+            SaveBack = screen.transform.Find("Saves/BackButton").GetComponent<Button>();
+        }
+
+        if (Sensitivity == null)
+        {
+            Sensitivity = screen.transform.Find("Settings/SensitivitySlider").GetComponent<Slider>();
+        }
+
         screen.SetActive(false);
+        Main.SetActive(true);
+        UGScreen.SetActive(false);
+        SettingScreen.SetActive(false);
+        SaveScreen.SetActive(false);
+        SettingsInvert.isOn = gameObject.GetComponent<PlayerMove>().Inverted;
+        Sensitivity.value = gameObject.GetComponent<PlayerMove>().Sensitivity;
+
     }
 
     // Update is called once per frame
@@ -43,10 +129,17 @@ public class PauseScreen : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             Quitter = StartCoroutine(LoadMenu());
             timer = Time.unscaledTime;
-            //for the moment, buttons DO NOT restart in-engine time.
             resume.onClick.AddListener(ResumeGame);
-            quit.onClick.AddListener(MainMenu); 
-            
+            quit.onClick.AddListener(MainMenu);
+            upgrades.onClick.AddListener(GoToUpgrades);
+            UGBack.onClick.AddListener(GoToMain);
+            settings.onClick.AddListener(GoToSettings);
+            SettingsBack.onClick.AddListener(GoToMain);
+            save.onClick.AddListener(GoToSaveScreen);
+            SaveBack.onClick.AddListener(GoToMain);
+
+            SettingsInvert.onValueChanged.AddListener(delegate { Invert(SettingsInvert); });
+            Sensitivity.onValueChanged.AddListener(delegate { XYSensitivity(Sensitivity); });
         }
     }
 
@@ -81,5 +174,47 @@ public class PauseScreen : MonoBehaviour
     {
         timeofquit = Time.unscaledTime;
         //SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+    }
+
+    void GoToUpgrades()
+    {
+        Main.SetActive(false);
+        UGScreen.SetActive(true);
+        SettingScreen.SetActive(false);
+        SaveScreen.SetActive(false);
+    }
+
+    void GoToSettings()
+    {
+        Main.SetActive(false);
+        UGScreen.SetActive(false);
+        SettingScreen.SetActive(true);
+        SaveScreen.SetActive(false);
+    }
+
+    void GoToSaveScreen()
+    {
+        Main.SetActive(false);
+        UGScreen.SetActive(false);
+        SettingScreen.SetActive(false);
+        SaveScreen.SetActive(true);
+    }
+
+    void GoToMain()
+    {
+        Main.SetActive(true);
+        UGScreen.SetActive(false);
+        SettingScreen.SetActive(false);
+        SaveScreen.SetActive(false);
+    }
+
+    void Invert(Toggle change)
+    {
+        gameObject.GetComponent<PlayerMove>().Inverted = SettingsInvert.isOn;
+    }
+
+    void XYSensitivity(Slider change)
+    {
+        gameObject.GetComponent<PlayerMove>().Sensitivity = Sensitivity.value;
     }
 }

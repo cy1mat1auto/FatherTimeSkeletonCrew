@@ -10,6 +10,8 @@ TagManager:
   - Terrain
   - Missile
   - Generator
+  - PlayerHUD
+  - PauseScreen
   layers:
   - Default
   - TransparentFX

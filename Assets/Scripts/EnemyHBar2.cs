@@ -7,8 +7,8 @@ public class EnemyHBar2 : MonoBehaviour
 {
     //Attach this script to the enemy, assign an empty gameobject with offset from model mesh to be "Enemy", and a UI slider to be "Bar".
 
-    public Camera PlayerView;
-    public Canvas HUD;
+    public Camera PlayerView = null;
+    public Canvas HUD = null;
     public GameObject OverallBar;
     public Slider Bar;
     public GameObject Enemy;
@@ -20,6 +20,21 @@ public class EnemyHBar2 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (PlayerView == null)
+        {
+            PlayerView = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Camera>();
+        }
+
+        if (HUD == null)
+        {
+            HUD = GameObject.FindGameObjectWithTag("PlayerHUD").GetComponentInChildren<Canvas>();
+        }
+
+        else
+        {
+            
+        }
+
         Bar.transform.SetParent(HUD.transform);
         OverallBar.SetActive(false);
         MaxHealth = GetComponent<EnemyHealth>().MaxHealth;
