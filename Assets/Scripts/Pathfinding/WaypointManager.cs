@@ -7,6 +7,7 @@ public class WaypointManager : MonoBehaviour
 {
     /*static*/ List<Waypoint> waypoints = new List<Waypoint>(); // Keeps track of all the waypoints
     int code;
+
     // Start is called before the first frame update
     public void Start()
     {
@@ -20,15 +21,14 @@ public class WaypointManager : MonoBehaviour
             waypoints.Add(collectWaypoints[i].GetComponent<Waypoint>());
     }
 
-    // Use a Kd-Tree. To be implemented later
     public Waypoint FindClosestWaypoint(Transform currentPosition)
     {
         GameObject findGenerator = GameObject.FindGameObjectWithTag("Generator");
 
-        if (findGenerator != null)
-            return findGenerator.GetComponent<WaypointGenerator>().SearchTree(currentPosition);
-        else
-        {
+      //  if (findGenerator != null)
+     //       return findGenerator.GetComponent<WaypointGenerator>().SearchTree(currentPosition);
+     //   else
+    //    {
             // Find the closest distance
             float distance;
             float closestDistance = Mathf.Infinity;
@@ -47,9 +47,25 @@ public class WaypointManager : MonoBehaviour
               }
             }
             return closestWaypoint;
-        }
+    //    }
     }
 
+    float CalcDistance(Vector3 start, Vector3 end)
+    {
+        float dx = Mathf.Abs(start.x - end.x);
+        float dy = Mathf.Abs(start.y - end.y);
+        float dz = Mathf.Abs(start.z - end.z);
+        float calc = dx + dy + dz;
+
+        if (dx == 0)
+            return calc + (Mathf.Sqrt(2) - 2) * Mathf.Min(dy, dz);
+        else if (dy == 0)
+            return calc + (Mathf.Sqrt(2) - 2) * Mathf.Min(dx, dz);
+        else if (dz == 0)
+            return calc + (Mathf.Sqrt(2) - 2) * Mathf.Min(dx, dy);
+        else
+            return calc + (Mathf.Sqrt(3) - 3) * Mathf.Min(dx, dy, dz);
+    }
 
     // Pathfinding. Either function can be called and will return a list containing the path
     public List<Waypoint> FindPath(Waypoint start, Transform goal)
@@ -59,7 +75,7 @@ public class WaypointManager : MonoBehaviour
     // Making use of A*
     public List<Waypoint> FindPath(Waypoint start, Waypoint end)
     {
-        Dictionary<int, Waypoint> closedList = new Dictionary<int, Waypoint>(); // Create a list containing nodes already seen (start is default)
+        Dictionary<int, Waypoint> closedList = new Dictionary<int, Waypoint>(); // Create a dict containing nodes already seen (start is default)
         List<Waypoint> openList = new List<Waypoint>() { start };   // Create a list containing nodes seen but not assessed yet. Ordered as a priority queue
 
         List<Waypoint> path = new List<Waypoint>(); // List containing all the nodes in the shortest path
@@ -68,13 +84,12 @@ public class WaypointManager : MonoBehaviour
         Waypoint currentWaypoint = start;
 
         // Init of the starting node
-        currentWaypoint.SetHeuristic(Mathf.Pow(end.gameObject.transform.position.x, 2) + Mathf.Pow(end.gameObject.transform.position.y, 2) + Mathf.Pow(end.gameObject.transform.position.z, 2));
+        //currentWaypoint.SetHeuristic(Mathf.Pow(end.gameObject.transform.position.x, 2) + Mathf.Pow(end.gameObject.transform.position.y, 2) + Mathf.Pow(end.gameObject.transform.position.z, 2));
+        currentWaypoint.SetHeuristic(Mathf.Abs(currentWaypoint.gameObject.transform.position.x - end.gameObject.transform.position.x) + Mathf.Abs(currentWaypoint.gameObject.transform.position.y - end.gameObject.transform.position.y) + Mathf.Abs(currentWaypoint.gameObject.transform.position.z - end.gameObject.transform.position.z));
         currentWaypoint.AssignNodeValue(0);
         currentWaypoint.AssignChild(null);
 
         bool foundEnd = false;
-
-        int counter = 0;
 
         while ((openList.Count > 0) && (!foundEnd))
         {
@@ -82,38 +97,34 @@ public class WaypointManager : MonoBehaviour
             closedList[currentWaypoint.num] = currentWaypoint;
             currentLinks = currentWaypoint.GetConnectedNodes(); // Take all the nodes that the current node is connected to
 
-            counter += 6;
-
             for(int i = 0; i < currentLinks.Count; i++)
             {
-                counter += 2;
                 // Make sure it's not already in the closed list. Ignore it otherwise
-                if (!closedList.ContainsKey(currentLinks[i].num))//!closedList.Contains(currentLinks[i]))
+                if (!closedList.ContainsKey(currentLinks[i].num))
                 {
-     //               if (currentLinks[i].IsBlocked())
-        //                closedList.Add(i, currentLinks[i]);
-          //          else
-             //       {
-                        // Using Euclidean distance as heuristic function since waypoints are set at diff angles
-                        float heuristic = Mathf.Pow(end.gameObject.transform.position.x - currentLinks[i].gameObject.transform.position.x, 2) + Mathf.Pow(end.gameObject.transform.position.y - currentLinks[i].gameObject.transform.position.y, 2) + Mathf.Pow(end.gameObject.transform.position.z - currentLinks[i].transform.position.z, 2);
+                    //               if (currentLinks[i].IsBlocked())
+                    //                closedList.Add(i, currentLinks[i]);
+                    //          else
+                    //       {
+                    float heuristic = Mathf.Pow(end.gameObject.transform.position.x - currentLinks[i].gameObject.transform.position.x, 2) + Mathf.Pow(end.gameObject.transform.position.y - currentLinks[i].gameObject.transform.position.y, 2) + Mathf.Pow(end.gameObject.transform.position.z - currentLinks[i].transform.position.z, 2);
+                    //float heuristic = Mathf.Abs(end.gameObject.transform.position.x - currentLinks[i].gameObject.transform.position.x) + Mathf.Abs(end.gameObject.transform.position.y - currentLinks[i].gameObject.transform.position.y) + Mathf.Abs(end.gameObject.transform.position.z - currentLinks[i].transform.position.z);
+                    //float heuristic = CalcDistance(end.gameObject.transform.position, currentLinks[i].gameObject.transform.position);
                         float gValue = Mathf.Pow(currentLinks[i].gameObject.transform.position.x - currentWaypoint.gameObject.transform.position.x, 2) + Mathf.Pow(currentLinks[i].gameObject.transform.position.y - currentWaypoint.gameObject.transform.position.y, 2) + Mathf.Pow(currentLinks[i].gameObject.transform.position.z - currentWaypoint.transform.position.z, 2) + currentWaypoint.GetGVal();
-                    //heuristic = 0f; // Turn this into Dijkstra's
-                    counter += 5;
+                        //float gValue = Mathf.Abs(currentLinks[i].gameObject.transform.position.x - currentWaypoint.gameObject.transform.position.x) + Mathf.Abs(currentLinks[i].gameObject.transform.position.y - currentWaypoint.gameObject.transform.position.y) + Mathf.Abs(currentLinks[i].gameObject.transform.position.z - currentWaypoint.transform.position.z) + currentWaypoint.GetGVal();
+                        //heuristic = 0f; // Turn this into Dijkstra's
                         // If this item has not been seen OR if it has, that it has a higher cost value
                         if ((!openList.Contains(currentLinks[i]) || (openList.Contains(currentLinks[i]) && (currentLinks[i].GetNodeValue() > gValue + heuristic))))
                         {
                             currentLinks[i].AssignChild(currentWaypoint);
 
                             // Assign the distance to each node
-                            currentLinks[i].SetHeuristic(Mathf.Sqrt(heuristic));
+                            currentLinks[i].SetHeuristic(heuristic);//Mathf.Sqrt(heuristic));
                             currentLinks[i].AssignNodeValue(gValue);
 
-                        counter += 3;
                             AddHeap(openList, currentLinks[i]);
             //            }
                     }
                 }
-                counter++;
                 // If the end is found, exit
                 if (currentLinks[i] == end)
                 {
@@ -121,28 +132,19 @@ public class WaypointManager : MonoBehaviour
                     end.target = code;
                     i = currentLinks.Count;
                     foundEnd = true;
-
-                    counter += 3;
                 }
             }
         }
-
-        counter++;
         // If a path was found, otherwise the path list will return empty
         if(foundEnd)
         {
             while(currentWaypoint != null)
             {
-                counter++;
                 path.Add(currentWaypoint);
                 currentWaypoint = currentWaypoint.GetChild();
             }
             path.Reverse(); // Or can implement as a stack
-
-            counter += path.Count;
         }
-        //print("Total calc: " + counter);
-
         return path;
     }
 

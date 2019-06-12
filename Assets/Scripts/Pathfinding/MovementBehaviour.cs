@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum MovementTypes {A, FLOCK};
+public enum MovementTypes {A, FLOCK, BFS};
 
 public abstract class MovementBehaviour : MonoBehaviour
 {
@@ -18,7 +18,7 @@ public abstract class MovementBehaviour : MonoBehaviour
     // Ship stats
     protected float turnRadius = 0f;
 
-    public void SetTurnRadius(float newRadius)
+    public virtual void SetTurnRadius(float newRadius)
     {
         turnRadius = Mathf.Pow(newRadius, 2);
     }
@@ -84,9 +84,8 @@ public abstract class MovementBehaviour : MonoBehaviour
     public virtual void PingParent()
     {
         // When activated, will alert the parent
-        activated = false;
-        if(parent != null)
-            parent.BehaviourActivation(this);
+        //activated = false;
+        parent?.BehaviourActivation(this);
     }
 
     public abstract void SetTarget(GameObject target);  // Who the ship is currently targeting

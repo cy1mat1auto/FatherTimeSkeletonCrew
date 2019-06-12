@@ -5,6 +5,8 @@ using UnityEngine;
 // Class containing all the gun modules, behaviour and pathfinding (needs to be added as prefabs for visual effect)
 public class Ship : MonoBehaviour
 {
+    public float turnRadius = 1000;
+
     List<MovementBehaviour> movementBehaviour = new List<MovementBehaviour>();  // Complete list of all behaviours this ship is capable of
     List<MovementBehaviour> activatedBehaviours = new List<MovementBehaviour>();    // List of behaviours that have been activated (BehaviourActivation)
 
@@ -65,23 +67,20 @@ public class Ship : MonoBehaviour
         // If initial loading of movementbehaviour types is high, can init with a different type of sort. Sort in descending order
         if (activatedBehaviours.Count <= 1)
             return;
-        int reference = 0;
+        int reference;
         MovementBehaviour temp;
-        for(int i = 0; i < activatedBehaviours.Count; i++)
+        for(int i = 1; i < activatedBehaviours.Count; i++)
         {
             reference = i - 1;
-            while (reference >= 0)
+            temp = activatedBehaviours[i];
+
+            // .GetPriority() applies to all behaviour. .GetAdditionalPriority() also applies to all, but is used with .IsActivated() for default behaviour that would be overridden unless activated
+            while ((reference >= 0) && (temp.GetTotalPriority() > activatedBehaviours[reference].GetTotalPriority()))
             {
-                // .GetPriority() applies to all behaviour. .GetAdditionalPriority() also applies to all, but is used with .IsActivated() for default behaviour that would be overridden unless activated
-                if(activatedBehaviours[i].GetTotalPriority() >= activatedBehaviours[reference].GetTotalPriority())
-                {
-                    temp = activatedBehaviours[i];
-                    activatedBehaviours[i] = activatedBehaviours[reference];
-                    activatedBehaviours[reference] = temp;
-                    reference = -1;
-                }
+                activatedBehaviours[reference + 1] = activatedBehaviours[reference];
                 reference--;
             }
+            activatedBehaviours[reference + 1] = temp;
         }
     }
 
@@ -90,13 +89,14 @@ public class Ship : MonoBehaviour
     {
         currentHp = maxHp;
 
+        movementBehaviour.Add(AssignMovementBehaviour.CreateBehaviour(MovementTypes.BFS, gameObject));
         movementBehaviour.Add(AssignMovementBehaviour.CreateBehaviour(MovementTypes.A, gameObject));
         movementBehaviour.Add(AssignMovementBehaviour.CreateBehaviour(MovementTypes.FLOCK, gameObject));
 
         for(int i = 0; i < movementBehaviour.Count; i++)
         {
             movementBehaviour[i].Init(this);
-            movementBehaviour[i].SetTurnRadius(600);
+            movementBehaviour[i].SetTurnRadius(turnRadius);
         }
 
         // Add the first behaviour as the default for movement (can set according to what movement should be most important to set as default)
@@ -127,6 +127,7 @@ public class Ship : MonoBehaviour
             // TEMPORARY!!!!
             if (gameObject.GetComponent<WaypointManager>() != null) // GENERATE RANDOM PATROL POINTS FOR EACH SHIP. TESTING
             {
+                gameObject.GetComponent<WaypointManager>().Init(); // TEMPORARY. MAKE WAYPOINT MANAGER STATIC AND REMOVE THIS LATER!!!
                 patrolPoints = new GameObject[Random.Range(2, 5)];
                 for (int i = 0; i < patrolPoints.Length; i++)
                 {
@@ -134,7 +135,6 @@ public class Ship : MonoBehaviour
                 }
                 SetPatrolPoints(patrolPoints);
             }
-            //  engaged = true;
             mainTarget = GameObject.FindGameObjectWithTag("Player");
             for (int i = 0; i < movementBehaviour.Count; i++)
             {
@@ -262,6 +262,10 @@ public class Ship : MonoBehaviour
         return 0;
     }
 
+    public GameObject GetMainTarget()
+    {
+        return mainTarget;
+    }
 
     public void BehaviourActivation(MovementBehaviour alert)
     {

@@ -20,26 +20,13 @@ public class TestPathfinding : MovementBehaviour
     private void Awake()
     {
         priority = 1;
-
         manager = gameObject.GetComponent<WaypointManager>();
-        manager.Init(); // TEMPORARY. MAKE WAYPOINT MANAGER STATIC AND REMOVE THIS LATER!!!
-
-        /*
-        if (goal.Count > 0)
-        {
-            followPath = manager.FindPath(manager.FindClosestWaypoint(transform), goal[goalCount].transform);
-
-            if (followPath.Count > 0)
-            {
-                Vector3 direction = followPath[0].gameObject.transform.position - gameObject.transform.position;
-                transform.rotation = Quaternion.LookRotation(direction.normalized) * angleOffset;
-            }
-        }*/
     }
-    public new void SetTurnRadius(float newRadius)
+    public override void SetTurnRadius(float newRadius)
     {
-        detectionRadius = newRadius;
-        pursuitRadius = 1.5f * detectionRadius; // For now, the pursuit radius is 1.5x the detection radius. Enemies outside of this will not be pursued
+        turnRadius = Mathf.Pow(newRadius, 2); // TESTING
+        detectionRadius = turnRadius * 2f;
+        pursuitRadius = detectionRadius * 3f; // Arbitrary value. Enemies outside of this will not be pursued
     }
     public void SetOffset(Quaternion offset)
     {
@@ -47,10 +34,12 @@ public class TestPathfinding : MovementBehaviour
     }
     private void Update()
     {
-        if((!activated) && (isEngaged)) // || (obstacle immediately in way))
+        if ((parent?.GetMainTarget() != null) && (!activated) && Mathf.Pow(parent.GetMainTarget().transform.position.x - gameObject.transform.position.x, 2) + Mathf.Pow(parent.GetMainTarget().transform.position.y - gameObject.transform.position.y, 2) + Mathf.Pow(parent.GetMainTarget().transform.position.z - gameObject.transform.position.z, 2) <= detectionRadius) // || (obstacle immediately in way))
         {
+            activated = true;
+            followPath.Clear();
+            SetTarget(parent.GetMainTarget());
             recalculatePath = 0f;
-            totalPriority = priority + additionalPriority;
             PingParent();
         }
     }
@@ -61,13 +50,15 @@ public class TestPathfinding : MovementBehaviour
         recalculatePath -= Time.deltaTime;
         if (followPath.Count > 0)
         {
+            if (gameObject.GetComponent<Rigidbody>() != null)
+                gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+
             if (followPath[0].transform.position == transform.position)
             {
                 followPath.RemoveAt(0);
                 if (recalculatePath <= 0)
                 {
                     recalculatePath = 2f;
-
                     // If the player is still able to be pursued (ie. outside of turn radius)
                     if ((!isEngaged) || ((isEngaged) && (Mathf.Pow(goal[goalCount].transform.position.x - gameObject.transform.position.x, 2) + Mathf.Pow(goal[goalCount].transform.position.y - gameObject.transform.position.y, 2) + Mathf.Pow(goal[goalCount].transform.position.z - gameObject.transform.position.z, 2) > turnRadius)))
                         followPath = manager.FindPath(manager.FindClosestWaypoint(transform), goal[goalCount].transform);
@@ -78,7 +69,8 @@ public class TestPathfinding : MovementBehaviour
                 if (followPath.Count > 0)
                 {
                     Vector3 direction = followPath[0].gameObject.transform.position - gameObject.transform.position;
-                    transform.rotation = Quaternion.LookRotation(direction.normalized) * angleOffset;
+                    if(direction.normalized != Vector3.zero)
+                        transform.rotation = Quaternion.LookRotation(direction.normalized) * angleOffset;
                 }
             }
             else
@@ -89,11 +81,11 @@ public class TestPathfinding : MovementBehaviour
             if (goal.Count > 0)
             {
                 goalCount = (goalCount + 1) % goal.Count;
-                if(goal.Count > 1)
+                if (goal.Count > 1)
                     recalculatePath = 0;
             }
 
-            if ((isEngaged) && (Mathf.Pow(goal[goalCount].transform.position.x - gameObject.transform.position.x, 2) + Mathf.Pow(goal[goalCount].transform.position.y - gameObject.transform.position.y, 2) + Mathf.Pow(goal[goalCount].transform.position.z - gameObject.transform.position.z, 2) < turnRadius))
+            if ((isEngaged) && (Mathf.Pow(goal[goalCount].transform.position.x - gameObject.transform.position.x, 2) + Mathf.Pow(goal[goalCount].transform.position.y - gameObject.transform.position.y, 2) + Mathf.Pow(goal[goalCount].transform.position.z - gameObject.transform.position.z, 2) <= turnRadius))
             {
                 gameObject.GetComponent<Rigidbody>().velocity = speed * 50 * gameObject.transform.forward;
                 recalculatePath = 3f;   // Temporary cooldown. Replace this once turning is implemented
@@ -104,15 +96,21 @@ public class TestPathfinding : MovementBehaviour
                 if (followPath.Count > 0)
                 {
                     Vector3 direction = followPath[0].gameObject.transform.position - gameObject.transform.position;
-                    transform.rotation = Quaternion.LookRotation(direction.normalized) * angleOffset;
+                    if (direction.normalized != Vector3.zero)
+                        transform.rotation = Quaternion.LookRotation(direction.normalized) * angleOffset;
                 }
                 recalculatePath = 2f;
                 gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
             }
         }
 
-        // If the enemy is outside of pursuit radius, return false. Do not clear followPath in case this behaviour is meant to be the default and is still active
-        return ((isEngaged) && (Mathf.Pow(goal[goalCount].transform.position.x - gameObject.transform.position.x, 2) + Mathf.Pow(goal[goalCount].transform.position.y - gameObject.transform.position.y, 2) + Mathf.Pow(goal[goalCount].transform.position.z - gameObject.transform.position.z, 2) > pursuitRadius));
+        if (isEngaged)
+        {
+            // If the enemy is outside of pursuit radius, return false. Do not clear followPath in case this behaviour is meant to be the default and is still active
+            return ((goal[0] != null) && (Mathf.Pow(goal[0].transform.position.x - gameObject.transform.position.x, 2) + Mathf.Pow(goal[0].transform.position.y - gameObject.transform.position.y, 2) + Mathf.Pow(goal[0].transform.position.z - gameObject.transform.position.z, 2) <= pursuitRadius));
+        }
+        return true;
+       // return ((isEngaged) && (Mathf.Pow(goal[goalCount].transform.position.x - gameObject.transform.position.x, 2) + Mathf.Pow(goal[goalCount].transform.position.y - gameObject.transform.position.y, 2) + Mathf.Pow(goal[goalCount].transform.position.z - gameObject.transform.position.z, 2) <= pursuitRadius));
     }
 
     public override void EndBehaviour()
