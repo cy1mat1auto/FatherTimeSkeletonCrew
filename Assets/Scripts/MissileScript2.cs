@@ -131,7 +131,7 @@ public class MissileScript2 : MonoBehaviour
         Destroy(gameObject);
     }
 
-    void OnCollisionEnter(Collision collision)
+    void OnCollisionEnter(UnityEngine.Collision collision)
     {
         if (fired && collision.collider.tag == "Missile")
         {

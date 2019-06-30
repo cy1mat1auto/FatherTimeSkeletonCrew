@@ -57,7 +57,7 @@ public class EnemyMissile : MonoBehaviour
         smokeTrail.Stop();
     }
 
-    void OnCollisionEnter(Collision collision)
+    void OnCollisionEnter(UnityEngine.Collision collision)
     {
         Physics.IgnoreCollision(transform.GetComponent<Collider>(), jockey01.GetComponent<Collider>());
         if (collision.collider.tag == "Missile")
