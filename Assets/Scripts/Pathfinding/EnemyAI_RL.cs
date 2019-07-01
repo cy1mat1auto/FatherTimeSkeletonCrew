@@ -79,23 +79,23 @@ public class EnemyAI_RL : MonoBehaviour
                 if (Vector3.Distance(transform.position, Prey.transform.position) <= 500f && Vector3.Distance(transform.position, Prey.transform.position) >= 60f)
                 {
                     transform.LookAt(Prey.transform.position);
-                    ShipRB.AddRelativeForce(new Vector3(0, 0, 15f), ForceMode.Force);
+                    ShipRB.AddRelativeForce(new Vector3(0, 0, 30f), ForceMode.Force);
                 }
 
                 else if (Vector3.Distance(transform.position, Prey.transform.position) < 60f)
                 {
                     //Debug.DrawRay(transform.position, (Prey.transform.TransformPoint(Prey.transform.localPosition + new Vector3(0, 20f, 0)) - transform.position), Color.red, 0.1f);
-                    if (Mathf.Abs(Vector3.Angle(transform.forward, (Prey.transform.position + new Vector3(0, 20f, 0) - transform.position))) >= 2f)
+                    if (Mathf.Abs(Vector3.Angle(transform.forward, (Prey.transform.position + new Vector3(0, 30f, 0) - transform.position))) >= 2f)
                     {
 
                         TurnSmoother += new Vector3(0f, 0.5f, 0f);
                         transform.LookAt(Prey.transform.position + TurnSmoother);
-                        ShipRB.AddRelativeForce(new Vector3(0, 0, 15f), ForceMode.Force);
+                        ShipRB.AddRelativeForce(new Vector3(0, 0, 30f), ForceMode.Force);
                     }
 
                     else
                     {
-                        ShipRB.AddRelativeForce(new Vector3(0, 0, 15f), ForceMode.Force);
+                        ShipRB.AddRelativeForce(new Vector3(0, 0, 30f), ForceMode.Force);
                         LastLocation = Prey.transform;
                         TurnSmoother = new Vector3(0, 0, 0);
                         counter += Time.deltaTime;
@@ -108,14 +108,14 @@ public class EnemyAI_RL : MonoBehaviour
             else if (counter <= delay)
             {
                 counter += Time.deltaTime;
-                ShipRB.AddRelativeForce(new Vector3(0, 0, 30f), ForceMode.Force);
+                ShipRB.AddRelativeForce(new Vector3(0, 0, 45f), ForceMode.Force);
             }
 
             else
             {
                 if(Mathf.Abs(Vector3.Angle(transform.forward, (LastLocation.position - transform.position))) >= 5f)
                 {
-                    ShipRB.AddRelativeForce(new Vector3(0, 0, 15f), ForceMode.Force);
+                    ShipRB.AddRelativeForce(new Vector3(0, 0, 50f), ForceMode.Force);
                     ShipRB.rotation *= Quaternion.Euler(new Vector3(0, 0.6f, 0));
                 }
 

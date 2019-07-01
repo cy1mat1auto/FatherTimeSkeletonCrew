@@ -270,6 +270,11 @@ PrefabInstance:
       propertyPath: m_AngularDrag
       value: Infinity
       objectReference: {fileID: 0}
+    - target: {fileID: 3515905390237062087, guid: 3893c51f60a910948924bb5a68ad41d3,
+        type: 3}
+      propertyPath: delay
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3893c51f60a910948924bb5a68ad41d3, type: 3}
 --- !u!1 &117656660
@@ -1455,6 +1460,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AngularDrag
       value: Infinity
+      objectReference: {fileID: 0}
+    - target: {fileID: 3515905390237062087, guid: 3893c51f60a910948924bb5a68ad41d3,
+        type: 3}
+      propertyPath: delay
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3893c51f60a910948924bb5a68ad41d3, type: 3}
@@ -2732,12 +2742,12 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2644117937546145459, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+    - target: {fileID: 6496497801076088497, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6496497801076088497, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+    - target: {fileID: 2644117937546145459, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2991,6 +3001,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AngularDrag
       value: Infinity
+      objectReference: {fileID: 0}
+    - target: {fileID: 3515905390237062087, guid: 3893c51f60a910948924bb5a68ad41d3,
+        type: 3}
+      propertyPath: delay
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3893c51f60a910948924bb5a68ad41d3, type: 3}

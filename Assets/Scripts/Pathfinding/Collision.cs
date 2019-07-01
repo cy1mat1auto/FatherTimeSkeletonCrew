@@ -15,4 +15,10 @@ public class Collision : MonoBehaviour
     {
         
     }
+
+    private void OnCollisionEnter(UnityEngine.Collision collision)
+    {
+        //Destroy(gameObject);
+        Debug.Log("Collision");
+    }
 }
