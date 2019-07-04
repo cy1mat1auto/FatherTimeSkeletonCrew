@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyAI_RL3 : MonoBehaviour
 {
+    
     //Rebuilding rigidbody AI, version 3
     public GameObject Ship, Player;
     public Rigidbody rb;
@@ -11,6 +12,7 @@ public class EnemyAI_RL3 : MonoBehaviour
     private float Highroad, Lowroad, Leftroad, Rightroad;
     private Vector3 Top, Bottom, Left, Right, ImmediateGoal, LastPosition;
     public bool Spotted, Avoiding, Locked, Searching;
+    private bool Seek;
     private RaycastHit view, front, lasthit;
 
     // Start is called before the first frame update
@@ -34,18 +36,25 @@ public class EnemyAI_RL3 : MonoBehaviour
 
     private void FixedUpdate()
     {
+        
         if (Vector3.Distance(transform.position, Player.transform.position) >= Range)
         {
             //The Patrol() behavior can be overriden. The default behavior is a circular route
             Spotted = false;
             CancelInvoke("Seeking");
+            Seek = false;
             Patrol();
         }
 
         //As long as the player is in Range, the ship will keep checking for FOV.
         else
         {
-            InvokeRepeating("Seeking", 0f, 0.1f);
+            if (Seek == false)
+            {
+                InvokeRepeating("Seeking", 0f, 0.1f);
+                Seek = true;
+            }
+
             if (!Spotted)
             {
                 Patrol();
@@ -55,7 +64,7 @@ public class EnemyAI_RL3 : MonoBehaviour
             if (view.transform.gameObject == Player && Vector3.Angle(transform.forward, Player.transform.position - transform.position) <= Cone)
             {
                 Spotted = true;
-                Debug.Log(Spotted);
+                //Debug.Log(Spotted);
             }
         }
 
@@ -81,7 +90,7 @@ public class EnemyAI_RL3 : MonoBehaviour
             //This determines what kind of object is obstructing line of sight:
             else if (view.collider.CompareTag("Enemy"))
             {
-                Avoiding = true;
+                //Avoiding = true;
             }
 
             else if (view.collider.CompareTag("Terrain"))
@@ -153,11 +162,11 @@ public class EnemyAI_RL3 : MonoBehaviour
 
                         else
                         {
-                            Debug.Log("Waypoint Reached");
+                            //Debug.Log("Waypoint Reached");
                             if (ImmediateGoal != LastPosition)
                             {
                                 ImmediateGoal = LastPosition;
-                                Debug.Log("Onward");
+                                //Debug.Log("Onward");
                             }
                             
                             else
@@ -218,7 +227,7 @@ public class EnemyAI_RL3 : MonoBehaviour
                             if (ImmediateGoal != LastPosition)
                             {
                                 ImmediateGoal = LastPosition;
-                                Debug.Log("Onward");
+                                //Debug.Log("Onward");
                             }
 
                             else
@@ -266,8 +275,8 @@ public class EnemyAI_RL3 : MonoBehaviour
     //When the path is "locked" and a new obstacle is detected, use this to avoid the collision:
     void RePlotPath()
     {
-        Debug.Log(front.transform.gameObject);
-        Debug.Log("Replotting");
+        //Debug.Log(front.transform.gameObject);
+        //Debug.Log("Replotting");
         float MaxDimension = Mathf.Max(front.collider.bounds.size.x, front.collider.bounds.size.y, front.collider.bounds.size.z);
         Highroad = Vector3.Distance(transform.position, front.collider.transform.position + MaxDimension * transform.up * 1.3f);
         Highroad += Vector3.Distance(front.collider.transform.position + MaxDimension * transform.up * 1.3f, LastPosition);
@@ -309,7 +318,7 @@ public class EnemyAI_RL3 : MonoBehaviour
     public virtual void Search()
     {
         Spotted = false;
-        Debug.Log("Proceed to Search");
+        //Debug.Log("Proceed to Search");
     }
 
     // Update is called once per frame

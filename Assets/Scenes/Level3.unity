@@ -349,6 +349,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Chaser02 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 3515905390839173626, guid: 3893c51f60a910948924bb5a68ad41d3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3515905390839467482, guid: 3893c51f60a910948924bb5a68ad41d3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -414,7 +419,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 731297932, guid: 3893c51f60a910948924bb5a68ad41d3, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 252123737, guid: 3893c51f60a910948924bb5a68ad41d3, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3893c51f60a910948924bb5a68ad41d3, type: 3}
@@ -1859,6 +1868,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Chaser02 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3515905390839173626, guid: 3893c51f60a910948924bb5a68ad41d3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3515905390839467482, guid: 3893c51f60a910948924bb5a68ad41d3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1924,7 +1938,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 731297932, guid: 3893c51f60a910948924bb5a68ad41d3, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 252123737, guid: 3893c51f60a910948924bb5a68ad41d3, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3893c51f60a910948924bb5a68ad41d3, type: 3}
@@ -3584,6 +3602,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Chaser01 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3515905390839173626, guid: 3893c51f60a910948924bb5a68ad41d3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3515905390839467482, guid: 3893c51f60a910948924bb5a68ad41d3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3649,7 +3672,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 731297932, guid: 3893c51f60a910948924bb5a68ad41d3, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 252123737, guid: 3893c51f60a910948924bb5a68ad41d3, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3893c51f60a910948924bb5a68ad41d3, type: 3}
