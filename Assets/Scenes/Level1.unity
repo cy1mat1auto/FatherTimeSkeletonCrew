@@ -10856,6 +10856,7 @@ GameObject:
   - component: {fileID: 915874726}
   - component: {fileID: 915874725}
   - component: {fileID: 915874724}
+  - component: {fileID: 915874727}
   m_Layer: 0
   m_Name: PlayerView
   m_TagString: Untagged
@@ -10950,6 +10951,14 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!124 &915874727
+Behaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 915874722}
+  m_Enabled: 1
 --- !u!1 &925284068
 GameObject:
   m_ObjectHideFlags: 0
@@ -17868,6 +17877,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2145044841}
   - component: {fileID: 2145044840}
+  - component: {fileID: 2145044842}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -17949,3 +17959,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 43
   m_LocalEulerAnglesHint: {x: -37.124, y: -66.595, z: -6.5460005}
+--- !u!123 &2145044842
+LensFlare:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2145044839}
+  m_Enabled: 1
+  m_Flare: {fileID: 12100000, guid: 57107d5f22c61e149a59283c4f5e045a, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Brightness: 5
+  m_FadeSpeed: 50
+  m_IgnoreLayers:
+    serializedVersion: 2
+    m_Bits: 6
+  m_Directional: 0
