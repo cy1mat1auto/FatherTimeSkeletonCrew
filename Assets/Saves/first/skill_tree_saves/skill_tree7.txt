@@ -1,1 +1,0 @@
-{"unlockedTier":4,"NumUnlockedT1":2,"NumUnlockedT2":1,"NumUnlockedT3":1,"NumUllockedT4":1,"NumT1ToUnlockT2":2,"NumT2ToUnlockT3":0,"NumT3ToUnlockT4":0,"costs":[50,75,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"purchased":[true,false,true,false,false,false,false,false,true,false,false,false,false,false,true,false,false,false,true,false],"tiers":[1,1,1,1,1,1,0,2,2,2,2,2,2,3,3,3,3,3,4,4]}

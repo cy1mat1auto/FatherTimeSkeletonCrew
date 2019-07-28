@@ -9,7 +9,7 @@ public static class SaveSkillTree
     public static string skill_tree_file_name = "skill_tree";
 
     // Folder of skill tree saves
-    public static string current_folder_path = SystemData.MAIN_SAVE_FOLDER + SystemData.cur_save_folder + "/" + skill_tree_save_folder + "/";
+    public static string current_folder_path;
 
     public static void CheckFolderPath()
     {
@@ -24,6 +24,8 @@ public static class SaveSkillTree
     // Save
     public static void Save(string saveString)
     {
+        current_folder_path = SystemData.MAIN_SAVE_FOLDER + SystemData.cur_save_folder + "/" + skill_tree_save_folder + "/";
+
         CheckFolderPath();
 
         int saveNumber = 1;
@@ -41,6 +43,8 @@ public static class SaveSkillTree
     // Load
     public static string Load()
     {
+        current_folder_path = SystemData.MAIN_SAVE_FOLDER + SystemData.cur_save_folder + "/" + skill_tree_save_folder + "/";
+
         CheckFolderPath();
 
         DirectoryInfo directoryInfo = new DirectoryInfo(current_folder_path);

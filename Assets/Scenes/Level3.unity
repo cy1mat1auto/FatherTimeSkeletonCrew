@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.012040648, g: 0.070039295, b: 0.066623315, a: 1}
+  m_IndirectSpecularColor: {r: 0.012053923, g: 0.06994781, b: 0.06662794, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -535,6 +535,147 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4294324307794080371, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4294324307794080371, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: m_ScreenMatchMode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4294324308175252684, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4294324308175252684, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4294324308175252684, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4294324308175252684, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4294324308175252684, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4294324308175252684, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4294324308175252684, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1034786013761494919, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3142998563400015258, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1338968499632328855, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5935441963923487913, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 5935441963923487913, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 4294324308175252685, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7855172386001459998, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.46666667
+      objectReference: {fileID: 0}
+    - target: {fileID: 1571737362468695074, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1571737362468695074, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1571737362468695074, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1571737362468695074, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.9098039
+      objectReference: {fileID: 0}
+    - target: {fileID: 6496497801076088497, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5852190626618627968, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5852190626618627968, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 91.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5852190626618627968, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 558
+      objectReference: {fileID: 0}
+    - target: {fileID: 5852190626618627968, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 101.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2340397346293306404, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: m_Text
+      value: 'Green colored name = current save slot
+
+
+        If no Green colored name, current save slot is "start"
+
+
+        Quicksaving (shft 5) and quickloading (shft 9) happen in current save slot'
+      objectReference: {fileID: 0}
+    - target: {fileID: 6599227140700449659, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: skillTree2
+      value: 
+      objectReference: {fileID: 1342110959}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a17f00975cea5b4ba44e3d1ebc12684, type: 3}
 --- !u!1 &117656660
@@ -954,6 +1095,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2830049438225459777, guid: 54e722cac80495e4e9c6ac2b45560575,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6497636840809280933, guid: 54e722cac80495e4e9c6ac2b45560575,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6497636840809280933, guid: 54e722cac80495e4e9c6ac2b45560575,
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1507,12 +1658,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9523b4209817d824ebfbf3a086e1cb0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnScreen: {fileID: 584744097}
-  PlayerView: {fileID: 0}
-  HUD: {fileID: 0}
+  Jockey01: {fileID: 0}
   Order: 0
-  Destination: 0
-  ThisPoint: {fileID: 648337687}
+  Terminal: 0
   NextPoint: {fileID: 2050484980}
   Boss: {fileID: 0}
 --- !u!4 &648337689
@@ -2015,6 +2163,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1f14ac4aeabb7849a501e8913059b15, type: 3}
+--- !u!114 &1342110959 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9073263522821061795, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+    type: 3}
+  m_PrefabInstance: {fileID: 111539409}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6062e7f58c564731b7eee6d1926b779, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1400342296
 GameObject:
   m_ObjectHideFlags: 0
@@ -2203,6 +2363,11 @@ PrefabInstance:
       propertyPath: laserCharge
       value: 
       objectReference: {fileID: 982352177}
+    - target: {fileID: 1426192920994456657, guid: 3eff2a3996adfb347a2ce4132a936568,
+        type: 3}
+      propertyPath: skillTree
+      value: 
+      objectReference: {fileID: 1342110959}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3eff2a3996adfb347a2ce4132a936568, type: 3}
 --- !u!1 &1446896499 stripped
@@ -2855,12 +3020,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9523b4209817d824ebfbf3a086e1cb0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnScreen: {fileID: 1648995445}
-  PlayerView: {fileID: 0}
-  HUD: {fileID: 0}
+  Jockey01: {fileID: 0}
   Order: 1
-  Destination: 1
-  ThisPoint: {fileID: 1915121215}
+  Terminal: 0
   NextPoint: {fileID: 0}
   Boss: {fileID: 961935128}
 --- !u!4 &1915121218
@@ -3312,12 +3474,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9523b4209817d824ebfbf3a086e1cb0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnScreen: {fileID: 262512603}
-  PlayerView: {fileID: 0}
-  HUD: {fileID: 0}
+  Jockey01: {fileID: 0}
   Order: 1
-  Destination: 0
-  ThisPoint: {fileID: 2050484980}
+  Terminal: 0
   NextPoint: {fileID: 1915121215}
   Boss: {fileID: 0}
 --- !u!4 &2050484983

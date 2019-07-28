@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.012040648, g: 0.070039295, b: 0.066623315, a: 1}
+  m_IndirectSpecularColor: {r: 0.012053923, g: 0.06994781, b: 0.06662794, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1237,8 +1237,70 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3142998563400015258, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3792286693577151725, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1338968499632328855, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4294324308175252685, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5850123996230643003, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7018145928481409184, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3736038992353158417, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4874012565255032137, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5852190626618627968, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6599227140700449659, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: skillTree2
+      value: 
+      objectReference: {fileID: 224425128}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a17f00975cea5b4ba44e3d1ebc12684, type: 3}
+--- !u!114 &224425128 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9073263522821061795, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+    type: 3}
+  m_PrefabInstance: {fileID: 224425127}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6062e7f58c564731b7eee6d1926b779, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &228782061
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12987,6 +13049,7 @@ MonoBehaviour:
   Main: {fileID: 0}
   UGScreen: {fileID: 0}
   SettingScreen: {fileID: 0}
+  SaveScreen: {fileID: 0}
   resume: {fileID: 0}
   save: {fileID: 0}
   quit: {fileID: 0}
@@ -12994,6 +13057,9 @@ MonoBehaviour:
   upgrades: {fileID: 0}
   UGBack: {fileID: 0}
   SettingsBack: {fileID: 0}
+  SaveBack: {fileID: 0}
+  SettingsInvert: {fileID: 0}
+  Sensitivity: {fileID: 0}
 --- !u!114 &1467727320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13105,7 +13171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02bfd16a2db5f43f68419eb0cabc4559, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillTree: {fileID: 0}
+  skillTree: {fileID: 224425128}
   NewLoad: 0
 --- !u!1001 &1475672841
 PrefabInstance:
