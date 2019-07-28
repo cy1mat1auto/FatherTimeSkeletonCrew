@@ -192,12 +192,8 @@ public class WaypointGenerator : MonoBehaviour
 
         Waypoint closestNode = waypointList[pivotX,pivotY,pivotZ];
 
-        int counter = 0;
-
         while (count < numBranches)
         {
-            counter++;
-            counter++;
             switch (count % 3)
             {
                 case 0:
@@ -227,7 +223,6 @@ public class WaypointGenerator : MonoBehaviour
             }
             if(Mathf.Pow(position.position.x - waypointList[pivotX, pivotY, pivotZ].transform.position.x, 2) + Mathf.Pow(position.position.y - waypointList[pivotX, pivotY, pivotZ].transform.position.y, 2) + Mathf.Pow(position.position.z - waypointList[pivotX, pivotY, pivotZ].transform.position.z, 2) < Mathf.Pow(position.position.x - closestNode.transform.position.x, 2) + Mathf.Pow(position.position.y - closestNode.transform.position.y, 2) + Mathf.Pow(position.position.z - closestNode.transform.position.z, 2))
                 closestNode = waypointList[pivotX, pivotY, pivotZ];
-            counter++;
             count++;
         }
 
@@ -240,12 +235,9 @@ public class WaypointGenerator : MonoBehaviour
                 {
                     if (Mathf.Pow(position.position.x - waypointList[i, j, k].transform.position.x, 2) + Mathf.Pow(position.position.y - waypointList[i, j, k].transform.position.y, 2) + Mathf.Pow(position.position.z - waypointList[i, j, k].transform.position.z, 2) < Mathf.Pow(position.position.x - closestNode.transform.position.x, 2) + Mathf.Pow(position.position.y - closestNode.transform.position.y, 2) + Mathf.Pow(position.position.z - closestNode.transform.position.z, 2))
                         closestNode = waypointList[i, j, k];
-                    counter++;
                 }
             }
         }
-        counter += (maxX - minX + 1) * (maxY - minY + 1) * (minZ - maxZ + 1);
-     //   print("Operations: " + counter);
         return closestNode;
     }
 }

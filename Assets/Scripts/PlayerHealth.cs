@@ -19,6 +19,7 @@ public class PlayerHealth : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if (GetComponent<SaveAll>().NewLoad)
         {
             MaxHealth = PlayerDatabase.maxHealthBase * PlayerDatabase.maxHealth;

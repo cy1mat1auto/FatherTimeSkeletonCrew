@@ -12,6 +12,8 @@ public static class AssignMovementBehaviour
                 return parent.AddComponent<TestPathfinding>();
             case MovementTypes.FLOCK:
                 return parent.AddComponent<FlockBehaviour>();
+            case MovementTypes.BFS:
+                return parent.AddComponent<RLEnemyAI>();
             default:
                 return null;
         }

@@ -88,7 +88,7 @@ public class BossAIDemo : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(UnityEngine.Collision collision)
     {
         if (collision.collider.CompareTag("Player"))
         {

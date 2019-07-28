@@ -131,7 +131,7 @@ public class MissileScript2 : MonoBehaviour
         Destroy(gameObject);
     }
 
-    void OnCollisionEnter(Collision collision)
+    void OnCollisionEnter(UnityEngine.Collision collision)
     {
         if (fired && collision.collider.tag == "Missile")
         {
@@ -141,7 +141,10 @@ public class MissileScript2 : MonoBehaviour
         else if (fired)
         {
             if (collision.collider.tag == "Enemy")
-                collision.gameObject.GetComponent<EnemyHealth>().CurrentHealth -= damage;
+                if (collision.gameObject.GetComponent<EnemyHealth>())
+                {
+                    collision.gameObject.GetComponent<EnemyHealth>().CurrentHealth -= damage;
+                }
 
             explodeMissile();
 
