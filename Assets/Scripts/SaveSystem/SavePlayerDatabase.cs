@@ -6,11 +6,11 @@ using System.IO;
 public static class SavePlayerDatabase
 {
     //*** IF YOU WANT TO CHANGE SAVE/LOAD LOCATION, YOU MUST DO IT IN: SystemData.cs ***
-    public static string MAIN_SAVE_FOLDER; 
-    public static string cur_save_folder;
+    public static string MAIN_SAVE_FOLDER = SystemData.MAIN_SAVE_FOLDER;
+    public static string cur_save_folder = SystemData.cur_save_folder;
 
     // File path of saving and loading to
-    public static string current_folder_path;
+    public static string current_folder_path = MAIN_SAVE_FOLDER + cur_save_folder + "/";
 
     public static void CheckFolderPath()
     {
@@ -25,12 +25,6 @@ public static class SavePlayerDatabase
     // Save
     public static void Save(string saveString)
     {
-        MAIN_SAVE_FOLDER = SystemData.MAIN_SAVE_FOLDER;
-        cur_save_folder = SystemData.cur_save_folder;
-        current_folder_path = MAIN_SAVE_FOLDER + cur_save_folder + "/";
-
-        Debug.Log("current save folder: " + cur_save_folder);
-
         CheckFolderPath();
 
         int saveNumber = 1;
@@ -48,10 +42,6 @@ public static class SavePlayerDatabase
     // Load
     public static string Load()
     {
-        MAIN_SAVE_FOLDER = SystemData.MAIN_SAVE_FOLDER;
-        cur_save_folder = SystemData.cur_save_folder;
-        current_folder_path = MAIN_SAVE_FOLDER + cur_save_folder + "/";
-
         CheckFolderPath();
 
         DirectoryInfo directoryInfo = new DirectoryInfo(current_folder_path);
