@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.012040648, g: 0.070039295, b: 0.066623315, a: 1}
+  m_IndirectSpecularColor: {r: 0.012053923, g: 0.06994781, b: 0.06662794, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2241,6 +2241,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1f14ac4aeabb7849a501e8913059b15, type: 3}
+--- !u!114 &1998992166 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9073263522821061795, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+    type: 3}
+  m_PrefabInstance: {fileID: 3104339162096504415}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6062e7f58c564731b7eee6d1926b779, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2050484980
 GameObject:
   m_ObjectHideFlags: 0
@@ -2608,6 +2620,11 @@ PrefabInstance:
       propertyPath: laserCharge
       value: 
       objectReference: {fileID: 1192421674447243183}
+    - target: {fileID: 1426192920994456657, guid: 3eff2a3996adfb347a2ce4132a936568,
+        type: 3}
+      propertyPath: skillTree
+      value: 
+      objectReference: {fileID: 1998992166}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3eff2a3996adfb347a2ce4132a936568, type: 3}
 --- !u!1001 &3104339162096504415
@@ -2732,12 +2749,17 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2644117937546145459, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+    - target: {fileID: 6496497801076088497, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6496497801076088497, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+    - target: {fileID: 6599227140700449659, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: skillTree2
+      value: 
+      objectReference: {fileID: 1998992166}
+    - target: {fileID: 2644117937546145459, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2866,16 +2888,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2830049438225459777, guid: 54e722cac80495e4e9c6ac2b45560575,
-        type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2830049438225459777, guid: 54e722cac80495e4e9c6ac2b45560575,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2830049438466673720, guid: 54e722cac80495e4e9c6ac2b45560575,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -2891,11 +2903,16 @@ PrefabInstance:
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2830049438391363240, guid: 54e722cac80495e4e9c6ac2b45560575,
+    - target: {fileID: 2830049438225459777, guid: 54e722cac80495e4e9c6ac2b45560575,
         type: 3}
-      propertyPath: Jockey
-      value: 
-      objectReference: {fileID: 1192421674136457506}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2830049438225459777, guid: 54e722cac80495e4e9c6ac2b45560575,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6497636840809280933, guid: 54e722cac80495e4e9c6ac2b45560575,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -2906,6 +2923,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2830049438391363240, guid: 54e722cac80495e4e9c6ac2b45560575,
+        type: 3}
+      propertyPath: Jockey
+      value: 
+      objectReference: {fileID: 1192421674136457506}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 54e722cac80495e4e9c6ac2b45560575, type: 3}
 --- !u!1001 &6485806712336973148

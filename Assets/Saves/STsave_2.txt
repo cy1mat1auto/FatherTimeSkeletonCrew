@@ -1,1 +1,0 @@
-{"maxHealth":25,"laserStrength":0,"totalXP":50,"unlockedLevel":2,"NumUnlockedL1":1,"NumUnlockedL2":0,"NumUnlockedL3":0,"NumL1ToUnlockL2":1,"NumL2ToUnlockL3":2,"costs":[50,40,75,40,100,20],"purchased":[true,false,false,false,false,false],"levels":[1,1,2,2,3,3]}
