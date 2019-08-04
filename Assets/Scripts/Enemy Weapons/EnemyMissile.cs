@@ -32,7 +32,7 @@ public class EnemyMissile : MonoBehaviour
     {
         if (Time.time - starttime < timer)
         {
-            rb.AddRelativeForce(new Vector3(0, 0, 20f), ForceMode.Acceleration);
+            rb.AddRelativeForce(new Vector3(0, 0, 80f), ForceMode.Acceleration);
         }
 
         else
@@ -44,7 +44,7 @@ public class EnemyMissile : MonoBehaviour
 
     void OnCollisionEnter(UnityEngine.Collision collision)
     {
-        if (collision.collider.tag == "Missile")
+        if (collision.collider.tag == "Missile" || collision.collider.tag == "Enemy")
         {
             Physics.IgnoreCollision(transform.GetComponent<Collider>(), collision.collider);
         }
