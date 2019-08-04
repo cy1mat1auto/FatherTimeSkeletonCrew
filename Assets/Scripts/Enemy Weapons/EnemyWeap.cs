@@ -12,7 +12,10 @@ public class EnemyWeap : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Player = GameObject.FindGameObjectWithTag("Player");
+        if (Player == null)
+        {
+            Player = GameObject.Find("Jockey01");
+        }
     }
 
     // Update is called once per frame
@@ -25,9 +28,13 @@ public class EnemyWeap : MonoBehaviour
     {
         if (Time.time - PreviousShot >= FireRate)
         {
-            Quaternion missilerot = Quaternion.LookRotation(Player.GetComponent<CapsuleCollider>().transform.position - transform.position + 2*transform.up, Vector3.up);
-            Instantiate(Resources.Load<GameObject>("EnemyRocket01"), transform.position + 2*transform.up, missilerot);
+            Vector3 Source = transform.position - 3*transform.up;
+            Quaternion missilerot = Quaternion.LookRotation((Player.transform.position - Source).normalized);
+            GameObject Missile = Instantiate(Resources.Load<GameObject>("EnemyRocket01"), Source, missilerot);
+            //Debug.DrawLine(Source, Player.GetComponent<CapsuleCollider>().bounds.center, Color.yellow, 1f);
+            //Missile.transform.LookAt(Player.GetComponent<CapsuleCollider>().bounds.center);
             PreviousShot = Time.time;
+            //Debug.Log(Player.GetComponent<CapsuleCollider>().bounds.center);
         }
         
     }
