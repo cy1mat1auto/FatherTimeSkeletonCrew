@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.012053923, g: 0.06994781, b: 0.06662794, a: 1}
+  m_IndirectSpecularColor: {r: 0.012040648, g: 0.070039295, b: 0.066623315, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -544,6 +544,46 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3142998563400015258, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1338968499632328855, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4294324308175252685, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5852190626618627968, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5852190626618627968, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 91.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5852190626618627968, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 558
+      objectReference: {fileID: 0}
+    - target: {fileID: 5852190626618627968, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 101.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6599227140700449659, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+        type: 3}
+      propertyPath: skillTree2
+      value: 
+      objectReference: {fileID: 1342110959}
     - target: {fileID: 4294324307794080371, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
         type: 3}
       propertyPath: m_UiScaleMode
@@ -594,16 +634,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3142998563400015258, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1338968499632328855, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5935441963923487913, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -613,11 +643,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 75
-      objectReference: {fileID: 0}
-    - target: {fileID: 4294324308175252685, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7855172386001459998, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
         type: 3}
@@ -644,31 +669,6 @@ PrefabInstance:
       propertyPath: m_Color.a
       value: 0.9098039
       objectReference: {fileID: 0}
-    - target: {fileID: 6496497801076088497, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5852190626618627968, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 5852190626618627968, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 91.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5852190626618627968, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 558
-      objectReference: {fileID: 0}
-    - target: {fileID: 5852190626618627968, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 101.8
-      objectReference: {fileID: 0}
     - target: {fileID: 2340397346293306404, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
         type: 3}
       propertyPath: m_Text
@@ -680,11 +680,11 @@ PrefabInstance:
 
         Quicksaving (shft 5) and quickloading (shft 9) happen in current save slot'
       objectReference: {fileID: 0}
-    - target: {fileID: 6599227140700449659, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
+    - target: {fileID: 6496497801076088497, guid: 8a17f00975cea5b4ba44e3d1ebc12684,
         type: 3}
-      propertyPath: skillTree2
-      value: 
-      objectReference: {fileID: 1342110959}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a17f00975cea5b4ba44e3d1ebc12684, type: 3}
 --- !u!1 &117656660
@@ -1657,7 +1657,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 648337689}
-  - component: {fileID: 648337688}
   - component: {fileID: 648337690}
   m_Layer: 0
   m_Name: WP1
@@ -1666,23 +1665,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!114 &648337688
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 648337687}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9523b4209817d824ebfbf3a086e1cb0b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Jockey01: {fileID: 0}
-  Order: 0
-  Terminal: 0
-  NextPoint: {fileID: 2050484980}
-  Boss: {fileID: 0}
 --- !u!4 &648337689
 Transform:
   m_ObjectHideFlags: 0
@@ -2414,6 +2396,11 @@ PrefabInstance:
       propertyPath: skillTree
       value: 
       objectReference: {fileID: 1342110959}
+    - target: {fileID: 4147260273953568240, guid: 3eff2a3996adfb347a2ce4132a936568,
+        type: 3}
+      propertyPath: Destination
+      value: 
+      objectReference: {fileID: 648337687}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3eff2a3996adfb347a2ce4132a936568, type: 3}
 --- !u!1 &1446896499 stripped

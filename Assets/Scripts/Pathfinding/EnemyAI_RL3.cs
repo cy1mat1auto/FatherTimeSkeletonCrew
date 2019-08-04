@@ -101,10 +101,16 @@ public class EnemyAI_RL3 : MonoBehaviour
             //This behavior is the ship's behavior when a straight path to the player is available:
             if (!Avoiding)
             {
-                //At the absolute closest distance, the enemy ship cuts engines:
+                //The enemy ship's "engine" will keep it moving forward if it's not too close to the player:
                 if (Vector3.Distance(transform.position, Player.transform.position) >= Close1)
                 {
                     rb.AddRelativeForce(new Vector3(0, 0, 120f), ForceMode.Force);
+                }
+
+                //If the enemy ship gets too close to the player, initiate an attack pattern, and disengage
+                else
+                {
+                    gameObject.SendMessage("FireMissile");
                 }
 
                 if (Vector3.Distance(transform.position, Player.transform.position) >= Close2)

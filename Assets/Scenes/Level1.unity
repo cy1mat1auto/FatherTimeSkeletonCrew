@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.012053923, g: 0.06994781, b: 0.06662794, a: 1}
+  m_IndirectSpecularColor: {r: 0.012040648, g: 0.070039295, b: 0.066623315, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2478,7 +2478,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &423130721
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2538,7 +2538,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 423130720}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 10
   m_Drag: 1
   m_AngularDrag: Infinity
   m_UseGravity: 0
@@ -4159,7 +4159,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &706538847
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4219,7 +4219,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 706538846}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 10
   m_Drag: 1
   m_AngularDrag: Infinity
   m_UseGravity: 0
@@ -10803,7 +10803,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &909978404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10863,7 +10863,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 909978403}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 10
   m_Drag: 1
   m_AngularDrag: Infinity
   m_UseGravity: 0
@@ -12127,7 +12127,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1208245287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12187,7 +12187,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1208245286}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 10
   m_Drag: 1
   m_AngularDrag: Infinity
   m_UseGravity: 0
@@ -14869,6 +14869,7 @@ GameObject:
   - component: {fileID: 1643571774}
   - component: {fileID: 1559767506}
   - component: {fileID: 1643571773}
+  - component: {fileID: 1559767508}
   m_Layer: 0
   m_Name: BossShip02
   m_TagString: Enemy
@@ -14892,8 +14893,8 @@ MonoBehaviour:
   Player: {fileID: 0}
   rb: {fileID: 0}
   Range: 1000
-  Close1: 50
-  Close2: 80
+  Close1: 100
+  Close2: 150
   Cone: 45
   SpottingDelay: 0
   SearchStart: 0
@@ -14920,6 +14921,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1559767508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1559767505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bc3a98f0aa1c9b49816c1e30b7987f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1559767509
 GameObject:
   m_ObjectHideFlags: 0
@@ -16266,7 +16279,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1782690154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16326,7 +16339,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1782690153}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 10
   m_Drag: 1
   m_AngularDrag: Infinity
   m_UseGravity: 0
