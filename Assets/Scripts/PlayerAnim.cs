@@ -38,11 +38,19 @@ public class PlayerAnim : MonoBehaviour
         if (Input.GetKey(KeyCode.A))
         {
             Strafe = 1;
+            if (!Input.GetKey(KeyCode.W))
+            {
+                Speed = 1;
+            }
         }
 
         else if (Input.GetKey(KeyCode.D))
         {
             Strafe = 2;
+            if (!Input.GetKey(KeyCode.W))
+            {
+                Speed = 1;
+            }
         }
 
         else
