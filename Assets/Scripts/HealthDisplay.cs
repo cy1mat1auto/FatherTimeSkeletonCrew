@@ -22,11 +22,11 @@ public class HealthDisplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Jockey.GetComponent<SaveAll>().NewLoad)
-        {
-            MaxHealth = PlayerDatabase.maxHealthBase * PlayerDatabase.maxHealth;
-            CurrentHealth = PlayerDatabase.currentHealth;
-        }
+        //if (Jockey.GetComponent<SaveAll>().NewLoad)
+        //{
+        //    MaxHealth = PlayerDatabase.maxHealthBase * PlayerDatabase.maxHealth;
+        //    CurrentHealth = PlayerDatabase.currentHealth;
+        //}
 
         CurrentHealth = Jockey.GetComponent<PlayerHealth>().CurrentHealth;
         GetComponent<Slider>().value = (float) (CurrentHealth / MaxHealth);

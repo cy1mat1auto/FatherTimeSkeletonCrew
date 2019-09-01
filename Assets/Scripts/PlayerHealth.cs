@@ -19,8 +19,13 @@ public class PlayerHealth : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (GetComponent<SaveAll>() == null)
+        {
+            CurrentHealth = Mathf.Clamp((float)CurrentHealth, 0, (float)MaxHealth);
+        }
         
-        if (GetComponent<SaveAll>().NewLoad)
+        else if (GetComponent<SaveAll>().NewLoad)
         {
             MaxHealth = PlayerDatabase.maxHealthBase * PlayerDatabase.maxHealth;
             CurrentHealth = PlayerDatabase.currentHealth;
