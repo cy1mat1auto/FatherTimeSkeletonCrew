@@ -14,7 +14,7 @@ public class EnemyWeap : MonoBehaviour
     {
         if (Player == null)
         {
-            Player = GameObject.Find("Jockey01");
+            Player = GameObject.FindGameObjectWithTag("Player");
         }
     }
 
