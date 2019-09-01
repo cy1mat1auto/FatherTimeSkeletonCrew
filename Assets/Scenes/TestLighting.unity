@@ -1779,7 +1779,7 @@ Animator:
   m_GameObject: {fileID: 7419929935330809985}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 56e057e4a53bd464690b2d26e0ab9803, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8d51c2922d1078e44ab1bd04e33dcd06, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1975,6 +1975,7 @@ GameObject:
   - component: {fileID: 7419929935330809988}
   - component: {fileID: 7419929935330809987}
   - component: {fileID: 7419929935330809986}
+  - component: {fileID: 7419929935330809992}
   m_Layer: 0
   m_Name: Jockey02
   m_TagString: Player
@@ -2093,6 +2094,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &7419929935330809992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7419929935330809985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c809c372585c8b47b3fe02e69ba024a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Animator: {fileID: 0}
 --- !u!1 &7538962683346637566
 GameObject:
   m_ObjectHideFlags: 0
