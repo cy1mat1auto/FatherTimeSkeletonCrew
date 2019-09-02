@@ -37,33 +37,6 @@ public class EnemyAI_RL3 : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (Searching == true)
-        {
-            Pursuit = false;
-            Attacking = false;
-            Disengaging = false;
-        }
-
-        if (Disengaging == true)
-        {
-            Pursuit = false;
-            Attacking = false;
-            Searching = false;
-        }
-
-        if (Attacking == true)
-        {
-            Pursuit = false;
-            Disengaging = false;
-            Searching = false;
-        }
-
-        if (Pursuit == true)
-        {
-            Attacking = false;
-            Disengaging = false;
-            Searching = false;
-        }
         
         if (Vector3.Distance(transform.position, Player.transform.position) >= Range)
         {
@@ -85,7 +58,12 @@ public class EnemyAI_RL3 : MonoBehaviour
 
             if (!Spotted)
             {
-                if (!Searching)
+                if (Searching)
+                {
+                    Search();
+                }
+
+                else
                 {
                     Patrol();
                 }
@@ -95,6 +73,7 @@ public class EnemyAI_RL3 : MonoBehaviour
             if (view.transform.gameObject == Player && Vector3.Angle(transform.forward, Player.transform.position - transform.position) <= Cone)
             {
                 Spotted = true;
+                Searching = false;
                 //Debug.Log(Spotted);
             }
         }
@@ -141,6 +120,14 @@ public class EnemyAI_RL3 : MonoBehaviour
                 if (Vector3.Distance(transform.position, Player.transform.position) >= Close1)
                 {
                     rb.AddRelativeForce(new Vector3(0, 0, 120f), ForceMode.Force);
+
+                    //If the player moves out of attack range while an attack is ongoing, finish the attack and then keep chasing.
+                    if (Time.time - AttackStart > AttackDuration || Time.time - DisengageStart > DisengageDuration)
+                    {
+                        rb.drag = 1f;
+                        Attacking = false;
+                        Disengaging = false;
+                    }
                 }
 
                 //If the enemy ship gets close to the player, initiate an attack pattern, and disengage:
@@ -149,47 +136,61 @@ public class EnemyAI_RL3 : MonoBehaviour
                 //They phases are written in reverse-chronological order, since later phase take precedence over earlier phase:
                 else
                 {
-                    
-                    if (Disengaging)
+                    if (Searching)
                     {
-                        rb.drag = 1f;
-                        if (Time.time - DisengageStart < DisengageDuration)
-                        {
-                            rb.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(ImmediateGoal - transform.position, transform.up), Time.deltaTime *22f);
-                            rb.AddRelativeForce(new Vector3(0, 0, 120f), ForceMode.Force);
-                        }
-
-                        else
-                        {
-                            Disengaging = false;
-                        }
+                        Spotted = false;
+                        Disengaging = false;
+                        Attacking = false;
                     }
 
-                    //This initiates the attack pattern and tracks its duration. Only check for this if "Disengaging" is set to "False"
                     else
                     {
-                        if (!Attacking)
+                        if (Disengaging)
                         {
-                            AttackStart = Time.time;
-                            Attacking = true;
-                        }
-
-                        else
-                        {
-                            rb.drag = 5f;
-                            if (Time.time - AttackStart < AttackDuration)
+                            rb.drag = 1f;
+                            if (Time.time - DisengageStart < DisengageDuration)
                             {
-                                gameObject.SendMessage("FireMissile");
+                                rb.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(ImmediateGoal - transform.position, transform.up), Time.deltaTime * 22f);
+                                rb.AddRelativeForce(new Vector3(0, 0, 120f), ForceMode.Force);
                             }
 
-                            //At the end of attack phase, start the "Disengaging" phase:
                             else
                             {
-                                if (!Disengaging)
+                                rb.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(LastPosition - transform.position, transform.up), Time.deltaTime * 4f);
+                                Disengaging = false;
+                                Searching = true;
+                                Spotted = false;
+                                //Here, turn toward the player's last known position. If the player's still visible, attack again.
+                            }
+                        }
+
+                        //This initiates the attack pattern and tracks its duration. Only check for this if "Disengaging" is set to "False"
+                        else
+                        {
+                            if (!Attacking)
+                            {
+                                AttackStart = Time.time;
+                                Attacking = true;
+                            }
+
+                            else
+                            {
+                                rb.drag = 5f;
+                                if (Time.time - AttackStart < AttackDuration)
                                 {
-                                    ImmediateGoal = Player.transform.position + transform.up * 100f;
-                                    DisengageStart = Time.time;
-                                    Disengaging = true;
+                                    gameObject.SendMessage("FireMissile");
+                                }
+
+                                //At the end of attack phase, start the "Disengaging" phase:
+                                else
+                                {
+                                    if (!Disengaging)
+                                    {
+                                        ImmediateGoal = Player.transform.position + transform.up * 100f;
+                                        DisengageStart = Time.time;
+                                        Disengaging = true;
+                                        Attacking = false;
+                                    }
                                 }
                             }
                         }
@@ -213,6 +214,7 @@ public class EnemyAI_RL3 : MonoBehaviour
             //obstacle-avoidance, "Spotted" is not deactivated by angle alone. This should gives you a chance to escape the area.
             else
             {
+                
                 //When this ship is facing a new obstacle, lock on and plot a path towards the Player's last known position:
                 if (front.collider == view.collider)
                 {
@@ -414,22 +416,10 @@ public class EnemyAI_RL3 : MonoBehaviour
         rb.rotation *= Quaternion.Euler(new Vector3(0, 0.4f, 0));
     }
 
-    /*public virtual void Search()
+    public virtual void Search()
     {
-        Spotted = false;
-        if (Time.time - SearchStart < SearchTime)
-        {
-            Searching = true;
-            rb.rotation *= Quaternion.Euler(new Vector3(0, 0.4f, 0));
-        }
-
-        else
-        {
-            Searching = false;
-        }
-        
-        //Debug.Log("Proceed to Search");
-    }*/
+        rb.rotation *= Quaternion.Euler(new Vector3(0, 0.4f, 0));
+    }
 
     // Update is called once per frame
     void Update()
