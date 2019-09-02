@@ -8,10 +8,11 @@ public class EnemyAI_RL3 : MonoBehaviour
     //Rebuilding rigidbody AI, version 3
     public GameObject Ship, Player;
     public Rigidbody rb;
-    public float Range = 250f, Close1 = 25f, Close2 = 50f, Cone = 45f, SpottingDelay = 0f, SearchStart, SearchTime = 5f;
+    public float Range = 250f, Close1 = 25f, Close2 = 50f, Cone = 45f;
+    public float SpottingDelay = 0f, AttackStart, AttackDuration = 3f, DisengageStart, DisengageDuration = 1f, SearchStart, SearchTime = 5f;
     private float Highroad, Lowroad, Leftroad, Rightroad;
     private Vector3 Top, Bottom, Left, Right, ImmediateGoal, LastPosition;
-    public bool Spotted, Avoiding, Locked, Searching;
+    public bool Spotted, Avoiding, Locked, Pursuit, Attacking, Disengaging, Searching;
     private bool Seek;
     private RaycastHit view, front, lasthit;
 
@@ -36,6 +37,33 @@ public class EnemyAI_RL3 : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (Searching == true)
+        {
+            Pursuit = false;
+            Attacking = false;
+            Disengaging = false;
+        }
+
+        if (Disengaging == true)
+        {
+            Pursuit = false;
+            Attacking = false;
+            Searching = false;
+        }
+
+        if (Attacking == true)
+        {
+            Pursuit = false;
+            Disengaging = false;
+            Searching = false;
+        }
+
+        if (Pursuit == true)
+        {
+            Attacking = false;
+            Disengaging = false;
+            Searching = false;
+        }
         
         if (Vector3.Distance(transform.position, Player.transform.position) >= Range)
         {
@@ -57,7 +85,10 @@ public class EnemyAI_RL3 : MonoBehaviour
 
             if (!Spotted)
             {
-                Patrol();
+                if (!Searching)
+                {
+                    Patrol();
+                }
             }
 
             //To detect the player, line of sight within cone of vision must be unobstructed:
@@ -70,7 +101,7 @@ public class EnemyAI_RL3 : MonoBehaviour
 
         if (Spotted)
         {
-            //This determines if there is line of sight to the player:
+            //This determines if there is line of sight to the player, assuming it's in the "Pursuit" phase:
             if (view.collider.CompareTag("Player"))
             {
                 Avoiding = false;
@@ -98,6 +129,11 @@ public class EnemyAI_RL3 : MonoBehaviour
                 Avoiding = true;
             }
 
+            else if (view.collider.CompareTag("LargeTerrain"))
+            {
+                
+            }
+
             //This behavior is the ship's behavior when a straight path to the player is available:
             if (!Avoiding)
             {
@@ -107,10 +143,58 @@ public class EnemyAI_RL3 : MonoBehaviour
                     rb.AddRelativeForce(new Vector3(0, 0, 120f), ForceMode.Force);
                 }
 
-                //If the enemy ship gets too close to the player, initiate an attack pattern, and disengage
+                //If the enemy ship gets close to the player, initiate an attack pattern, and disengage:
+
+                //The attack pattern, Disengaging and Search toggle between one another in the "else statement"
+                //They phases are written in reverse-chronological order, since later phase take precedence over earlier phase:
                 else
                 {
-                    gameObject.SendMessage("FireMissile");
+                    
+                    if (Disengaging)
+                    {
+                        rb.drag = 1f;
+                        if (Time.time - DisengageStart < DisengageDuration)
+                        {
+                            rb.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(ImmediateGoal - transform.position, transform.up), Time.deltaTime *22f);
+                            rb.AddRelativeForce(new Vector3(0, 0, 120f), ForceMode.Force);
+                        }
+
+                        else
+                        {
+                            Disengaging = false;
+                        }
+                    }
+
+                    //This initiates the attack pattern and tracks its duration. Only check for this if "Disengaging" is set to "False"
+                    else
+                    {
+                        if (!Attacking)
+                        {
+                            AttackStart = Time.time;
+                            Attacking = true;
+                        }
+
+                        else
+                        {
+                            rb.drag = 5f;
+                            if (Time.time - AttackStart < AttackDuration)
+                            {
+                                gameObject.SendMessage("FireMissile");
+                            }
+
+                            //At the end of attack phase, start the "Disengaging" phase:
+                            else
+                            {
+                                if (!Disengaging)
+                                {
+                                    ImmediateGoal = Player.transform.position + transform.up * 100f;
+                                    DisengageStart = Time.time;
+                                    Disengaging = true;
+                                }
+                            }
+                        }
+                    }
+                    
                 }
 
                 if (Vector3.Distance(transform.position, Player.transform.position) >= Close2)
@@ -240,9 +324,18 @@ public class EnemyAI_RL3 : MonoBehaviour
                             {
                                 if (Vector3.Distance(transform.position, ImmediateGoal) <= 1f)
                                 {
-                                    Locked = false;
-                                    //At the end of each search phase, make sure to set this value back to 0f;
-                                    Search();
+                                    //The player is no longer at the last known position. Start a Search();
+                                    if (!Searching)
+                                    {
+                                        Locked = false;
+                                        SearchStart = Time.time;
+                                        Searching = true;
+                                    }
+
+                                    else
+                                    {
+                                        
+                                    }
                                 }
                             }
                         }
@@ -321,11 +414,22 @@ public class EnemyAI_RL3 : MonoBehaviour
         rb.rotation *= Quaternion.Euler(new Vector3(0, 0.4f, 0));
     }
 
-    public virtual void Search()
+    /*public virtual void Search()
     {
         Spotted = false;
+        if (Time.time - SearchStart < SearchTime)
+        {
+            Searching = true;
+            rb.rotation *= Quaternion.Euler(new Vector3(0, 0.4f, 0));
+        }
+
+        else
+        {
+            Searching = false;
+        }
+        
         //Debug.Log("Proceed to Search");
-    }
+    }*/
 
     // Update is called once per frame
     void Update()

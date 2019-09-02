@@ -12,6 +12,7 @@ TagManager:
   - Generator
   - PlayerHUD
   - PauseScreen
+  - LargeTerrain
   layers:
   - Default
   - TransparentFX

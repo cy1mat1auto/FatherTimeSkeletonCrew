@@ -28,4 +28,12 @@ public class SlidingDoor : MonoBehaviour
             Doors.SetBool("New Bool", true);
         }
     }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            Doors.SetBool("New Bool", false);
+        }
+    }
 }
