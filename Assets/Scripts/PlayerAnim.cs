@@ -5,6 +5,10 @@ using UnityEngine;
 public class PlayerAnim : MonoBehaviour
 {
     public Animator Animator;
+    public Renderer ShipRender;
+    public Material EngineOff;
+    public Material EngineSlow;
+    public Material EngineFast;
     private int Speed, Strafe;
 
     // Start is called before the first frame update
@@ -14,11 +18,14 @@ public class PlayerAnim : MonoBehaviour
         {
             Animator = GetComponent<Animator>();
         }
+
+        Instantiate(EngineFast);
     }
 
     // Update is called once per frame
     void Update()
     {
+
         if (!Input.anyKey)
         {
             Speed = 0;
@@ -56,6 +63,27 @@ public class PlayerAnim : MonoBehaviour
         else
         {
             Strafe = 0;
+        }
+
+        if (Speed == 2)
+        {
+            Material[] mat = ShipRender.materials;
+            mat[4] = EngineFast;
+            ShipRender.materials = mat;
+        }
+
+        else if (Speed == 1)
+        {
+            Material[] mat = ShipRender.materials;
+            mat[4] = EngineSlow;
+            ShipRender.materials = mat;
+        }
+
+        else if (Speed == 0)
+        {
+            Material[] mat = ShipRender.materials;
+            mat[4] = EngineOff;
+            ShipRender.materials = mat;
         }
 
         Animator.SetInteger("Speed", Speed);
