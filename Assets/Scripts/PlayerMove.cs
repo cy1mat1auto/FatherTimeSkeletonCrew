@@ -10,9 +10,18 @@ public class PlayerMove : MonoBehaviour
     public bool Inverted = true;
     private int Inv = 1;
 
+
+    //Thrusters
+    private PlayerThruster thruster;
+    private float thrusterTimer = 0f;
+    private readonly float maxThrusterTimer = 2f;
+
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+
+        thruster = GetComponentInChildren<PlayerThruster>();
     }
 
     // Update is called once per frame
@@ -56,12 +65,26 @@ public class PlayerMove : MonoBehaviour
             if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.LeftShift))
             {
                 GetComponent<Rigidbody>().velocity += Speed * 5f * transform.forward;
+
+                thrusterTimer += 0.5f * Time.deltaTime;
+                if (thrusterTimer >= maxThrusterTimer)
+                    thrusterTimer = maxThrusterTimer;
             }
 
             else if (Input.GetKey(KeyCode.W))
-
             {
                 GetComponent<Rigidbody>().velocity += Speed * transform.forward;
+
+                thrusterTimer -= 0.3f * Time.deltaTime;
+
+                if (thrusterTimer <= 0.05f)
+                    thrusterTimer = 0.05f;
+            }
+            else
+            {
+                thrusterTimer -= 0.8f * Time.deltaTime;
+                if (thrusterTimer <= 0)
+                    thrusterTimer = 0;
             }
 
             if (Input.GetKey(KeyCode.S))
@@ -79,5 +102,6 @@ public class PlayerMove : MonoBehaviour
                 GetComponent<Rigidbody>().velocity += 0.7f * Speed * transform.right;
             }
         }
+        thruster.SetNewEmission(thrusterTimer);
     }
 }
