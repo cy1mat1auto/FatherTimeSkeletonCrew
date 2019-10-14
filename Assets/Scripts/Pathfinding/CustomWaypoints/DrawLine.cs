@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
 [ExecuteInEditMode]
+//[ExecuteAlways]
 public class DrawLine : MonoBehaviour
 {
     // an array of game objects which will have a
