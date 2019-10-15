@@ -13,11 +13,22 @@ public class GizmoLine : MonoBehaviour
         int LM = LayerMask.GetMask("PathfindingWaypoints");
         ToFeed = Physics.OverlapSphere(transform.position, 300f, LM);
 
+        for (int j = 0; j < ToFeed.Length; j++)
+        {
+            if (ToFeed[j] != null && Physics.Raycast(transform.position, ToFeed[j].transform.position - transform.position, 300, LayerMask.GetMask("Default")))
+            {
+                ToFeed[j] = null;
+            }
+        }
+
         Adjacent = new GameObject[ToFeed.Length];
 
         for (int j = 0; j < ToFeed.Length; j++)
         {
-            Adjacent[j] = ToFeed[j].gameObject;
+            if (ToFeed[j] != null)
+            {
+                Adjacent[j] = ToFeed[j].gameObject;
+            }
         }
 
         if (Adjacent.Length == 0 || Adjacent == null)
