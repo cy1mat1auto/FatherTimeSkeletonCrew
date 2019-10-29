@@ -83,14 +83,14 @@ public class JockeyWeapons : MonoBehaviour
             TimeLastFired = Time.time;
             if (PortReady)
             {
-                LoadedMissile = GameObject.Instantiate(ProjectileGeneric, Port.transform.position, Port.transform.rotation);
+                LoadedMissile = GameObject.Instantiate(ProjectileGeneric, Port.transform.position, PlayerView.transform.rotation);
                 LoadedMissile.SetActive(true);
                 PortReady = false;
             }
 
             else
             {
-                LoadedMissile = GameObject.Instantiate(ProjectileGeneric, Starboard.transform.position, Starboard.transform.rotation);
+                LoadedMissile = GameObject.Instantiate(ProjectileGeneric, Starboard.transform.position, PlayerView.transform.rotation);
                 LoadedMissile.SetActive(true);
                 PortReady = true;
             }

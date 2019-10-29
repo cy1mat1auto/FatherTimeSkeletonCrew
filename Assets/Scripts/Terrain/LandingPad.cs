@@ -46,7 +46,7 @@ public class LandingPad : MonoBehaviour
                 else
                 {
                     Landed = false;
-                    PlayerView.GetComponent<FreeCamera>().FreeRotate = false;
+                    PlayerView.GetComponentInParent<FreeCamera2>().FreeRotate = false;
                     other.GetComponent<PlayerMove>().canMove = true;
                     other.GetComponent<Rigidbody>().MovePosition(transform.position + transform.up * 5f);
                 } 
@@ -54,9 +54,20 @@ public class LandingPad : MonoBehaviour
 
             if (Landed == true)
             {
-                if (PlayerView.GetComponent<FreeCamera>().FreeRotate == false)
+                //Bandaid fix for bug of missiles nudging the player:
+                if (other.transform.rotation != transform.rotation)
                 {
-                    PlayerView.GetComponent<FreeCamera>().FreeRotate = true;
+                    other.transform.rotation = transform.rotation;
+                }
+
+                if (other.transform.position != transform.position)
+                {
+                    other.transform.position = transform.position;
+                }
+
+                if (PlayerView.GetComponentInParent<FreeCamera2>().FreeRotate == false)
+                {
+                    PlayerView.GetComponentInParent<FreeCamera2>().FreeRotate = true;
                 }
                 
             }
