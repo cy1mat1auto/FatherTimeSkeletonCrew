@@ -28,8 +28,8 @@ public static class PlayerDatabase
 
     // Defensive Stats
     public static int maxHealthBase = 500; // Max health of the player
-    public static int shieldCapacityBase = 0; // Shield Capacity of the player
-    public static int shieldRechargeRateBase = 0; // Rate at which shield recharges
+    public static int shieldCapacityBase = 100; // Shield Capacity of the player
+    public static int shieldRechargeRateBase = 5; // Rate at which shield recharges
 
     public static int shieldDamageBase = 0; // How much damage your shield deals (0 = impossible)
     public static int flareCapacityBase = 0; // How much flares your ship carries or 
