@@ -89,9 +89,10 @@ public class Ship : MonoBehaviour
     {
         currentHp = maxHp;
 
-        movementBehaviour.Add(AssignMovementBehaviour.CreateBehaviour(MovementTypes.BFS, gameObject));
-        movementBehaviour.Add(AssignMovementBehaviour.CreateBehaviour(MovementTypes.A, gameObject));
-        movementBehaviour.Add(AssignMovementBehaviour.CreateBehaviour(MovementTypes.FLOCK, gameObject));
+      //  movementBehaviour.Add(AssignMovementBehaviour.CreateBehaviour(MovementTypes.BFS, gameObject));
+        movementBehaviour.Add(AssignMovementBehaviour.CreateBehaviour(MovementTypes.ASTAR, gameObject));
+     //   movementBehaviour.Add(AssignMovementBehaviour.CreateBehaviour(MovementTypes.A, gameObject));
+     //   movementBehaviour.Add(AssignMovementBehaviour.CreateBehaviour(MovementTypes.FLOCK, gameObject));
 
         for(int i = 0; i < movementBehaviour.Count; i++)
         {

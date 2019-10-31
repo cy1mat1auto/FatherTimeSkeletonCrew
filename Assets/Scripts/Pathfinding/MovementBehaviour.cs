@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum MovementTypes {A, FLOCK, BFS};
+public enum MovementTypes {A, FLOCK, BFS, ASTAR};
 
 public abstract class MovementBehaviour : MonoBehaviour
 {

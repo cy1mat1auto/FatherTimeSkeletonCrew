@@ -14,6 +14,8 @@ public static class AssignMovementBehaviour
                 return parent.AddComponent<FlockBehaviour>();
             case MovementTypes.BFS:
                 return parent.AddComponent<RLEnemyAI>();
+            case MovementTypes.ASTAR:
+                return parent.AddComponent<Pathfinder>();
             default:
                 return null;
         }
