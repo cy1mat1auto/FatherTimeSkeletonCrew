@@ -86,7 +86,8 @@ public class EnemyLaser : MonoBehaviour
 
         if (laserLine.enabled == true)
         {
-            laserLine.material.color = Color.Lerp(pink, white, colorSpeed);
+            laserLine.material.color = Color.Lerp(pink, Color.yellow, colorSpeed);
+
         }
         else
         {
