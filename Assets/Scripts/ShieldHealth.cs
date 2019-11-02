@@ -38,7 +38,7 @@ public class ShieldHealth : MonoBehaviour
         //PlayerPrefs.SetFloat("ShieldCap", (float)ShieldCapacity);
         //PlayerPrefs.GetFloat("ShieldCap");
 
-        ShieldCapacity = Mathf.Clamp((float)ShieldCapacity, 0, 100f);
+        ShieldCapacity = Mathf.Clamp((float)ShieldCapacity, 0, (float)(PlayerDatabase.shieldCapacityBase * PlayerDatabase.shieldCapacity));
 
         if (ShieldCapacity > 0)
         {
@@ -65,6 +65,6 @@ public class ShieldHealth : MonoBehaviour
     void Recharge()
     {
         ShieldCapacity += ShieldRechargeRate;
-        ShieldCapacity = Mathf.Clamp((float)ShieldCapacity, 0, 100f);
+        ShieldCapacity = Mathf.Clamp((float)ShieldCapacity, 0, (float)(PlayerDatabase.shieldCapacityBase * PlayerDatabase.shieldCapacity));
     }
 }

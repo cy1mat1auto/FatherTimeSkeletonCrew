@@ -426,4 +426,9 @@ public class EnemyAI_RL3 : MonoBehaviour
     {
         
     }
+
+    public virtual void EndBehavior()
+    {
+        CancelInvoke();
+    }
 }

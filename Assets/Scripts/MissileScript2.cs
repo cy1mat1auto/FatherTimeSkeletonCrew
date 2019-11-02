@@ -137,7 +137,12 @@ public class MissileScript2 : MonoBehaviour
         {
             Physics.IgnoreCollision(transform.GetComponent<Collider>(), collision.collider);
         }
- 
+
+        if (fired && collision.collider.tag == "Player")
+        {
+            Physics.IgnoreCollision(transform.GetComponent<Collider>(), collision.collider);
+        }
+
         else if (fired)
         {
             if (collision.collider.tag == "Enemy")
@@ -150,6 +155,14 @@ public class MissileScript2 : MonoBehaviour
 
             fired = false;
             timer = startTime;
+        }
+    }
+
+    private void OnCollisionStay(UnityEngine.Collision collision)
+    {
+        if (fired && collision.collider.tag == "Player")
+        {
+            Physics.IgnoreCollision(transform.GetComponent<Collider>(), collision.collider);
         }
     }
 }
