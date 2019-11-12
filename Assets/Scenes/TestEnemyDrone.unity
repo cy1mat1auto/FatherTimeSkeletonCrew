@@ -18137,7 +18137,6 @@ MonoBehaviour:
   TrackingLaser: {fileID: 868978412}
   DeathLaser: {fileID: 412866902}
   damage: 10
-  white: {r: 340.44495, g: 340.44495, b: 340.44495, a: 1}
   pink: {r: 1, g: 0.5882353, b: 0.5882353, a: 1}
   timer: 5
   dLtimer: 5

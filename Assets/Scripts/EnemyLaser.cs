@@ -11,7 +11,7 @@ public class EnemyLaser : MonoBehaviour
     public GameObject TrackingLaser;
     public GameObject DeathLaser;
     public float damage = 10f;
-    public Color white = new Color(255f, 255f, 255f);
+    //public Color white = new Color(255f, 255f, 255f);
     public Color pink = new Color(255f, 150f, 150f);
 
     private LineRenderer laserLine;
@@ -20,6 +20,7 @@ public class EnemyLaser : MonoBehaviour
     public int dLtimer = 5; //How long deathLaser lasts
     private int pause;
     private int increment;
+    private int cSpeed;
     private GameObject Jockey;
     private float colorSpeed;
 
@@ -37,12 +38,13 @@ public class EnemyLaser : MonoBehaviour
 
         pause = timer + dLtimer;
         increment = pause;
+        cSpeed = timer - 1;
     }
 
     // Update is called once per frame
     void Update()
     {
-        colorSpeed += Time.deltaTime;
+        colorSpeed += Time.deltaTime/cSpeed;
         //laserLine.SetPosition(0, droneEnd.position);
         //laserLine.SetPosition(1, playerPoint.position);
         RaycastHit hit;
