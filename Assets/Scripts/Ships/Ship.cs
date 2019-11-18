@@ -7,9 +7,6 @@ public class Ship : MonoBehaviour
 {
     public float turnRadius = 1000;
 
-    List<MovementBehaviour> movementBehaviour = new List<MovementBehaviour>();  // Complete list of all behaviours this ship is capable of
-    List<MovementBehaviour> activatedBehaviours = new List<MovementBehaviour>();    // List of behaviours that have been activated (BehaviourActivation)
-
     protected string[] targetTypes = {"Player"};
     protected GameObject mainTarget;
     protected Turret[] equippedTurrets;
@@ -61,50 +58,10 @@ public class Ship : MonoBehaviour
         attackRadius = radius;
     }
 
-    public void InsertionSortBehaviourPriority()
-    {
-        // Insertion sort. The list will very likely be small and nearly sorted, with additional behaviour being added sparsely. 
-        // If initial loading of movementbehaviour types is high, can init with a different type of sort. Sort in descending order
-        if (activatedBehaviours.Count <= 1)
-            return;
-        int reference;
-        MovementBehaviour temp;
-        for(int i = 1; i < activatedBehaviours.Count; i++)
-        {
-            reference = i - 1;
-            temp = activatedBehaviours[i];
-
-            // .GetPriority() applies to all behaviour. .GetAdditionalPriority() also applies to all, but is used with .IsActivated() for default behaviour that would be overridden unless activated
-            while ((reference >= 0) && (temp.GetTotalPriority() > activatedBehaviours[reference].GetTotalPriority()))
-            {
-                activatedBehaviours[reference + 1] = activatedBehaviours[reference];
-                reference--;
-            }
-            activatedBehaviours[reference + 1] = temp;
-        }
-    }
-
     // Start is called before the first frame update
     protected virtual void Start()
     {
         currentHp = maxHp;
-
-      //  movementBehaviour.Add(AssignMovementBehaviour.CreateBehaviour(MovementTypes.BFS, gameObject));
-        movementBehaviour.Add(AssignMovementBehaviour.CreateBehaviour(MovementTypes.ASTAR, gameObject));
-     //   movementBehaviour.Add(AssignMovementBehaviour.CreateBehaviour(MovementTypes.A, gameObject));
-     //   movementBehaviour.Add(AssignMovementBehaviour.CreateBehaviour(MovementTypes.FLOCK, gameObject));
-
-        for(int i = 0; i < movementBehaviour.Count; i++)
-        {
-            movementBehaviour[i].Init(this);
-            movementBehaviour[i].SetTurnRadius(turnRadius);
-        }
-
-        // Add the first behaviour as the default for movement (can set according to what movement should be most important to set as default)
-        movementBehaviour[0].SetDefaultBehaviour(true);
-        movementBehaviour[0].SetAdditionalPriority(movementBehaviour[0].GetPriority());
-        movementBehaviour[0].SetPriority(0);
-        BehaviourActivation(movementBehaviour[0]);
 
         equippedTurrets = new Turret[numTurrets];
 
@@ -126,35 +83,17 @@ public class Ship : MonoBehaviour
         {
             init = true;
             // TEMPORARY!!!!
-            if (gameObject.GetComponent<WaypointManager>() != null) // GENERATE RANDOM PATROL POINTS FOR EACH SHIP. TESTING
+            if (gameObject.GetComponent<A>() != null) // GENERATE RANDOM PATROL POINTS FOR EACH SHIP. TESTING
             {
-                gameObject.GetComponent<WaypointManager>().Init(); // TEMPORARY. MAKE WAYPOINT MANAGER STATIC AND REMOVE THIS LATER!!!
+                gameObject.GetComponent<A>().Init(); // TEMPORARY. MAKE WAYPOINT MANAGER STATIC AND REMOVE THIS LATER!!!
                 patrolPoints = new GameObject[Random.Range(2, 5)];
                 for (int i = 0; i < patrolPoints.Length; i++)
                 {
-                    patrolPoints[i] = gameObject.GetComponent<WaypointManager>().GetRandomWaypoint().gameObject;
+                    patrolPoints[i] = gameObject.GetComponent<A>().GetRandomWaypoint().gameObject;
                 }
                 SetPatrolPoints(patrolPoints);
             }
             mainTarget = GameObject.FindGameObjectWithTag("Player");
-            for (int i = 0; i < movementBehaviour.Count; i++)
-            {
-                movementBehaviour[i].SetTarget(mainTarget);
-            }
-        }
-
-        // Where ship movement behaviour is executed (Assume sorted via InsertionSortBehaviourPriority())
-        for(int i = 0; i < activatedBehaviours.Count; i++)
-        {
-            // If the behaviour no longer applies and is not the default
-            if(!activatedBehaviours[i].ExecuteBehaviour())
-            {
-                activatedBehaviours[i].EndBehaviour();
-                if(!activatedBehaviours[i].GetDefaultBehaviour())
-                    activatedBehaviours.Remove(activatedBehaviours[i]);
-            }
-            if(!activatedBehaviours[i].GetSharedBehaviour())
-                i = activatedBehaviours.Count;
         }
 
         if (currentHp <= 0)
@@ -209,15 +148,6 @@ public class Ship : MonoBehaviour
             targetInRange = true;
             mainTarget = other.gameObject;
 
-            if(!engaged)
-            {
-                engaged = true;
-                for(int i = 0; i < movementBehaviour.Count; i++)
-                {
-                    movementBehaviour[i].SetTarget(mainTarget);
-                }
-            }
-
             /*
              * 
              * 
@@ -267,16 +197,6 @@ public class Ship : MonoBehaviour
     {
         return mainTarget;
     }
-
-    public void BehaviourActivation(MovementBehaviour alert)
-    {
-        // Assuming the list of behaviours will be small enough for List.Contains() to not cause problems
-        if(!activatedBehaviours.Contains(alert))
-            activatedBehaviours.Add(alert);
-        // Sort regardless of if in list or not because it might have an updated priority value
-        InsertionSortBehaviourPriority();
-    }
-
 
     public void SetFlockCount(int setCount)
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pathfinder : MovementBehaviour
+public class Pathfinder : MonoBehaviour
 {
     List<GameObject> goal = new List<GameObject>();
     int goalCount = 0;
@@ -16,18 +16,39 @@ public class Pathfinder : MovementBehaviour
     float speed = 240f;
     float pursuitRadius;    // If the enemy is outside of this radius, the ship will no longer follow
     Rigidbody rb;
-    readonly int maxAccelerationCount = 150;
+    readonly int maxAccelerationCount = 100;
     int accelerationCount = 0;
     Vector3 nDirection = Vector3.zero;
 
+    float turnRadius;
+    float detectionRadius;
+
+    Ship parent;
+    GameObject refTarget;
+
     private void Awake()
     {
-        priority = 1;
-        manager = gameObject.GetComponent<A>();
-        manager.Init();
         rb = gameObject.GetComponent<Rigidbody>();
+
+        turnRadius = Mathf.Pow(300f, 2);
+        detectionRadius = Mathf.Infinity;// turnRadius * 2f; ARBITRARY VALUES
     }
-    public override void SetTurnRadius(float newRadius)
+
+    private void Start()
+    {
+        refTarget = gameObject;
+        parent = gameObject.GetComponent<Ship>();
+        manager = gameObject.AddComponent<A>();
+        manager.Init();
+
+        if (parent == null)
+        {
+            Debug.Log("Unable to find Ship.cs on gameobject!");
+            Destroy(this);
+        }
+    }
+
+    public void SetTurnRadius(float newRadius)
     {
         turnRadius = Mathf.Pow(newRadius, 2); // TESTING
         detectionRadius = turnRadius * 2f;
@@ -37,11 +58,13 @@ public class Pathfinder : MovementBehaviour
     {
         angleOffset = offset;
     }
+
     private void Update()
     {
-        if ((parent?.GetMainTarget() != null) && (!activated) && Mathf.Pow(parent.GetMainTarget().transform.position.x - gameObject.transform.position.x, 2) + Mathf.Pow(parent.GetMainTarget().transform.position.y - gameObject.transform.position.y, 2) + Mathf.Pow(parent.GetMainTarget().transform.position.z - gameObject.transform.position.z, 2) <= detectionRadius) // || (obstacle immediately in way))
+        if ((refTarget == parent.GetMainTarget()))
+            ExecuteBehaviour();
+        else if ((parent.GetMainTarget() != null) && (Mathf.Pow(parent.GetMainTarget().transform.position.x - gameObject.transform.position.x, 2) + Mathf.Pow(parent.GetMainTarget().transform.position.y - gameObject.transform.position.y, 2) + Mathf.Pow(parent.GetMainTarget().transform.position.z - gameObject.transform.position.z, 2) <= detectionRadius)) // || (obstacle immediately in way))
         {
-            activated = true;
             for (int i = 0; i < followPath.Count; i++)
             {
                 followPath[i].gameObject.GetComponent<MeshRenderer>().enabled = false;
@@ -49,7 +72,11 @@ public class Pathfinder : MovementBehaviour
             followPath.Clear();
             SetTarget(parent.GetMainTarget());
             recalculatePath = 0f;
-            PingParent();
+        }
+        else if (parent.GetPatrolPoints() != null)  // If target doesn't exist, follow patrol points
+        {
+            refTarget = null;
+            SetGoals(parent.GetPatrolPoints());
         }
     }
 
@@ -61,7 +88,7 @@ public class Pathfinder : MovementBehaviour
     }
 
     // Update is called once per frame
-    public override bool ExecuteBehaviour()
+    private void ExecuteBehaviour()
     {
         recalculatePath -= Time.deltaTime;
         if (followPath.Count > 0)
@@ -81,7 +108,7 @@ public class Pathfinder : MovementBehaviour
                         followPath = manager.FindPath(manager.FindClosestWaypoint(transform), goal[goalCount].transform, followPath);
                     else
                     {
-                        // Visual effects
+                        // Visual effects. To be removed later
                         for (int i = 0; i < followPath.Count; i++)
                         {
                             followPath[i].gameObject.GetComponent<MeshRenderer>().enabled = false;
@@ -111,9 +138,11 @@ public class Pathfinder : MovementBehaviour
                 if (goal.Count > 1)
                     recalculatePath = 0;
             }
+            else
+                return;
 
             if ((isEngaged) && (Mathf.Pow(goal[goalCount].transform.position.x - gameObject.transform.position.x, 2) + Mathf.Pow(goal[goalCount].transform.position.y - gameObject.transform.position.y, 2) + Mathf.Pow(goal[goalCount].transform.position.z - gameObject.transform.position.z, 2) <= turnRadius))
-                recalculatePath = 3f;   // Temporary cooldown. Replace this once turning is implemented
+                recalculatePath = 5f;   // Temporary cooldown. Replace this once turning is implemented
             else if (recalculatePath <= 0)
             {
                 rb.velocity = Vector3.zero;
@@ -127,23 +156,15 @@ public class Pathfinder : MovementBehaviour
             }
         }
 
-        if (isEngaged)
-        {
-            // If the enemy is outside of pursuit radius, return false. Do not clear followPath in case this behaviour is meant to be the default and is still active
-            return ((goal[0] != null) && (Mathf.Pow(goal[0].transform.position.x - gameObject.transform.position.x, 2) + Mathf.Pow(goal[0].transform.position.y - gameObject.transform.position.y, 2) + Mathf.Pow(goal[0].transform.position.z - gameObject.transform.position.z, 2) <= pursuitRadius));
-        }
-        return true;
+        // If the enemy is outside of pursuit radius, return false. Do not clear followPath in case this behaviour is meant to be the default and is still active
+        if ((isEngaged) && ((goal[0] != null) && (Mathf.Pow(goal[0].transform.position.x - gameObject.transform.position.x, 2) + Mathf.Pow(goal[0].transform.position.y - gameObject.transform.position.y, 2) + Mathf.Pow(goal[0].transform.position.z - gameObject.transform.position.z, 2) <= pursuitRadius)))
+            EndBehaviour();
     }
 
-    public override void EndBehaviour()
+    private void EndBehaviour()
     {
-        if (activated)
-        {
-            activated = false;
-            totalPriority = priority;
-            if (parent != null)
-                SetGoals(parent.GetPatrolPoints());
-        }
+        if (parent != null)
+            SetGoals(parent.GetPatrolPoints());
     }
 
     public void SetEngage(bool engage)
@@ -177,19 +198,15 @@ public class Pathfinder : MovementBehaviour
         recalculatePath = 2f;
     }
 
-    public override void SetTarget(GameObject target)
+    public void SetTarget(GameObject target)
     {
+        refTarget = target;
         if (target != null)
         {
-            totalPriority = priority + additionalPriority;
             isEngaged = true;
             SetGoal(target);
         }
         else if (parent != null)
-        {
-            totalPriority = priority;
             SetGoals(parent.GetPatrolPoints());
-        }
     }
-
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿//UNUSED
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,12 +11,10 @@ public static class AssignMovementBehaviour
         {
             case MovementTypes.A:
                 return parent.AddComponent<TestPathfinding>();
-            case MovementTypes.FLOCK:
-                return parent.AddComponent<FlockBehaviour>();
             case MovementTypes.BFS:
                 return parent.AddComponent<RLEnemyAI>();
-            case MovementTypes.ASTAR:
-                return parent.AddComponent<Pathfinder>();
+            case MovementTypes.FLOCK:
+                return parent.AddComponent<FlockBehaviour>();
             default:
                 return null;
         }
